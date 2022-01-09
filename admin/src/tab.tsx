@@ -31,42 +31,16 @@ const SettingsPageContent: React.FC = React.memo(() => {
 		}));
 	};
 
-	return (
-		<div>
-			<FormControlLabel
-				label={_('Enable option 1')}
-				control={
-					<Checkbox
-						checked={settings.option1}
-						onChange={(event, checked) => handleChange('option1', checked)}
-					/>
-				}
-			/>
-			<div>
-				<Tooltip title={_('tooltip')} arrow>
-					<TextField
-						label={_('textinput')}
-						color="success"
-						sx={{ width: '20%', textAlignLast: 'center' }}
-						value={settings.testInput}
-						placeholder="placeholder"
-						onChange={(event) => {
-							handleChange('testInput', event.target.value);
-						}}
-					/>
-				</Tooltip>
-			</div>
-		</div>
-	);
+	return <div></div>;
 });
 
 const migrateSettings = (settings: ioBroker.AdapterConfig) => {
 	// Here's an example for editing settings after they are loaded from the backend
 	// In this case, option1 will be set to true by default
-	if (settings.option1 === undefined) {
+	/* if (settings.option1 === undefined) {
 		settings.option1 = true;
 		settings.testInput = 'Test Input';
-	}
+	} */
 };
 
 // Load your translations

@@ -10,11 +10,14 @@ import Utils from '@iobroker/adapter-react/Components/Utils';
 // UI elements are imported from Material-UI
 import { ThemeProvider } from '@mui/material/styles';
 import { useSettings, useI18n } from 'iobroker-react/hooks';
-import { Checkbox, FormControlLabel, TextField, Tooltip } from '@mui/material/';
+import { Checkbox, FormControlLabel, TextField, Tooltip, Grid, Button, Box, Alert, AlertTitle } from '@mui/material/';
+import I18n from '@iobroker/adapter-react/i18n';
+import { Avatar } from '@mui/material';
 
 // Components are imported here
 
 const themeName = Utils.getThemeName();
+
 const SettingsPageContent: React.FC = React.memo(() => {
 	// settings is the current settings object, including the changes made in the UI
 	// originalSettings is the original settings object, as it was loaded from ioBroker
@@ -31,31 +34,115 @@ const SettingsPageContent: React.FC = React.memo(() => {
 		}));
 	};
 
+	// local functions
+	const genDSUID = () => {
+		const genRanHex = (size) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
+		// const instanceName = `${this.props.adapterName}.${this.props.instance}`;
+		/*this.props.socket.sendTo(instanceName, "genSDUID", "blah").then((response) => {
+        console.log(response);
+    });*/
+		handleChange('vdcDSUID', genRanHex(34).toUpperCase());
+	};
+
+	const showNoDSUID = () => {
+		if (settings.vdcDSUID && settings.vdcDSUID.length > 0) return null;
+		return (
+			<Alert sx={{ marginTop: 1 }} severity="warning">
+				<AlertTitle>{_('noDSUIDTitle')}</AlertTitle>
+				{_('noDSUIDText')}
+			</Alert>
+		);
+	};
+
 	return (
 		<div>
-			<FormControlLabel
-				label={_('Enable option 1')}
-				control={
-					<Checkbox
-						checked={settings.option1}
-						onChange={(event, checked) => handleChange('option1', checked)}
-					/>
-				}
-			/>
-			<div>
-				<Tooltip title={_('tooltip')} arrow>
-					<TextField
-						label={_('textinput')}
-						color="success"
-						sx={{ width: '20%', textAlignLast: 'center' }}
-						value={settings.testInput}
-						placeholder="placeholder"
-						onChange={(event) => {
-							handleChange('testInput', event.target.value);
-						}}
-					/>
-				</Tooltip>
-			</div>
+			<Grid container sx={{ marginTop: 4 }}>
+				<Grid item xs={1}>
+					<Avatar alt="Digitalstrom VDC" src="digitalstrom-vdc.png" />
+				</Grid>
+				<Grid item xs={11}>
+					<h3>
+						<strong>{_('pageTitle')}</strong>
+					</h3>
+				</Grid>
+			</Grid>
+
+			{showNoDSUID()}
+			<Box sx={{ marginTop: 1, p: 2, border: '1px grey' }}>
+				<Grid container sx={{ marginTop: 4 }}>
+					<Grid item xs={12} sm={6}>
+						<Tooltip title={_('vdcNameTooltip')} arrow>
+							<TextField
+								label={_('vdcName')}
+								color="success"
+								sx={{ width: '100%', textAlignLast: 'left' }}
+								value={settings.vdcName}
+								placeholder="placeholder"
+								onChange={(event) => {
+									handleChange('vdcName', event.target.value);
+								}}
+							/>
+						</Tooltip>
+					</Grid>
+					<Grid item xs={12} sm={6}>
+						<Tooltip title={_('vdcConfigURLTooltip')} arrow>
+							<TextField
+								fullWidth
+								label={_('vdcConfigURL')}
+								color="success"
+								sx={{ width: '100%', textAlignLast: 'left' }}
+								value={settings.vdcConfigURL}
+								placeholder="http://iobroker:8081"
+								onChange={(event) => {
+									handleChange('vdcConfigURL', event.target.value);
+								}}
+							/>
+						</Tooltip>
+					</Grid>
+				</Grid>
+				<Grid container sx={{ marginTop: 4 }}>
+					<Grid item xs={12} sm={6}>
+						<Tooltip title={_('vdcPortTooltip')} arrow>
+							<TextField
+								label={_('vdcPort')}
+								color="success"
+								sx={{ width: '100%', textAlignLast: 'left' }}
+								value={settings.vdcPort}
+								placeholder="placeholder"
+								onChange={(event) => {
+									handleChange('vdcPort', parseInt(event.target.value));
+								}}
+							/>
+						</Tooltip>
+					</Grid>
+					<Grid container xs={12} sm={6}>
+						<Grid item xs={8}>
+							<Tooltip title={_('vdcDSUIDTooltip')} arrow>
+								<TextField
+									label={_('vdcDSUID')}
+									color="success"
+									sx={{ width: '100%', textAlignLast: 'left' }}
+									value={settings.vdcDSUID}
+									placeholder="placeholder"
+									onChange={(event) => {
+										handleChange('vdcDSUID', event.target.value);
+									}}
+								/>
+							</Tooltip>
+						</Grid>
+						<Grid item xs={4}>
+							<Button
+								onClick={() => {
+									genDSUID();
+								}}
+								variant="outlined"
+							>
+								{_('generateVDCDSUID')}
+							</Button>
+						</Grid>
+					</Grid>
+				</Grid>
+			</Box>
 		</div>
 	);
 });
@@ -63,9 +150,10 @@ const SettingsPageContent: React.FC = React.memo(() => {
 const migrateSettings = (settings: ioBroker.AdapterConfig) => {
 	// Here's an example for editing settings after they are loaded from the backend
 	// In this case, option1 will be set to true by default
-	if (settings.option1 === undefined) {
-		settings.option1 = true;
-		settings.testInput = 'Test Input';
+	if (settings.vdcName === undefined) {
+		settings.vdcName = 'ioBroker Controller';
+		settings.vdcPort = 40000;
+		settings.vdcDebug = false;
 	}
 };
 

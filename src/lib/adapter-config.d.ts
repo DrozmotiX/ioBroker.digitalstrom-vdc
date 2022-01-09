@@ -4,8 +4,11 @@
 declare global {
 	namespace ioBroker {
 		interface AdapterConfig {
-			option1: boolean;
-			testInput: string;
+			vdcName: string;
+			vdcPort: number;
+			vdcDebug: boolean;
+			vdcDSUID: string;
+			vdcConfigURL: string;
 		}
 	}
 }

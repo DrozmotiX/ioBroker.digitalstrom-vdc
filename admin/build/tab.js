@@ -1,9 +1,5 @@
 import {
-  Checkbox_default,
-  FormControlLabel_default,
-  TextField_default,
   ThemeProvider_default,
-  Tooltip_default,
   __toModule,
   require_Theme,
   require_Utils,
@@ -21,7 +17,7 @@ import {
   require_react_dom,
   require_ru,
   require_zh_cn
-} from "./chunk-PIQJG5LW.js";
+} from "./chunk-CMJHLSNR.js";
 
 // admin/src/tab.tsx
 var import_react = __toModule(require_react());
@@ -40,31 +36,9 @@ var SettingsPageContent = import_react.default.memo(() => {
       [option]: value
     }));
   };
-  return /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement(FormControlLabel_default, {
-    label: _("Enable option 1"),
-    control: /* @__PURE__ */ import_react.default.createElement(Checkbox_default, {
-      checked: settings.option1,
-      onChange: (event, checked) => handleChange("option1", checked)
-    })
-  }), /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement(Tooltip_default, {
-    title: _("tooltip"),
-    arrow: true
-  }, /* @__PURE__ */ import_react.default.createElement(TextField_default, {
-    label: _("textinput"),
-    color: "success",
-    sx: {width: "20%", textAlignLast: "center"},
-    value: settings.testInput,
-    placeholder: "placeholder",
-    onChange: (event) => {
-      handleChange("testInput", event.target.value);
-    }
-  }))));
+  return /* @__PURE__ */ import_react.default.createElement("div", null);
 });
 var migrateSettings = (settings) => {
-  if (settings.option1 === void 0) {
-    settings.option1 = true;
-    settings.testInput = "Test Input";
-  }
 };
 var translations = {
   en: require_en(),
