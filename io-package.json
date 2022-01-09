@@ -1,101 +1,167 @@
 {
   "common": {
-	"name": "template_react",
-	"version": "0.0.1",
-	"news": {
-	  "0.0.1": {
-		"en": "initial release",
-		"de": "Erstveröffentlichung",
-		"ru": "Начальная версия",
-		"pt": "lançamento inicial",
-		"nl": "Eerste uitgave",
-		"fr": "Première version",
-		"it": "Versione iniziale",
-		"es": "Versión inicial",
-		"pl": "Pierwsze wydanie",
-		"zh-cn": "首次出版"
-	  }
-	},
-	"title": "Template React",
-	"titleLang": {
-	  "en": "Template React",
-	  "de": "Vorlage reagieren",
-	  "ru": "Шаблон React",
-	  "pt": "Modelo de reação",
-	  "nl": "Sjabloon Reageren",
-	  "fr": "Modèle Réagir",
-	  "it": "Modello Reagire",
-	  "es": "Plantilla Reaccionar",
-	  "pl": "Szablon Reaguj",
-	  "zh-cn": "模板反应"
-	},
-	"desc": {
-	  "en": "Template React with AlCalzone Hooks",
-	  "de": "Template React mit AlCalzone Hooks",
-	  "ru": "Шаблон React с хуками AlCalzone",
-	  "pt": "Reação do modelo com ganchos AlCalzone",
-	  "nl": "Sjabloon Reageren met AlCalzone Hooks",
-	  "fr": "Modèle Réagissez avec les crochets AlCalzone",
-	  "it": "Modello Reagire con Ganci AlCalzone",
-	  "es": "Plantilla Reaccionar con ganchos de AlCalzone",
-	  "pl": "Szablon React z hakami AlCalzone",
-	  "zh-cn": "模板与 AlCalzone Hooks 反应"
-	},
-	"authors": [
-	  "Issi <issi.dev.iobroker@gmail.com>"
-	],
-	"keywords": [
-	  "ioBroker",
-	  "template",
-	  "Smart Home",
-	  "home automation"
-	],
-	"license": "MIT",
-	"platform": "Javascript/Node.js",
-	"main": "build/main.js",
-	"icon": "template_react.png",
-	"enabled": true,
-	"extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.template_react/main/admin/template_react.png",
-	"readme": "https://github.com/xXBJXx/ioBroker.template_react/blob/main/README.md",
-	"loglevel": "info",
-	"mode": "daemon",
-	"type": "hardware",
-	"compact": true,
-	"connectionType": "local",
-	"dataSource": "poll",
-	"materialize": true,
-	"dependencies": [
-	  {
-		"js-controller": ">=2.0.0"
-	  }
-	]
+    "name": "digitalstrom-vdc",
+    "version": "0.0.1",
+    "news": {
+      "0.0.1": {
+        "en": "initial release",
+        "de": "Erstveröffentlichung",
+        "ru": "Начальная версия",
+        "pt": "lançamento inicial",
+        "nl": "Eerste uitgave",
+        "fr": "Première version",
+        "it": "Versione iniziale",
+        "es": "Versión inicial",
+        "pl": "Pierwsze wydanie",
+        "zh-cn": "首次出版"
+      }
+    },
+    "title": "Digitalstrom VDC",
+    "titleLang": {
+      "en": "Digitalstrom VDC",
+      "de": "Digitalstrom VDC"
+    },
+    "desc": {
+      "en": "generates ioBroker devices directly in Digitalstrom",
+      "de": "Generiert ioBroker DP direkt in Digitalstrom"
+    },
+    "authors": [
+      "kyuka-dom <dom@bugger.ch>"
+    ],
+    "keywords": [
+      "ds",
+      "digitalstrom",
+      "vdc"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "main": "build/main.js",
+    "icon": "digitalstrom-vdc.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.template_react/main/admin/template_react.png",
+    "readme": "https://github.com/xXBJXx/ioBroker.template_react/blob/main/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "iot-systems",
+    "compact": true,
+    "connectionType": "local",
+    "dataSource": "push",
+    "materialize": true,
+    "materializeTab": true,
+    "adminTab": {
+      "name": {
+        "en": "Digitalstrom",
+        "de": "Digitalstrom"
+      },
+      "link": "",
+      "fa-icon": "wifi"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=2.0.0"
+      }
+    ],
+    "plugins": {
+      "sentry": {
+        "dsn": "https://17e7a2d73e9e45dcbf4ebd5fecf62aa0@o1110646.ingest.sentry.io/6140286"
+      }
+    }
   },
   "native": {
-	"option1": true,
-	"testInput": "Test Input"
+    "vdcName": "ioBroker Controller",
+    "vdcDSUID": "",
+    "vdcDebug": false,
+    "vdcPort": 40000,
+    "vdcConfigURL": ""
   },
-  "objects": [],
+  "objects": [
+    {
+      "_id": "_design/digitalstrom-vdc",
+      "language": "javascript",
+      "views": {
+        "listDevices": {
+          "map": "function(doc) {\n  if (doc._id.match(/^digitalstrom-vdc.[0-9]+.DS-Devices.configuredDevices.*$/)) {\n   emit(doc._id, {deviceObj:(doc.native?doc.native.deviceObj:{})});\n  }\n}"
+        },
+        "paramsetDescription": {
+          "map": "function(doc) {\n  if (doc._id.match(/^digitalstrom-vdc\\.meta/) && doc.meta.type === 'paramsetDescription') {\n   emit(doc._id, doc);\n  }\n}"
+        }
+      }
+    }
+  ],
   "instanceObjects": [
-	{
-	  "_id": "info",
-	  "type": "channel",
-	  "common": {
-		"name": "Information"
-	  },
-	  "native": {}
-	},
-	{
-	  "_id": "info.connection",
-	  "type": "state",
-	  "common": {
-		"role": "indicator.connected",
-		"name": "Device or service connected",
-		"type": "boolean",
-		"read": true,
-		"write": false,
-		"def": false
-	  },
-	  "native": {}
-	}
+    {
+      "common": {
+        "name": "DS-Devices"
+      },
+      "type": "folder",
+      "_id": "DS-Devices"
+    },
+    {
+      "common": {
+        "name": "configuredDevices"
+      },
+      "type": "folder",
+      "from": "DS-Devices",
+      "_id": "DS-Devices.configuredDevices"
+    },
+    {
+      "type": "channel",
+      "common": {
+        "name": "outdoorValues"
+      },
+      "native": {},
+      "from": "DS-Devices",
+      "_id": "DS-Devices.outdoorValues"
+    },
+    {
+      "type": "channel",
+      "common": {
+        "name": "VDC"
+      },
+      "native": {},
+      "from": "DS-Devices",
+      "_id": "DS-Devices.VDC"
+    },
+    {
+      "_id": "DS-Devices.outdoorValues.brightness",
+      "type": "state",
+      "common": {
+        "name": "outdoor brightness",
+        "type": "number",
+        "role": "value.brightness",
+        "read": true,
+        "write": false,
+        "unit": "lx"
+      },
+      "native": {
+        "Name": "outdoorBrightness",
+        "Attribute": "brightness",
+        "Readings": true,
+        "type": "number",
+        "role": "value.brightness"
+      },
+      "from": "DS-Devices.outdoorValues"
+    },
+    {
+      "_id": "DS-Devices.outdoorValues.temperature",
+      "type": "state",
+      "common": {
+        "name": "outdoor temperature",
+        "type": "number",
+        "role": "value.temperature",
+        "read": true,
+        "write": false,
+        "unit": "°C"
+      },
+      "native": {
+        "Name": "outdoorTemperature",
+        "Attribute": "temperature",
+        "Readings": true,
+        "type": "number",
+        "role": "value.temperature",
+        "unit": "°C"
+      },
+      "from": "DS-Devices.outdoorValues"
+    }
   ]
 }

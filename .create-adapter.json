@@ -1,7 +1,7 @@
 {
 	"expert": "yes",
 	"cli": false,
-	"adapterName": "template_react",
+	"adapterName": "Digitalstrom VDC",
 	"title": "Template React",
 	"description": "Template React with AlCalzone Hooks",
 	"keywords": "",

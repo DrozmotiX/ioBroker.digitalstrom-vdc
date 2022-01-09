@@ -23,7 +23,7 @@ import {
   require_zh_cn
 } from "./chunk-PIQJG5LW.js";
 
-// admin/src/index.tsx
+// admin/src/tab.tsx
 var import_react = __toModule(require_react());
 var import_react_dom = __toModule(require_react_dom());
 var import_app = __toModule(require_app());
@@ -88,4 +88,4 @@ var Root = () => {
   }, /* @__PURE__ */ import_react.default.createElement(SettingsPageContent, null)));
 };
 import_react_dom.default.render(/* @__PURE__ */ import_react.default.createElement(Root, null), document.getElementById("root"));
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=tab.js.map

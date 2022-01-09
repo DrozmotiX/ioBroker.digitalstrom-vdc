@@ -9,11 +9,11 @@ import * as utils from '@iobroker/adapter-core';
 // Load your modules here, e.g.:
 // import * as fs from "fs";
 
-class TemplateReact extends utils.Adapter {
+class DigitalstromVdc extends utils.Adapter {
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
 			...options,
-			name: 'template_react',
+			name: 'digitalstrom-vdc',
 		});
 		this.on('ready', this.onReady.bind(this));
 		this.on('stateChange', this.onStateChange.bind(this));
@@ -147,8 +147,8 @@ class TemplateReact extends utils.Adapter {
 
 if (require.main !== module) {
 	// Export the constructor in compact mode
-	module.exports = (options: Partial<utils.AdapterOptions> | undefined) => new TemplateReact(options);
+	module.exports = (options: Partial<utils.AdapterOptions> | undefined) => new DigitalstromVdc(options);
 } else {
 	// otherwise start the instance directly
-	(() => new TemplateReact())();
+	(() => new DigitalstromVdc())();
 }

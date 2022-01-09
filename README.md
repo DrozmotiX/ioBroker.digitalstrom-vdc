@@ -1,4 +1,4 @@
-![Logo](admin/template_react.png)
+![Logo](admin/digitalstrom-vdc.png)
 # ioBroker.template_react
 
 [![NPM version](https://img.shields.io/npm/v/iobroker.template_react.svg)](https://www.npmjs.com/package/iobroker.template_react)

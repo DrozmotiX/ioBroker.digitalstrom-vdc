@@ -34,10 +34,10 @@ var __toModule = (module2) => {
   return __reExport(__markAsModule(__defProp(module2 != null ? __create(__getProtoOf(module2)) : {}, "default", module2 && module2.__esModule && "default" in module2 ? {get: () => module2.default, enumerable: true} : {value: module2, enumerable: true})), module2);
 };
 var utils = __toModule(require("@iobroker/adapter-core"));
-class TemplateReact extends utils.Adapter {
+class DigitalstromVdc extends utils.Adapter {
   constructor(options = {}) {
     super(__spreadProps(__spreadValues({}, options), {
-      name: "template_react"
+      name: "digitalstrom-vdc"
     }));
     this.on("ready", this.onReady.bind(this));
     this.on("stateChange", this.onStateChange.bind(this));
@@ -46,7 +46,7 @@ class TemplateReact extends utils.Adapter {
   async onReady() {
     this.setState("info.connection", false, true);
     this.log.info("config option1: " + this.config.option1);
-    this.log.info("config option2: " + this.config.option2);
+    this.log.info("config testInput: " + this.config.testInput);
     await this.setObjectNotExistsAsync("testVariable", {
       type: "state",
       common: {
@@ -83,8 +83,8 @@ class TemplateReact extends utils.Adapter {
   }
 }
 if (require.main !== module) {
-  module.exports = (options) => new TemplateReact(options);
+  module.exports = (options) => new DigitalstromVdc(options);
 } else {
-  (() => new TemplateReact())();
+  (() => new DigitalstromVdc())();
 }
 //# sourceMappingURL=main.js.map
