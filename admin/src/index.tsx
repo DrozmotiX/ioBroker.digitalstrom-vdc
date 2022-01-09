@@ -36,7 +36,8 @@ const SettingsPageContent: React.FC = React.memo(() => {
 
 	// local functions
 	const genDSUID = () => {
-		const genRanHex = (size) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
+		const genRanHex = (size: number) =>
+			[...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
 		// const instanceName = `${this.props.adapterName}.${this.props.instance}`;
 		/*this.props.socket.sendTo(instanceName, "genSDUID", "blah").then((response) => {
         console.log(response);

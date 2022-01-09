@@ -11,6 +11,7 @@
   "vdcDSUID" : "dSUID",
   "generateVDCDSUID": "generate new dSUID",
   "noDSUIDTitle": "VDC unable to run",
-  "noDSUIDText": "as long as there is no DSUID configured. The VDC is unable to run. Please generate a DSUID."
-
+  "noDSUIDText": "as long as there is no DSUID configured. The VDC is unable to run. Please generate a DSUID.",
+  "tabListDevices": "list configured devices",
+  "tabAddNewDevices": "add new device to digitalstrom"
 }

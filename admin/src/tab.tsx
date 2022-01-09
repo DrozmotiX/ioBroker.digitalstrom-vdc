@@ -5,43 +5,18 @@ import { SettingsApp } from 'iobroker-react/app';
 import type { Translations } from 'iobroker-react/i18n';
 import { useIoBrokerTheme } from 'iobroker-react/hooks';
 // import from @iobroker/adapter-react
-import theme from '@iobroker/adapter-react/Theme';
-import Utils from '@iobroker/adapter-react/Components/Utils';
+import { ErrorBoundary } from 'react-error-boundary';
+import { IoBrokerApp } from 'iobroker-react/app';
+
 // UI elements are imported from Material-UI
-import { ThemeProvider } from '@mui/material/styles';
 import { useSettings, useI18n } from 'iobroker-react/hooks';
-import { Checkbox, FormControlLabel, TextField, Tooltip } from '@mui/material/';
+import { AppBar, Tab, Tabs } from '@mui/material';
 
 // Components are imported here
-
-const themeName = Utils.getThemeName();
-const SettingsPageContent: React.FC = React.memo(() => {
-	// settings is the current settings object, including the changes made in the UI
-	// originalSettings is the original settings object, as it was loaded from ioBroker
-	// setSettings is used to update the current settings object
-	const { settings, originalSettings, setSettings } = useSettings<ioBroker.AdapterConfig>();
-
-	const { translate: _ } = useI18n();
-
-	// Updates the settings when the checkbox changes. The changes are not saved yet.
-	const handleChange = <T extends keyof ioBroker.AdapterConfig>(option: T, value: ioBroker.AdapterConfig[T]) => {
-		setSettings((s) => ({
-			...s,
-			[option]: value,
-		}));
-	};
-
-	return <div></div>;
-});
-
-const migrateSettings = (settings: ioBroker.AdapterConfig) => {
-	// Here's an example for editing settings after they are loaded from the backend
-	// In this case, option1 will be set to true by default
-	/* if (settings.option1 === undefined) {
-		settings.option1 = true;
-		settings.testInput = 'Test Input';
-	} */
-};
+import { TabPanel } from './components/TabPanel';
+import { AddNewDevices } from './pages/AddNewDevices';
+import { ListDevices } from './pages/ListDevices';
+import { useDevices } from './lib/useDevices';
 
 // Load your translations
 const translations: Translations = {
@@ -57,16 +32,56 @@ const translations: Translations = {
 	'zh-cn': require('./i18n/zh-cn.json'),
 };
 
+function ErrorFallback({ error, resetErrorBoundary }: any) {
+	return (
+		<div role="alert">
+			<p>Something went wrong:</p>
+			<pre>{error.stack}</pre>
+			<button onClick={resetErrorBoundary}>Try again</button>
+		</div>
+	);
+}
+
 const Root: React.FC = () => {
 	// const [themeName, setTheme] = useIoBrokerTheme();
+	const [value, setValue] = React.useState(0);
+	const { translate: _ } = useI18n();
+
+	const handleTabChange = (
+		// eslint-disable-next-line @typescript-eslint/ban-types
+		event: React.ChangeEvent<{}>,
+		newValue: number,
+	) => {
+		setValue(newValue);
+	};
+
+	const [devices, updateDevices] = useDevices();
 
 	return (
-		<ThemeProvider theme={theme(themeName)}>
-			<SettingsApp name="digitalstrom-vdc" afterLoad={migrateSettings} translations={translations}>
-				<SettingsPageContent />
-			</SettingsApp>
-		</ThemeProvider>
+		<div>
+			<AppBar position="static">
+				<Tabs value={value} onChange={handleTabChange}>
+					<Tab label={_('tabListDevices')} />
+					<Tab label={_('tabAddNewDevices')} />
+				</Tabs>
+			</AppBar>
+			<TabPanel value={value} index={0}>
+				<ErrorBoundary FallbackComponent={ErrorFallback}>
+					<ListDevices devices={devices} />
+				</ErrorBoundary>
+			</TabPanel>
+			<TabPanel value={value} index={1}>
+				<ErrorBoundary FallbackComponent={ErrorFallback}>
+					<AddNewDevices devices={devices} />
+				</ErrorBoundary>
+			</TabPanel>
+		</div>
 	);
 };
 
-ReactDOM.render(<Root />, document.getElementById('root'));
+ReactDOM.render(
+	<IoBrokerApp name={'digitalstrom-vdc'} translations={translations}>
+		<Root />
+	</IoBrokerApp>,
+	document.getElementById('root'),
+);
