@@ -45,6 +45,9 @@ class DigitalstromVdc extends utils.Adapter {
   }
   async onReady() {
     this.setState("info.connection", false, true);
+    setTimeout(() => {
+      this.setState("info.connection", true, true);
+    }, 10 * 1e3);
   }
   onUnload(callback) {
     try {

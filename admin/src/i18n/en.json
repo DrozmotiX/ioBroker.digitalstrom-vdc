@@ -14,5 +14,6 @@
   "noDSUIDText": "as long as there is no DSUID configured. The VDC is unable to run. Please generate a DSUID.",
   "tabListDevices": "list configured devices",
   "tabAddNewDevices": "add new device to digitalstrom",
-  "adapter not ready": "The adapter is currently not running"
+  "adapter not ready": "The adapter is currently not running",
+  "No devices present": "There are no devices configured. Please add a few!"
 }

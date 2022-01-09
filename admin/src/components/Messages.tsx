@@ -16,3 +16,8 @@ export const NotRunning: React.FC = () => {
 	const { translate: _ } = useI18n();
 	return <Message severity="error">{_('adapter not ready')}</Message>;
 };
+
+export const NoDevices: React.FC = () => {
+	const { translate: _ } = useI18n();
+	return <Message severity="info">{_('No devices present')}</Message>;
+};

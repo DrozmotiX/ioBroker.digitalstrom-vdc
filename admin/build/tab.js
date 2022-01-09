@@ -26,7 +26,7 @@ import {
   require_ru,
   require_styles,
   require_zh_cn
-} from "./chunk-Y54RMG7Y.js";
+} from "./chunk-XYY45I7H.js";
 
 // node_modules/react-error-boundary/dist/react-error-boundary.umd.js
 var require_react_error_boundary_umd = __commonJS({
@@ -353,6 +353,12 @@ var NotRunning = () => {
     severity: "error"
   }, _("adapter not ready"));
 };
+var NoDevices = () => {
+  const {translate: _} = (0, import_hooks.useI18n)();
+  return /* @__PURE__ */ import_react2.default.createElement(Message, {
+    severity: "info"
+  }, _("No devices present"));
+};
 
 // admin/src/pages/AddNewDevices.tsx
 var AddNewDevices = (props) => {
@@ -371,6 +377,8 @@ var ListDevices = (props) => {
   const {alive: adapterRunning, connected: driverReady} = (0, import_iobroker_react2.useAdapter)();
   if (!adapterRunning || !driverReady)
     return /* @__PURE__ */ import_react4.default.createElement(NotRunning, null);
+  if (!props.devices)
+    return /* @__PURE__ */ import_react4.default.createElement(NoDevices, null);
   return /* @__PURE__ */ import_react4.default.createElement("div", {
     id: "ListDevices"
   }, "ListDevices");
