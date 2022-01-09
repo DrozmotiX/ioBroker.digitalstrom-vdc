@@ -10,7 +10,7 @@ import { IoBrokerApp } from 'iobroker-react/app';
 
 // UI elements are imported from Material-UI
 import { useSettings, useI18n } from 'iobroker-react/hooks';
-import { AppBar, Tab, Tabs } from '@mui/material';
+import { Tab, Tabs } from '@mui/material';
 
 // Components are imported here
 import { TabPanel } from './components/TabPanel';
@@ -59,12 +59,11 @@ const Root: React.FC = () => {
 
 	return (
 		<div>
-			<AppBar position="static">
-				<Tabs value={value} onChange={handleTabChange}>
-					<Tab label={_('tabListDevices')} />
-					<Tab label={_('tabAddNewDevices')} />
-				</Tabs>
-			</AppBar>
+			<Tabs value={value} onChange={handleTabChange}>
+				<Tab label={_('tabListDevices')} />
+				<Tab label={_('tabAddNewDevices')} />
+			</Tabs>
+
 			<TabPanel value={value} index={0}>
 				<ErrorBoundary FallbackComponent={ErrorFallback}>
 					<ListDevices devices={devices} />

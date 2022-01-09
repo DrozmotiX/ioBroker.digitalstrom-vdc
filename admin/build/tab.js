@@ -1,5 +1,4 @@
 import {
-  AppBar_default,
   Tab_default,
   Tabs_default,
   __commonJS,
@@ -20,7 +19,7 @@ import {
   require_ru,
   require_styles,
   require_zh_cn
-} from "./chunk-4CFYWQXB.js";
+} from "./chunk-MXOWYMLR.js";
 
 // node_modules/react-error-boundary/dist/react-error-boundary.umd.js
 var require_react_error_boundary_umd = __commonJS({
@@ -254,16 +253,14 @@ var Root = () => {
     setValue(newValue);
   };
   const [devices, updateDevices] = useDevices();
-  return /* @__PURE__ */ import_react5.default.createElement("div", null, /* @__PURE__ */ import_react5.default.createElement(AppBar_default, {
-    position: "static"
-  }, /* @__PURE__ */ import_react5.default.createElement(Tabs_default, {
+  return /* @__PURE__ */ import_react5.default.createElement("div", null, /* @__PURE__ */ import_react5.default.createElement(Tabs_default, {
     value,
     onChange: handleTabChange
   }, /* @__PURE__ */ import_react5.default.createElement(Tab_default, {
     label: _("tabListDevices")
   }), /* @__PURE__ */ import_react5.default.createElement(Tab_default, {
     label: _("tabAddNewDevices")
-  }))), /* @__PURE__ */ import_react5.default.createElement(TabPanel, {
+  })), /* @__PURE__ */ import_react5.default.createElement(TabPanel, {
     value,
     index: 0
   }, /* @__PURE__ */ import_react5.default.createElement(import_react_error_boundary.ErrorBoundary, {
