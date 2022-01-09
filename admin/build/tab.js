@@ -1,9 +1,24 @@
 import {
   Alert_default,
+  Box_default,
+  Button_default,
+  DialogActions_default,
+  DialogContent_default,
+  DialogTitle_default,
+  Dialog_default,
+  FormControl_default,
+  Grid_default,
+  IconButton_default,
+  InputLabel_default,
+  MenuItem_default,
+  Select_default,
   Tab_default,
   Tabs_default,
+  TextField_default,
+  Tooltip_default,
   __commonJS,
   __toModule,
+  material_exports,
   require_Box,
   require_Loader,
   require_MenuItem,
@@ -18,6 +33,7 @@ import {
   require_hooks,
   require_i18n,
   require_it,
+  require_jsx_runtime,
   require_nl,
   require_pl,
   require_pt,
@@ -25,15 +41,18 @@ import {
   require_react_dom,
   require_ru,
   require_styles,
-  require_zh_cn
-} from "./chunk-XYY45I7H.js";
+  require_utils,
+  require_utils2,
+  require_zh_cn,
+  styled_default
+} from "./chunk-MDR2AFO3.js";
 
 // node_modules/react-error-boundary/dist/react-error-boundary.umd.js
 var require_react_error_boundary_umd = __commonJS({
   "node_modules/react-error-boundary/dist/react-error-boundary.umd.js"(exports, module) {
     (function(global, factory) {
       typeof exports === "object" && typeof module !== "undefined" ? factory(exports, require_react()) : typeof define === "function" && define.amd ? define(["exports", "react"], factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, factory(global.ReactErrorBoundary = {}, global.React));
-    })(exports, function(exports2, React7) {
+    })(exports, function(exports2, React14) {
       "use strict";
       function _interopNamespace(e) {
         if (e && e.__esModule)
@@ -55,7 +74,7 @@ var require_react_error_boundary_umd = __commonJS({
         n["default"] = e;
         return Object.freeze(n);
       }
-      var React__namespace = /* @__PURE__ */ _interopNamespace(React7);
+      var React__namespace = /* @__PURE__ */ _interopNamespace(React14);
       function _setPrototypeOf(o, p) {
         _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o2, p2) {
           o2.__proto__ = p2;
@@ -221,7 +240,7 @@ var require_Dropdown = __commonJS({
     var MenuItem_1 = __importDefault(require_MenuItem());
     var OutlinedInput_1 = __importDefault(require_OutlinedInput());
     var Select_1 = __importDefault(require_Select());
-    var React7 = __importStar(require_react());
+    var React14 = __importStar(require_react());
     var Dropdown = (props) => {
       const {options, selectedOption, noOptionsMessage, placeholder} = props, otherProps = __rest(props, ["options", "selectedOption", "noOptionsMessage", "placeholder"]);
       const hasOptions = !!options && options.length;
@@ -229,7 +248,7 @@ var require_Dropdown = __commonJS({
       let value;
       if (options === null || options === void 0 ? void 0 : options.length)
         value = selectedOption;
-      return React7.createElement(Select_1.default, Object.assign({value: value !== null && value !== void 0 ? value : "", displayEmpty: true, input: React7.createElement(OutlinedInput_1.default, {labelWidth: 0}), margin: "dense"}, otherProps), React7.createElement(MenuItem_1.default, {value: "", disabled: true}, placeholder !== null && placeholder !== void 0 ? placeholder : ""), options && options.length && options.map(({value: value2, label}) => React7.createElement(MenuItem_1.default, {key: value2, value: value2}, label)), showNoOptionsMessage && React7.createElement(MenuItem_1.default, {key: "__empty", value: "__empty", disabled: true}, noOptionsMessage));
+      return React14.createElement(Select_1.default, Object.assign({value: value !== null && value !== void 0 ? value : "", displayEmpty: true, input: React14.createElement(OutlinedInput_1.default, {labelWidth: 0}), margin: "dense"}, otherProps), React14.createElement(MenuItem_1.default, {value: "", disabled: true}, placeholder !== null && placeholder !== void 0 ? placeholder : ""), options && options.length && options.map(({value: value2, label}) => React14.createElement(MenuItem_1.default, {key: value2, value: value2}, label)), showNoOptionsMessage && React14.createElement(MenuItem_1.default, {key: "__empty", value: "__empty", disabled: true}, noOptionsMessage));
     };
     exports.Dropdown = Dropdown;
   }
@@ -300,12 +319,59 @@ var require_build = __commonJS({
   }
 });
 
+// node_modules/@mui/icons-material/node_modules/@babel/runtime/helpers/interopRequireDefault.js
+var require_interopRequireDefault = __commonJS({
+  "node_modules/@mui/icons-material/node_modules/@babel/runtime/helpers/interopRequireDefault.js"(exports, module) {
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : {
+        "default": obj
+      };
+    }
+    module.exports = _interopRequireDefault, module.exports.__esModule = true, module.exports["default"] = module.exports;
+  }
+});
+
+// node_modules/@mui/icons-material/utils/createSvgIcon.js
+var require_createSvgIcon = __commonJS({
+  "node_modules/@mui/icons-material/utils/createSvgIcon.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    Object.defineProperty(exports, "default", {
+      enumerable: true,
+      get: function() {
+        return _utils.createSvgIcon;
+      }
+    });
+    var _utils = require_utils2();
+  }
+});
+
+// node_modules/@mui/icons-material/Close.js
+var require_Close = __commonJS({
+  "node_modules/@mui/icons-material/Close.js"(exports) {
+    "use strict";
+    var _interopRequireDefault = require_interopRequireDefault();
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _createSvgIcon = _interopRequireDefault(require_createSvgIcon());
+    var _jsxRuntime = require_jsx_runtime();
+    var _default = (0, _createSvgIcon.default)(/* @__PURE__ */ (0, _jsxRuntime.jsx)("path", {
+      d: "M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+    }), "Close");
+    exports.default = _default;
+  }
+});
+
 // admin/src/tab.tsx
-var import_react6 = __toModule(require_react());
+var import_react9 = __toModule(require_react());
 var import_react_dom = __toModule(require_react_dom());
 var import_react_error_boundary = __toModule(require_react_error_boundary_umd());
 var import_app = __toModule(require_app());
-var import_hooks2 = __toModule(require_hooks());
+var import_hooks5 = __toModule(require_hooks());
 
 // admin/src/components/TabPanel.tsx
 var import_Box = __toModule(require_Box());
@@ -335,7 +401,7 @@ var TabPanel = (props) => {
 };
 
 // admin/src/pages/AddNewDevices.tsx
-var import_react3 = __toModule(require_react());
+var import_react6 = __toModule(require_react());
 var import_iobroker_react = __toModule(require_build());
 
 // admin/src/components/Messages.tsx
@@ -361,38 +427,689 @@ var NoDevices = () => {
 };
 
 // admin/src/pages/AddNewDevices.tsx
-var AddNewDevices = (props) => {
+var import_Close = __toModule(require_Close());
+
+// admin/src/lib/Config.ts
+var InitialConfig = {
+  deviceConfig: {
+    light: false,
+    addDeviceDeviceType: "",
+    configUrl: "",
+    name: "",
+    deviceType: "",
+    color: 0,
+    watchStateID: "",
+    deviceSensorResolution: "",
+    basicButton: "",
+    DeviceSensorColorClass: "",
+    DeviceSensorState: "",
+    DeviceSensorType: "",
+    DeviceSensorUsage: "",
+    DeviceSensorMax: "",
+    DeviceSensorMin: "",
+    DeviceSensorSIUnit: "",
+    DeviceSensorSymbol: "",
+    showCreateConfirmation: "",
+    manualDeviceId: "",
+    showSelectId: "",
+    selectIdValue: "",
+    basicDoorbell: "",
+    DeviceRGBLampPowerSwitch: "",
+    DeviceRGBLampColormode: "",
+    DeviceRGBLampDimmer: "",
+    DeviceRGBLampColortemp: "",
+    DeviceRGBLampHue: "",
+    DeviceRGBLampSaturation: "",
+    DeviceRGBLampRGB: "",
+    sensorList: "",
+    unitValue: "",
+    sensorMultiplier: ""
+  }
+};
+var Config = {
+  light: false,
+  configUrl: "",
+  name: "",
+  deviceType: "",
+  color: 0,
+  watchStateID: "",
+  addDeviceDeviceType: "",
+  basicButton: "",
+  DeviceSensorColorClass: "",
+  deviceSensorResolution: "",
+  DeviceSensorState: "",
+  DeviceSensorType: "",
+  DeviceSensorUsage: "",
+  DeviceSensorMax: "",
+  DeviceSensorMin: "",
+  DeviceSensorSIUnit: "",
+  DeviceSensorSymbol: "",
+  showCreateConfirmation: "",
+  manualDeviceId: "",
+  showSelectId: "",
+  selectIdValue: "",
+  basicDoorbell: "",
+  DeviceRGBLampPowerSwitch: "",
+  DeviceRGBLampColormode: "",
+  DeviceRGBLampDimmer: "",
+  DeviceRGBLampColortemp: "",
+  DeviceRGBLampHue: "",
+  DeviceRGBLampSaturation: "",
+  DeviceRGBLampRGB: "",
+  sensorList: "",
+  unitValue: "",
+  sensorMultiplier: ""
+};
+var clearConfig = () => {
+  Config = InitialConfig.deviceConfig;
+};
+
+// admin/src/options/DeviceTypeOptions.tsx
+var import_hooks4 = __toModule(require_hooks());
+var import_react5 = __toModule(require_react());
+
+// admin/src/options/ColorClassOption.tsx
+var import_hooks2 = __toModule(require_hooks());
+var import_react3 = __toModule(require_react());
+var colorClassOptions = [
+  {
+    label: "Select DS Color",
+    title: "selectcolor",
+    disabled: true
+  },
+  {
+    label: "1",
+    title: "yellowColorClass"
+  },
+  {
+    label: "2",
+    title: "greyColorClass"
+  },
+  {
+    label: "3",
+    title: "blueColorClass"
+  },
+  {
+    label: "4",
+    title: "cyanColorClass"
+  },
+  {
+    label: "5",
+    title: "magentaColorClass"
+  },
+  {
+    label: "6",
+    title: "redColorClass"
+  },
+  {
+    label: "7",
+    title: "greenColorClass"
+  },
+  {
+    label: "8",
+    title: "blackColorClass"
+  },
+  {
+    label: "9",
+    title: "whiteColorClass"
+  }
+];
+var SelectColorClassOptions = () => {
+  const {translate: _} = (0, import_hooks2.useI18n)();
+  const [colorOptions, setColorGlassOptions] = (0, import_react3.useState)("selectcolor");
+  const handleColorClassOptions = (event) => {
+    setColorGlassOptions(event.target.value);
+    console.log(typeof event.target.value);
+    Config.color = JSON.parse(event.target.value);
+  };
+  const ColorClassSelect = () => {
+    const menuItem = [];
+    for (const key in colorClassOptions) {
+      menuItem.push(/* @__PURE__ */ import_react3.default.createElement(MenuItem_default, {
+        disabled: colorClassOptions[key].disabled,
+        key: key + colorClassOptions[key].title,
+        value: colorClassOptions[key].label
+      }, `${_(colorClassOptions[key].title)}`));
+    }
+    return menuItem;
+  };
+  return /* @__PURE__ */ import_react3.default.createElement(import_react3.default.Fragment, null, /* @__PURE__ */ import_react3.default.createElement(import_react3.default.Fragment, null, /* @__PURE__ */ import_react3.default.createElement(Box_default, {
+    sx: {minWidth: 120, maxWidth: 300, width: "250px"}
+  }, /* @__PURE__ */ import_react3.default.createElement(FormControl_default, null, /* @__PURE__ */ import_react3.default.createElement(InputLabel_default, {
+    id: "ColorClass-select-label"
+  }, _("select Color Class")), /* @__PURE__ */ import_react3.default.createElement(Select_default, {
+    labelId: "ColorClass-select-label",
+    id: "ColorClass",
+    value: colorOptions,
+    label: "select Color Class",
+    onChange: handleColorClassOptions,
+    sx: {width: 250}
+  }, ColorClassSelect())))));
+};
+
+// admin/src/options/DefineConfigURL.tsx
+var React4 = __toModule(require_react());
+function DefineConfigURL() {
+  const [name, setName] = React4.useState("http://localhost:8081");
+  const handleChange = (event) => {
+    setName(event.target.value);
+    console.log(event.target.value);
+    Config.configUrl = event.target.value;
+  };
+  return /* @__PURE__ */ React4.createElement(Box_default, {
+    component: "form",
+    sx: {
+      "& > :not(style)": {m: 1, width: "25ch"}
+    },
+    noValidate: true,
+    autoComplete: "off"
+  }, /* @__PURE__ */ React4.createElement(TextField_default, {
+    id: "outlined-name",
+    label: "ConfigURL",
+    value: name,
+    onChange: handleChange
+  }));
+}
+
+// admin/src/options/DefineName.tsx
+var React5 = __toModule(require_react());
+function DefineName() {
+  const [name, setName] = React5.useState("VDC DeviceName");
+  const handleChange = (event) => {
+    setName(event.target.value);
+    console.log(event.target.value);
+    Config.name = event.target.value;
+  };
+  return /* @__PURE__ */ React5.createElement(Box_default, {
+    component: "form",
+    sx: {
+      "& > :not(style)": {m: 1, width: "25ch"}
+    },
+    noValidate: true,
+    autoComplete: "off"
+  }, /* @__PURE__ */ React5.createElement(TextField_default, {
+    id: "outlined-name",
+    label: "Name",
+    value: name,
+    onChange: handleChange
+  }));
+}
+
+// node_modules/@material-ui/icons/esm/utils/createSvgIcon.js
+var import_utils = __toModule(require_utils());
+
+// node_modules/@material-ui/icons/esm/Info.js
+var React6 = __toModule(require_react());
+var Info_default = (0, import_utils.createSvgIcon)(/* @__PURE__ */ React6.createElement("path", {
+  d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
+}), "Info");
+
+// admin/src/options/DefineResolution.tsx
+var React7 = __toModule(require_react());
+function DefineResolution() {
+  const [name, setName] = React7.useState("");
+  const handleChange = (event) => {
+    setName(event.target.value);
+    console.log(event.target.value);
+    Config.deviceSensorResolution = event.target.value;
+  };
+  return /* @__PURE__ */ React7.createElement(Box_default, {
+    component: "form",
+    sx: {
+      "& > :not(style)": {m: 1, width: "25ch"}
+    },
+    noValidate: true,
+    autoComplete: "off"
+  }, /* @__PURE__ */ React7.createElement(TextField_default, {
+    id: "outlined-name",
+    label: "Resolution",
+    value: name,
+    onChange: handleChange
+  }), /* @__PURE__ */ React7.createElement(Tooltip_default, {
+    title: "tooltipResolution"
+  }, /* @__PURE__ */ React7.createElement(IconButton_default, null, /* @__PURE__ */ React7.createElement(Info_default, null))));
+}
+
+// admin/src/options/LightOptions.tsx
+var import_hooks3 = __toModule(require_hooks());
+var import_react4 = __toModule(require_react());
+var outputLightOptions = [
+  {
+    label: "Select Light Option",
+    title: "selectlight",
+    disabled: true
+  },
+  {
+    label: "basic",
+    title: "outputLightBasic"
+  },
+  {
+    label: "colorlight",
+    title: "outputLightColorlight"
+  },
+  {
+    label: "ctlight",
+    title: "outputLightCTLight"
+  }
+];
+var SelectLightOptions = () => {
+  const {translate: _} = (0, import_hooks3.useI18n)();
+  const [lightOptions, setOutputLightOptions] = (0, import_react4.useState)("selectlight");
+  const handleChangeLightOptions = (event) => {
+    setOutputLightOptions(event.target.value);
+    console.log(event.target.value);
+  };
+  const LightOptionsSelect = () => {
+    const menuItem = [];
+    for (const key in outputLightOptions) {
+      menuItem.push(/* @__PURE__ */ import_react4.default.createElement(MenuItem_default, {
+        disabled: outputLightOptions[key].disabled,
+        key: key + outputLightOptions[key].label,
+        value: outputLightOptions[key].title
+      }, `${_(outputLightOptions[key].label)}`));
+    }
+    return menuItem;
+  };
+  return /* @__PURE__ */ import_react4.default.createElement(import_react4.default.Fragment, null, /* @__PURE__ */ import_react4.default.createElement(import_react4.default.Fragment, null, /* @__PURE__ */ import_react4.default.createElement(Box_default, {
+    sx: {minWidth: 120, maxWidth: 300, width: "250px"}
+  }, /* @__PURE__ */ import_react4.default.createElement(FormControl_default, null, /* @__PURE__ */ import_react4.default.createElement(InputLabel_default, {
+    id: "LightOptions-select-label"
+  }, _("select Light Option")), /* @__PURE__ */ import_react4.default.createElement(Select_default, {
+    labelId: "LightOptions-select-label",
+    id: "LightOptions",
+    value: lightOptions,
+    label: "select Light Option",
+    onChange: handleChangeLightOptions,
+    sx: {width: 250}
+  }, LightOptionsSelect())))));
+};
+
+// admin/src/options/DeviceTypeOptions.tsx
+var deviceTypeOptions = [
+  {
+    label: "Select Device type",
+    title: "selectDevice",
+    disabled: true
+  },
+  {
+    label: "lamp",
+    title: "deviceTypeOptionsLamp"
+  },
+  {
+    label: "rgbLamp",
+    title: "deviceTypeOptionsRGBLamp"
+  },
+  {
+    label: "sensor",
+    title: "deviceTypeOptionsSensor"
+  },
+  {
+    label: "presenceSensor",
+    title: "deviceTypeOptionsMotionDetection"
+  },
+  {
+    label: "smokeAlarm",
+    title: "deviceTypeOptionsSmokeAlarm"
+  },
+  {
+    label: "button",
+    title: "deviceTypeOptionsButton"
+  },
+  {
+    label: "doorbell",
+    title: "deviceTypeOptionsDoorbell"
+  },
+  {
+    label: "multiSensor",
+    title: "deviceTypeOptionsMultiSensor"
+  },
+  {
+    label: "awayButton",
+    title: "deviceTypeOptionsAwayButton"
+  }
+];
+var SelectDeviceType = () => {
+  const {translate: _} = (0, import_hooks4.useI18n)();
+  const [devicetype, sethandleDeviceType] = (0, import_react5.useState)("selectDevice");
+  const handleDeviceType = (event) => {
+    console.log(Config);
+    sethandleDeviceType(event.target.value);
+  };
+  const deviceTypeSelect = () => {
+    const menuItem = [];
+    for (const key in deviceTypeOptions) {
+      menuItem.push(/* @__PURE__ */ import_react5.default.createElement(MenuItem_default, {
+        disabled: deviceTypeOptions[key].disabled,
+        key: key + deviceTypeOptions[key].label,
+        value: deviceTypeOptions[key].title
+      }, `${_(deviceTypeOptions[key].label)}`));
+    }
+    return menuItem;
+  };
+  return /* @__PURE__ */ import_react5.default.createElement(import_react5.default.Fragment, null, /* @__PURE__ */ import_react5.default.createElement(import_react5.default.Fragment, null, /* @__PURE__ */ import_react5.default.createElement(Grid_default, {
+    container: true,
+    spacing: 1,
+    sx: {
+      marginTop: "10px",
+      paddingBottom: "15px",
+      alignItems: "center",
+      justifyContent: "space-around",
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row"
+    }
+  }, /* @__PURE__ */ import_react5.default.createElement(Box_default, {
+    sx: {minWidth: 120, maxWidth: 300, width: "250px"}
+  }, /* @__PURE__ */ import_react5.default.createElement(FormControl_default, null, /* @__PURE__ */ import_react5.default.createElement(InputLabel_default, {
+    id: "DeviceType-select-label"
+  }, _("Select Device type")), /* @__PURE__ */ import_react5.default.createElement(Select_default, {
+    labelId: "DeviceType-select-label",
+    id: "DeviceType",
+    value: devicetype,
+    label: "select device Type",
+    onChange: handleDeviceType,
+    sx: {width: 250}
+  }, deviceTypeSelect()))))), devicetype === "deviceTypeOptionsLamp" ? /* @__PURE__ */ import_react5.default.createElement(import_react5.default.Fragment, null, /* @__PURE__ */ import_react5.default.createElement(Grid_default, {
+    container: true,
+    spacing: 1,
+    sx: {
+      marginTop: "10px",
+      paddingBottom: "15px",
+      alignItems: "center",
+      justifyContent: "space-around",
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row"
+    }
+  }, /* @__PURE__ */ import_react5.default.createElement(import_react5.default.Fragment, null, /* @__PURE__ */ import_react5.default.createElement(DefineName, null), /* @__PURE__ */ import_react5.default.createElement(DefineConfigURL, null))), /* @__PURE__ */ import_react5.default.createElement(Grid_default, {
+    container: true,
+    spacing: 1,
+    sx: {
+      marginTop: "10px",
+      paddingBottom: "15px",
+      alignItems: "center",
+      justifyContent: "space-around",
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row"
+    }
+  }, /* @__PURE__ */ import_react5.default.createElement(TextField_default, {
+    id: "outlined-basic",
+    label: "Select ID Placeholder",
+    variant: "outlined"
+  }))) : null, devicetype === "deviceTypeOptionsRGBLamp" ? /* @__PURE__ */ import_react5.default.createElement(import_react5.default.Fragment, null, /* @__PURE__ */ import_react5.default.createElement(Grid_default, {
+    container: true,
+    spacing: 1,
+    sx: {
+      marginTop: "10px",
+      paddingBottom: "15px",
+      alignItems: "center",
+      justifyContent: "space-around",
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row"
+    }
+  }, /* @__PURE__ */ import_react5.default.createElement(import_react5.default.Fragment, null, /* @__PURE__ */ import_react5.default.createElement(SelectLightOptions, null), /* @__PURE__ */ import_react5.default.createElement(SelectColorClassOptions, null), /* @__PURE__ */ import_react5.default.createElement(DefineName, null), /* @__PURE__ */ import_react5.default.createElement(DefineConfigURL, null))), /* @__PURE__ */ import_react5.default.createElement(Grid_default, {
+    container: true,
+    spacing: 1,
+    sx: {
+      marginTop: "10px",
+      paddingBottom: "15px",
+      alignItems: "center",
+      justifyContent: "space-around",
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row"
+    }
+  }, /* @__PURE__ */ import_react5.default.createElement(SelectLightOptions, null), /* @__PURE__ */ import_react5.default.createElement(SelectColorClassOptions, null))) : null, devicetype === "deviceTypeOptionsSensor" ? /* @__PURE__ */ import_react5.default.createElement(import_react5.default.Fragment, null, /* @__PURE__ */ import_react5.default.createElement(Grid_default, {
+    container: true,
+    spacing: 1,
+    sx: {
+      marginTop: "10px",
+      paddingBottom: "15px",
+      alignItems: "center",
+      justifyContent: "space-around",
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row"
+    }
+  }, /* @__PURE__ */ import_react5.default.createElement(import_react5.default.Fragment, null, /* @__PURE__ */ import_react5.default.createElement(DefineName, null), /* @__PURE__ */ import_react5.default.createElement(DefineConfigURL, null), /* @__PURE__ */ import_react5.default.createElement(SelectColorClassOptions, null))), /* @__PURE__ */ import_react5.default.createElement(Grid_default, {
+    container: true,
+    spacing: 1,
+    sx: {
+      marginTop: "10px",
+      paddingBottom: "15px",
+      alignItems: "center",
+      justifyContent: "space-around",
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row"
+    }
+  }, /* @__PURE__ */ import_react5.default.createElement(DefineResolution, null), /* @__PURE__ */ import_react5.default.createElement("h1", null, "test1"))) : null, devicetype === "deviceTypeOptionsMotionDetection" ? /* @__PURE__ */ import_react5.default.createElement(import_react5.default.Fragment, null, /* @__PURE__ */ import_react5.default.createElement(Grid_default, {
+    container: true,
+    spacing: 1,
+    sx: {
+      marginTop: "10px",
+      paddingBottom: "15px",
+      alignItems: "center",
+      justifyContent: "space-around",
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row"
+    }
+  }, /* @__PURE__ */ import_react5.default.createElement(import_react5.default.Fragment, null, /* @__PURE__ */ import_react5.default.createElement(DefineName, null), /* @__PURE__ */ import_react5.default.createElement(DefineConfigURL, null))), /* @__PURE__ */ import_react5.default.createElement(Grid_default, {
+    container: true,
+    spacing: 1,
+    sx: {
+      marginTop: "10px",
+      paddingBottom: "15px",
+      alignItems: "center",
+      justifyContent: "space-around",
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row"
+    }
+  }, /* @__PURE__ */ import_react5.default.createElement("h1", null, "test1"))) : null, devicetype === "deviceTypeOptionsSmokeAlarm" ? /* @__PURE__ */ import_react5.default.createElement(import_react5.default.Fragment, null, /* @__PURE__ */ import_react5.default.createElement(Grid_default, {
+    container: true,
+    spacing: 1,
+    sx: {
+      marginTop: "10px",
+      paddingBottom: "15px",
+      alignItems: "center",
+      justifyContent: "space-around",
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row"
+    }
+  }, /* @__PURE__ */ import_react5.default.createElement(import_react5.default.Fragment, null, /* @__PURE__ */ import_react5.default.createElement(DefineName, null), /* @__PURE__ */ import_react5.default.createElement(DefineConfigURL, null))), /* @__PURE__ */ import_react5.default.createElement(Grid_default, {
+    container: true,
+    spacing: 1,
+    sx: {
+      marginTop: "10px",
+      paddingBottom: "15px",
+      alignItems: "center",
+      justifyContent: "space-around",
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row"
+    }
+  }, /* @__PURE__ */ import_react5.default.createElement("h1", null, "test1"))) : null, devicetype === "deviceTypeOptionsButton" ? /* @__PURE__ */ import_react5.default.createElement(import_react5.default.Fragment, null, /* @__PURE__ */ import_react5.default.createElement(Grid_default, {
+    container: true,
+    spacing: 1,
+    sx: {
+      marginTop: "10px",
+      paddingBottom: "15px",
+      alignItems: "center",
+      justifyContent: "space-around",
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row"
+    }
+  }, /* @__PURE__ */ import_react5.default.createElement(import_react5.default.Fragment, null, /* @__PURE__ */ import_react5.default.createElement(DefineName, null), /* @__PURE__ */ import_react5.default.createElement(DefineConfigURL, null))), /* @__PURE__ */ import_react5.default.createElement(Grid_default, {
+    container: true,
+    spacing: 1,
+    sx: {
+      marginTop: "10px",
+      paddingBottom: "15px",
+      alignItems: "center",
+      justifyContent: "space-around",
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row"
+    }
+  }, /* @__PURE__ */ import_react5.default.createElement("h1", null, "test1"))) : null, devicetype === "deviceTypeOptionsDoorbell" ? /* @__PURE__ */ import_react5.default.createElement(import_react5.default.Fragment, null, /* @__PURE__ */ import_react5.default.createElement(Grid_default, {
+    container: true,
+    spacing: 1,
+    sx: {
+      marginTop: "10px",
+      paddingBottom: "15px",
+      alignItems: "center",
+      justifyContent: "space-around",
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row"
+    }
+  }, /* @__PURE__ */ import_react5.default.createElement(import_react5.default.Fragment, null, /* @__PURE__ */ import_react5.default.createElement(DefineName, null), /* @__PURE__ */ import_react5.default.createElement(DefineConfigURL, null))), /* @__PURE__ */ import_react5.default.createElement(Grid_default, {
+    container: true,
+    spacing: 1,
+    sx: {
+      marginTop: "10px",
+      paddingBottom: "15px",
+      alignItems: "center",
+      justifyContent: "space-around",
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row"
+    }
+  }, /* @__PURE__ */ import_react5.default.createElement("h1", null, "test1"))) : null, devicetype === "deviceTypeOptionsMultiSensor" ? /* @__PURE__ */ import_react5.default.createElement(import_react5.default.Fragment, null, /* @__PURE__ */ import_react5.default.createElement(Grid_default, {
+    container: true,
+    spacing: 1,
+    sx: {
+      marginTop: "10px",
+      paddingBottom: "15px",
+      alignItems: "center",
+      justifyContent: "space-around",
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row"
+    }
+  }, /* @__PURE__ */ import_react5.default.createElement(DefineName, null), /* @__PURE__ */ import_react5.default.createElement(DefineConfigURL, null)), /* @__PURE__ */ import_react5.default.createElement(Grid_default, {
+    container: true,
+    spacing: 1,
+    sx: {
+      marginTop: "10px",
+      paddingBottom: "15px",
+      alignItems: "center",
+      justifyContent: "space-around",
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row"
+    }
+  }, /* @__PURE__ */ import_react5.default.createElement("h1", null, "test2"), /* @__PURE__ */ import_react5.default.createElement("h1", null, "test2"))) : null, devicetype === "deviceTypeOptionsAwayButton" ? /* @__PURE__ */ import_react5.default.createElement(import_react5.default.Fragment, null, /* @__PURE__ */ import_react5.default.createElement(Grid_default, {
+    container: true,
+    spacing: 1,
+    sx: {
+      marginTop: "10px",
+      paddingBottom: "15px",
+      alignItems: "center",
+      justifyContent: "space-around",
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row"
+    }
+  }, /* @__PURE__ */ import_react5.default.createElement(DefineName, null), /* @__PURE__ */ import_react5.default.createElement(DefineConfigURL, null)), /* @__PURE__ */ import_react5.default.createElement(Grid_default, {
+    container: true,
+    spacing: 1,
+    sx: {
+      marginTop: "10px",
+      paddingBottom: "15px",
+      alignItems: "center",
+      justifyContent: "space-around",
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row"
+    }
+  }, /* @__PURE__ */ import_react5.default.createElement("h1", null, "test2"), /* @__PURE__ */ import_react5.default.createElement("h1", null, "test2"))) : null);
+};
+
+// admin/src/pages/AddNewDevices.tsx
+var AddNewDevices = ({devices}) => {
+  const [open, setOpen] = import_react6.default.useState(false);
   const {alive: adapterRunning, connected: driverReady} = (0, import_iobroker_react.useAdapter)();
   if (!adapterRunning || !driverReady)
-    return /* @__PURE__ */ import_react3.default.createElement(NotRunning, null);
-  return /* @__PURE__ */ import_react3.default.createElement("div", {
-    id: "AddNewDevices"
-  }, "AddNewDevice");
+    return /* @__PURE__ */ import_react6.default.createElement(NotRunning, null);
+  const BootstrapDialog = styled_default(Dialog_default)(({theme}) => ({
+    "& .MuiDialogContent-root": {
+      padding: theme.spacing(2)
+    },
+    "& .MuiDialogActions-root": {
+      padding: theme.spacing(1)
+    }
+  }));
+  const BootstrapDialogTitle = (props) => {
+    const {children, onClose, ...other} = props;
+    return /* @__PURE__ */ import_react6.default.createElement(DialogTitle_default, {
+      sx: {m: 0, p: 2},
+      ...other
+    }, children, onClose ? /* @__PURE__ */ import_react6.default.createElement(IconButton_default, {
+      "aria-label": "close",
+      onClick: onClose,
+      sx: {
+        position: "absolute",
+        right: 8,
+        top: 8,
+        color: (theme) => theme.palette.grey[500]
+      }
+    }, /* @__PURE__ */ import_react6.default.createElement(import_Close.default, null)) : null);
+  };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+    clearConfig();
+  };
+  return /* @__PURE__ */ import_react6.default.createElement("div", null, /* @__PURE__ */ import_react6.default.createElement(Button_default, {
+    variant: "outlined",
+    onClick: handleClickOpen
+  }, "Add new Device"), /* @__PURE__ */ import_react6.default.createElement(BootstrapDialog, {
+    onClose: handleClose,
+    "aria-labelledby": "customized-dialog-title",
+    open
+  }, /* @__PURE__ */ import_react6.default.createElement(BootstrapDialogTitle, {
+    id: "customized-dialog-title",
+    onClose: handleClose
+  }, "Add Device"), /* @__PURE__ */ import_react6.default.createElement(DialogContent_default, {
+    dividers: true
+  }, /* @__PURE__ */ import_react6.default.createElement(SelectDeviceType, null)), /* @__PURE__ */ import_react6.default.createElement(DialogActions_default, null, /* @__PURE__ */ import_react6.default.createElement(Button_default, {
+    autoFocus: true,
+    onClick: handleClose
+  }, "Save changes"))));
 };
 
 // admin/src/pages/ListDevices.tsx
-var import_react4 = __toModule(require_react());
+var import_react7 = __toModule(require_react());
 var import_iobroker_react2 = __toModule(require_build());
 var ListDevices = (props) => {
   const {alive: adapterRunning, connected: driverReady} = (0, import_iobroker_react2.useAdapter)();
   if (!adapterRunning || !driverReady)
-    return /* @__PURE__ */ import_react4.default.createElement(NotRunning, null);
+    return /* @__PURE__ */ import_react7.default.createElement(NotRunning, null);
   if (!props.devices)
-    return /* @__PURE__ */ import_react4.default.createElement(NoDevices, null);
-  return /* @__PURE__ */ import_react4.default.createElement("div", {
+    return /* @__PURE__ */ import_react7.default.createElement(NoDevices, null);
+  return /* @__PURE__ */ import_react7.default.createElement("div", {
     id: "ListDevices"
   }, "ListDevices");
 };
 
 // admin/src/lib/useDevices.ts
-var import_react5 = __toModule(require_react());
-var DevicesContext = import_react5.default.createContext({
+var import_react8 = __toModule(require_react());
+var DevicesContext = import_react8.default.createContext({
   devices: {},
   async updateDevices() {
   }
 });
 function useDevices() {
-  const [devices, setDevices] = import_react5.default.useState();
+  const [devices, setDevices] = import_react8.default.useState();
   async function updateDevices() {
   }
   return [devices, updateDevices];
@@ -412,44 +1129,49 @@ var translations = {
   "zh-cn": require_zh_cn()
 };
 function ErrorFallback({error, resetErrorBoundary}) {
-  return /* @__PURE__ */ import_react6.default.createElement("div", {
+  return /* @__PURE__ */ import_react9.default.createElement("div", {
     role: "alert"
-  }, /* @__PURE__ */ import_react6.default.createElement("p", null, "Something went wrong:"), /* @__PURE__ */ import_react6.default.createElement("pre", null, error.stack), /* @__PURE__ */ import_react6.default.createElement("button", {
+  }, /* @__PURE__ */ import_react9.default.createElement("p", null, "Something went wrong:"), /* @__PURE__ */ import_react9.default.createElement("pre", null, error.stack), /* @__PURE__ */ import_react9.default.createElement("button", {
     onClick: resetErrorBoundary
   }, "Try again"));
 }
 var Root = () => {
-  const [value, setValue] = import_react6.default.useState(0);
-  const {translate: _} = (0, import_hooks2.useI18n)();
+  const [value, setValue] = import_react9.default.useState(0);
+  const {translate: _} = (0, import_hooks5.useI18n)();
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
   const [devices, updateDevices] = useDevices();
-  return /* @__PURE__ */ import_react6.default.createElement("div", null, /* @__PURE__ */ import_react6.default.createElement(Tabs_default, {
+  return /* @__PURE__ */ import_react9.default.createElement("div", null, /* @__PURE__ */ import_react9.default.createElement(Tabs_default, {
     value,
     onChange: handleTabChange
-  }, /* @__PURE__ */ import_react6.default.createElement(Tab_default, {
+  }, /* @__PURE__ */ import_react9.default.createElement(Tab_default, {
     label: _("tabListDevices")
-  }), /* @__PURE__ */ import_react6.default.createElement(Tab_default, {
+  }), /* @__PURE__ */ import_react9.default.createElement(Tab_default, {
     label: _("tabAddNewDevices")
-  })), /* @__PURE__ */ import_react6.default.createElement(TabPanel, {
+  })), /* @__PURE__ */ import_react9.default.createElement(TabPanel, {
     value,
     index: 0
-  }, /* @__PURE__ */ import_react6.default.createElement(import_react_error_boundary.ErrorBoundary, {
+  }, /* @__PURE__ */ import_react9.default.createElement(import_react_error_boundary.ErrorBoundary, {
     FallbackComponent: ErrorFallback
-  }, /* @__PURE__ */ import_react6.default.createElement(ListDevices, {
+  }, /* @__PURE__ */ import_react9.default.createElement(ListDevices, {
     devices
-  }))), /* @__PURE__ */ import_react6.default.createElement(TabPanel, {
+  }))), /* @__PURE__ */ import_react9.default.createElement(TabPanel, {
     value,
     index: 1
-  }, /* @__PURE__ */ import_react6.default.createElement(import_react_error_boundary.ErrorBoundary, {
+  }, /* @__PURE__ */ import_react9.default.createElement(import_react_error_boundary.ErrorBoundary, {
     FallbackComponent: ErrorFallback
-  }, /* @__PURE__ */ import_react6.default.createElement(AddNewDevices, {
+  }, /* @__PURE__ */ import_react9.default.createElement(AddNewDevices, {
     devices
   }))));
 };
-import_react_dom.default.render(/* @__PURE__ */ import_react6.default.createElement(import_app.IoBrokerApp, {
+import_react_dom.default.render(/* @__PURE__ */ import_react9.default.createElement(import_app.IoBrokerApp, {
   name: "digitalstrom-vdc",
   translations
-}, /* @__PURE__ */ import_react6.default.createElement(Root, null)), document.getElementById("root"));
+}, /* @__PURE__ */ import_react9.default.createElement(Root, null)), document.getElementById("root"));
+/** @license Material-UI v4.11.2
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 //# sourceMappingURL=tab.js.map
