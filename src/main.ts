@@ -29,10 +29,10 @@ class DigitalstromVdc extends utils.Adapter {
 		// Initialize your adapter here
 
 		// Reset the connection indicator during startup
-		this.setState('info.connection', false, true);
-		setTimeout(() => {
+		this.setState('info.connection', true, true);
+		/*setTimeout(() => {
 			this.setState('info.connection', true, true);
-		}, 10 * 1000);
+		}, 1 * 1000);*/
 	}
 
 	/**
