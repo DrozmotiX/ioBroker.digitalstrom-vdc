@@ -6,7 +6,7 @@ type Severity = 'error' | 'success' | 'info' | 'warning' | undefined;
 
 export const Message: React.FC<{ severity: Severity }> = ({ children, severity }) => {
 	return (
-		<Alert sx={{ marginTop: 1 }} severity={severity}>
+		<Alert variant="filled" sx={{ marginTop: 1 }} severity={severity}>
 			{children}
 		</Alert>
 	);

@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 // import from iobroker-react docu page => https://github.com/AlCalzone/iobroker-react
-import { SettingsApp } from 'iobroker-react/app';
 import type { Translations } from 'iobroker-react/i18n';
-import { useIoBrokerTheme } from 'iobroker-react/hooks';
 // import from @iobroker/adapter-react
 import { ErrorBoundary } from 'react-error-boundary';
 import { IoBrokerApp } from 'iobroker-react/app';
-
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '@iobroker/adapter-react/Theme';
 // UI elements are imported from Material-UI
-import { useSettings, useI18n } from 'iobroker-react/hooks';
+import { useI18n } from 'iobroker-react/hooks';
 import { Tab, Tabs } from '@mui/material';
-
 // Components are imported here
 import { TabPanel } from './components/TabPanel';
 import { AddNewDevices } from './pages/AddNewDevices';
 import { ListDevices } from './pages/ListDevices';
 import { useDevices } from './lib/useDevices';
+import { useIoBrokerTheme } from 'iobroker-react/hooks';
 
 // Load your translations
 const translations: Translations = {
@@ -42,10 +41,11 @@ function ErrorFallback({ error, resetErrorBoundary }: any) {
 	);
 }
 
+// eslint-disable-next-line react/display-name
 const Root: React.FC = () => {
-	// const [themeName, setTheme] = useIoBrokerTheme();
 	const [value, setValue] = React.useState(0);
 	const { translate: _ } = useI18n();
+	const [themeName] = useIoBrokerTheme();
 
 	const handleTabChange = (
 		// eslint-disable-next-line @typescript-eslint/ban-types
@@ -58,23 +58,25 @@ const Root: React.FC = () => {
 	const [devices, updateDevices] = useDevices();
 
 	return (
-		<div>
-			<Tabs value={value} onChange={handleTabChange}>
-				<Tab label={_('tabListDevices')} />
-				<Tab label={_('tabAddNewDevices')} />
-			</Tabs>
+		<React.Fragment>
+			<ThemeProvider theme={theme(themeName)}>
+				<Tabs value={value} onChange={handleTabChange}>
+					<Tab label={_('tabListDevices')} />
+					<Tab label={_('tabAddNewDevices')} />
+				</Tabs>
 
-			<TabPanel value={value} index={0}>
-				<ErrorBoundary FallbackComponent={ErrorFallback}>
-					<ListDevices devices={devices} />
-				</ErrorBoundary>
-			</TabPanel>
-			<TabPanel value={value} index={1}>
-				<ErrorBoundary FallbackComponent={ErrorFallback}>
-					<AddNewDevices devices={devices} />
-				</ErrorBoundary>
-			</TabPanel>
-		</div>
+				<TabPanel value={value} index={0}>
+					<ErrorBoundary FallbackComponent={ErrorFallback}>
+						<ListDevices devices={devices} />
+					</ErrorBoundary>
+				</TabPanel>
+				<TabPanel value={value} index={1}>
+					<ErrorBoundary FallbackComponent={ErrorFallback}>
+						<AddNewDevices devices={devices} />
+					</ErrorBoundary>
+				</TabPanel>
+			</ThemeProvider>
+		</React.Fragment>
 	);
 };
 
