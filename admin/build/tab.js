@@ -45,7 +45,7 @@ import {
   require_utils2,
   require_zh_cn,
   styled_default
-} from "./chunk-F7J2VCQX.js";
+} from "./chunk-HBPZ5HBF.js";
 
 // node_modules/react-error-boundary/dist/react-error-boundary.umd.js
 var require_react_error_boundary_umd = __commonJS({
@@ -371,7 +371,7 @@ var import_react9 = __toModule(require_react());
 var import_react_dom = __toModule(require_react_dom());
 var import_react_error_boundary = __toModule(require_react_error_boundary_umd());
 var import_app = __toModule(require_app());
-var import_hooks6 = __toModule(require_hooks());
+var import_hooks5 = __toModule(require_hooks());
 
 // admin/src/components/TabPanel.tsx
 var import_Box = __toModule(require_Box());
@@ -1084,11 +1084,8 @@ var AddNewDevices = ({devices}) => {
 // admin/src/pages/ListDevices.tsx
 var import_react7 = __toModule(require_react());
 var import_iobroker_react2 = __toModule(require_build());
-var import_hooks5 = __toModule(require_hooks());
 var ListDevices = (props) => {
   const {alive: adapterRunning, connected: driverReady} = (0, import_iobroker_react2.useAdapter)();
-  const connection = (0, import_hooks5.useConnection)();
-  const [triggerSelectId, setTriggerSelectId] = import_react7.default.useState(false);
   const [selectIdValue, setSelectIdValue] = import_react7.default.useState();
   const {showSelectId} = (0, import_iobroker_react2.useDialogs)();
   return /* @__PURE__ */ import_react7.default.createElement("div", {
@@ -1098,7 +1095,9 @@ var ListDevices = (props) => {
       {
         console.log("click to open selectID");
         console.log("showSelectId", showSelectId);
-        showSelectId("test", selectIdValue, setSelectIdValue, "My Title", false);
+        showSelectId("test", () => {
+          console.log("onClose");
+        }, setSelectIdValue, selectIdValue);
       }
     },
     variant: "outlined"
@@ -1141,7 +1140,7 @@ function ErrorFallback({error, resetErrorBoundary}) {
 }
 var Root = () => {
   const [value, setValue] = import_react9.default.useState(0);
-  const {translate: _} = (0, import_hooks6.useI18n)();
+  const {translate: _} = (0, import_hooks5.useI18n)();
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
