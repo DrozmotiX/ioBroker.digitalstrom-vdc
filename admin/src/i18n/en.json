@@ -15,5 +15,8 @@
   "tabListDevices": "list configured devices",
   "tabAddNewDevices": "add new device to digitalstrom",
   "adapter not ready": "The adapter is currently not running",
-  "No devices present": "There are no devices configured. Please add a few!"
+  "No devices present": "There are no devices configured. Please add a few!",
+  "ra_Cancel": "nö",
+  "RA_OK": "yes"
+
 }

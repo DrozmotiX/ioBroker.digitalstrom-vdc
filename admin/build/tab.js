@@ -15,17 +15,16 @@ import {
   Tab_default,
   Tabs_default,
   TextField_default,
-  ThemeProvider_default,
   Tooltip_default,
   __commonJS,
   __toModule,
+  material_exports,
   require_Box,
   require_Loader,
   require_MenuItem,
   require_ModalDialog,
   require_OutlinedInput,
   require_Select,
-  require_Theme,
   require_app,
   require_de,
   require_en,
@@ -34,6 +33,7 @@ import {
   require_hooks,
   require_i18n,
   require_it,
+  require_jsx_runtime,
   require_nl,
   require_pl,
   require_pt,
@@ -42,8 +42,10 @@ import {
   require_ru,
   require_styles,
   require_utils,
-  require_zh_cn
-} from "./chunk-LRVGQRSV.js";
+  require_utils2,
+  require_zh_cn,
+  styled_default
+} from "./chunk-F7J2VCQX.js";
 
 // node_modules/react-error-boundary/dist/react-error-boundary.umd.js
 var require_react_error_boundary_umd = __commonJS({
@@ -317,12 +319,58 @@ var require_build = __commonJS({
   }
 });
 
+// node_modules/@mui/icons-material/node_modules/@babel/runtime/helpers/interopRequireDefault.js
+var require_interopRequireDefault = __commonJS({
+  "node_modules/@mui/icons-material/node_modules/@babel/runtime/helpers/interopRequireDefault.js"(exports, module) {
+    function _interopRequireDefault(obj) {
+      return obj && obj.__esModule ? obj : {
+        "default": obj
+      };
+    }
+    module.exports = _interopRequireDefault, module.exports.__esModule = true, module.exports["default"] = module.exports;
+  }
+});
+
+// node_modules/@mui/icons-material/utils/createSvgIcon.js
+var require_createSvgIcon = __commonJS({
+  "node_modules/@mui/icons-material/utils/createSvgIcon.js"(exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    Object.defineProperty(exports, "default", {
+      enumerable: true,
+      get: function() {
+        return _utils.createSvgIcon;
+      }
+    });
+    var _utils = require_utils2();
+  }
+});
+
+// node_modules/@mui/icons-material/Close.js
+var require_Close = __commonJS({
+  "node_modules/@mui/icons-material/Close.js"(exports) {
+    "use strict";
+    var _interopRequireDefault = require_interopRequireDefault();
+    Object.defineProperty(exports, "__esModule", {
+      value: true
+    });
+    exports.default = void 0;
+    var _createSvgIcon = _interopRequireDefault(require_createSvgIcon());
+    var _jsxRuntime = require_jsx_runtime();
+    var _default = (0, _createSvgIcon.default)(/* @__PURE__ */ (0, _jsxRuntime.jsx)("path", {
+      d: "M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+    }), "Close");
+    exports.default = _default;
+  }
+});
+
 // admin/src/tab.tsx
 var import_react9 = __toModule(require_react());
 var import_react_dom = __toModule(require_react_dom());
 var import_react_error_boundary = __toModule(require_react_error_boundary_umd());
 var import_app = __toModule(require_app());
-var import_Theme = __toModule(require_Theme());
 var import_hooks6 = __toModule(require_hooks());
 
 // admin/src/components/TabPanel.tsx
@@ -361,7 +409,6 @@ var import_react2 = __toModule(require_react());
 var import_hooks = __toModule(require_hooks());
 var Message = ({children, severity}) => {
   return /* @__PURE__ */ import_react2.default.createElement(Alert_default, {
-    variant: "filled",
     sx: {marginTop: 1},
     severity
   }, children);
@@ -372,12 +419,9 @@ var NotRunning = () => {
     severity: "error"
   }, _("adapter not ready"));
 };
-var NoDevices = () => {
-  const {translate: _} = (0, import_hooks.useI18n)();
-  return /* @__PURE__ */ import_react2.default.createElement(Message, {
-    severity: "info"
-  }, _("No devices present"));
-};
+
+// admin/src/pages/AddNewDevices.tsx
+var import_Close = __toModule(require_Close());
 
 // admin/src/lib/Config.ts
 var InitialConfig = {
@@ -983,24 +1027,34 @@ var SelectDeviceType = () => {
 };
 
 // admin/src/pages/AddNewDevices.tsx
-var import_hooks5 = __toModule(require_hooks());
 var AddNewDevices = ({devices}) => {
   const [open, setOpen] = import_react6.default.useState(false);
   const {alive: adapterRunning, connected: driverReady} = (0, import_iobroker_react.useAdapter)();
-  const [themeName] = (0, import_hooks5.useIoBrokerTheme)();
   if (!adapterRunning || !driverReady)
     return /* @__PURE__ */ import_react6.default.createElement(NotRunning, null);
-  const Color = () => {
-    switch (themeName) {
-      case "dark":
-        return {titel: "#3b3b3b66"};
-      case "blue":
-        return {titel: "#3e464a61"};
-      case "light":
-        return {titel: "#b7b7b7"};
-      case "colored":
-        return {titel: "#b7b7b7"};
+  const BootstrapDialog = styled_default(Dialog_default)(({theme}) => ({
+    "& .MuiDialogContent-root": {
+      padding: theme.spacing(2)
+    },
+    "& .MuiDialogActions-root": {
+      padding: theme.spacing(1)
     }
+  }));
+  const BootstrapDialogTitle = (props) => {
+    const {children, onClose, ...other} = props;
+    return /* @__PURE__ */ import_react6.default.createElement(DialogTitle_default, {
+      sx: {m: 0, p: 2},
+      ...other
+    }, children, onClose ? /* @__PURE__ */ import_react6.default.createElement(IconButton_default, {
+      "aria-label": "close",
+      onClick: onClose,
+      sx: {
+        position: "absolute",
+        right: 8,
+        top: 8,
+        color: (theme) => theme.palette.grey[500]
+      }
+    }, /* @__PURE__ */ import_react6.default.createElement(import_Close.default, null)) : null);
   };
   const handleClickOpen = () => {
     setOpen(true);
@@ -1012,38 +1066,43 @@ var AddNewDevices = ({devices}) => {
   return /* @__PURE__ */ import_react6.default.createElement("div", null, /* @__PURE__ */ import_react6.default.createElement(Button_default, {
     variant: "outlined",
     onClick: handleClickOpen
-  }, "Add new Device"), /* @__PURE__ */ import_react6.default.createElement(Dialog_default, {
-    open,
+  }, "Add new Device"), /* @__PURE__ */ import_react6.default.createElement(BootstrapDialog, {
+    onClose: handleClose,
+    "aria-labelledby": "customized-dialog-title",
+    open
+  }, /* @__PURE__ */ import_react6.default.createElement(BootstrapDialogTitle, {
+    id: "customized-dialog-title",
     onClose: handleClose
-  }, /* @__PURE__ */ import_react6.default.createElement(DialogTitle_default, {
-    sx: {
-      bgcolor: Color().titel,
-      textAlignLast: "center",
-      fontSize: "1.4rem"
-    }
   }, "Add Device"), /* @__PURE__ */ import_react6.default.createElement(DialogContent_default, {
     dividers: true
   }, /* @__PURE__ */ import_react6.default.createElement(SelectDeviceType, null)), /* @__PURE__ */ import_react6.default.createElement(DialogActions_default, null, /* @__PURE__ */ import_react6.default.createElement(Button_default, {
     autoFocus: true,
     onClick: handleClose
-  }, "Save changes"), /* @__PURE__ */ import_react6.default.createElement(Button_default, {
-    autoFocus: true,
-    onClick: handleClose
-  }, "Close"))));
+  }, "Save changes"))));
 };
 
 // admin/src/pages/ListDevices.tsx
 var import_react7 = __toModule(require_react());
 var import_iobroker_react2 = __toModule(require_build());
+var import_hooks5 = __toModule(require_hooks());
 var ListDevices = (props) => {
   const {alive: adapterRunning, connected: driverReady} = (0, import_iobroker_react2.useAdapter)();
-  if (!adapterRunning || !driverReady)
-    return /* @__PURE__ */ import_react7.default.createElement(NotRunning, null);
-  if (!props.devices)
-    return /* @__PURE__ */ import_react7.default.createElement(NoDevices, null);
+  const connection = (0, import_hooks5.useConnection)();
+  const [triggerSelectId, setTriggerSelectId] = import_react7.default.useState(false);
+  const [selectIdValue, setSelectIdValue] = import_react7.default.useState();
+  const {showSelectId} = (0, import_iobroker_react2.useDialogs)();
   return /* @__PURE__ */ import_react7.default.createElement("div", {
     id: "ListDevices"
-  }, "ListDevices");
+  }, /* @__PURE__ */ import_react7.default.createElement(Button_default, {
+    onClick: () => {
+      {
+        console.log("click to open selectID");
+        console.log("showSelectId", showSelectId);
+        showSelectId("test", selectIdValue, setSelectIdValue, "My Title", false);
+      }
+    },
+    variant: "outlined"
+  }, "SelectID"), /* @__PURE__ */ import_react7.default.createElement("br", null), /* @__PURE__ */ import_react7.default.createElement("br", null), "SelectIDs: ", JSON.stringify(selectIdValue));
 };
 
 // admin/src/lib/useDevices.ts
@@ -1061,7 +1120,6 @@ function useDevices() {
 }
 
 // admin/src/tab.tsx
-var import_hooks7 = __toModule(require_hooks());
 var translations = {
   en: require_en(),
   de: require_de(),
@@ -1084,14 +1142,11 @@ function ErrorFallback({error, resetErrorBoundary}) {
 var Root = () => {
   const [value, setValue] = import_react9.default.useState(0);
   const {translate: _} = (0, import_hooks6.useI18n)();
-  const [themeName] = (0, import_hooks7.useIoBrokerTheme)();
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
   const [devices, updateDevices] = useDevices();
-  return /* @__PURE__ */ import_react9.default.createElement(import_react9.default.Fragment, null, /* @__PURE__ */ import_react9.default.createElement(ThemeProvider_default, {
-    theme: (0, import_Theme.default)(themeName)
-  }, /* @__PURE__ */ import_react9.default.createElement(Tabs_default, {
+  return /* @__PURE__ */ import_react9.default.createElement("div", null, /* @__PURE__ */ import_react9.default.createElement(Tabs_default, {
     value,
     onChange: handleTabChange
   }, /* @__PURE__ */ import_react9.default.createElement(Tab_default, {
@@ -1112,7 +1167,7 @@ var Root = () => {
     FallbackComponent: ErrorFallback
   }, /* @__PURE__ */ import_react9.default.createElement(AddNewDevices, {
     devices
-  })))));
+  }))));
 };
 import_react_dom.default.render(/* @__PURE__ */ import_react9.default.createElement(import_app.IoBrokerApp, {
   name: "digitalstrom-vdc",

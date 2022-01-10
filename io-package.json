@@ -65,7 +65,8 @@
       "sentry": {
         "dsn": "https://17e7a2d73e9e45dcbf4ebd5fecf62aa0@o1110646.ingest.sentry.io/6140286"
       }
-    }
+    },
+    "adminUI": {"config":"materialize","tab":"materialize"}
   },
   "native": {
     "vdcName": "ioBroker Controller",
