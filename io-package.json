@@ -48,6 +48,7 @@
     "dataSource": "push",
     "materialize": true,
     "materializeTab": true,
+    "messagebox": true,
     "adminTab": {
       "name": {
         "en": "Digitalstrom",

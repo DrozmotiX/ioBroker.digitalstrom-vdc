@@ -39,12 +39,16 @@ class DigitalstromVdc extends utils.Adapter {
     super(__spreadProps(__spreadValues({}, options), {
       name: "digitalstrom-vdc"
     }));
+    this.allDevices = [];
     this.on("ready", this.onReady.bind(this));
     this.on("stateChange", this.onStateChange.bind(this));
+    this.on("message", this.onMessage.bind(this));
     this.on("unload", this.onUnload.bind(this));
+    this.allDevices = [];
   }
   async onReady() {
     this.setState("info.connection", true, true);
+    this.allDevices = await this.refreshDeviceList();
   }
   onUnload(callback) {
     try {
@@ -58,6 +62,87 @@ class DigitalstromVdc extends utils.Adapter {
       this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
     } else {
       this.log.info(`state ${id} deleted`);
+    }
+  }
+  async refreshDeviceList() {
+    return await this.getObjectViewAsync("digitalstrom-vdc", "listDevices", {
+      startkey: "digitalstrom-vdc." + this.instance + ".",
+      endkey: "digitalstrom-vdc." + this.instance + ".\u9999"
+    }).then((doc) => {
+      if (doc && doc.rows) {
+        const aD = [];
+        for (let i = 0; i < doc.rows.length; i++) {
+          const id = doc.rows[i].id;
+          const obj = doc.rows[i].value;
+          if (obj && Object.keys(obj).length > 0) {
+            this.log.debug("Found " + id + ": " + JSON.stringify(obj));
+            if (obj.deviceObj.dsConfig) {
+              aD.push(obj.deviceObj);
+            }
+          }
+        }
+        if (!doc.rows.length)
+          console.log("No objects found.");
+        this.log.debug("AD: " + JSON.stringify(aD));
+        return aD;
+      } else {
+        console.log("No objects found: ");
+        return [];
+      }
+    });
+  }
+  async onMessage(obj) {
+    const respond = (response) => {
+      if (obj.callback)
+        this.sendTo(obj.from, obj.command, response, obj.callback);
+    };
+    const responses = {
+      ACK: {error: null},
+      OK: {error: null, result: "ok"},
+      ERROR_UNKNOWN_COMMAND: {error: "Unknown command!"},
+      MISSING_PARAMETER: (paramName) => {
+        return {error: 'missing parameter "' + paramName + '"!'};
+      },
+      COMMAND_ACTIVE: {error: "command already active"},
+      RESULT: (result) => ({error: null, result}),
+      ERROR: (error) => ({error})
+    };
+    this.log.debug(`received onMessage ${JSON.stringify(obj)}`);
+    if (typeof obj === "object") {
+      switch (obj.command) {
+        case "addNewDevice": {
+          this.log.debug("Add devices command received " + JSON.stringify(obj));
+          try {
+            const deviceObj = obj.message;
+            this.log.debug(JSON.stringify(deviceObj));
+            this.setObjectNotExistsAsync(`DS-Devices.configuredDevices.${deviceObj.id}`, {
+              type: "state",
+              common: {
+                name: deviceObj.name,
+                type: "boolean",
+                role: "indicator",
+                read: true,
+                write: true
+              },
+              native: {
+                deviceObj
+              }
+            });
+            await this.setStateAsync(`DS-Devices.configuredDevices.${deviceObj.id}`, true);
+            this.allDevices = await this.refreshDeviceList();
+            return respond(responses.OK);
+          } catch (err) {
+            console.error("Error while parsing object", err);
+            return respond(responses.ERROR(err));
+          }
+        }
+        case "VanishDevice": {
+          this.log.info(`sendVanishDevice command receveid for device ${obj.message}`);
+        }
+        case "ListDevices": {
+          return respond(responses.RESULT(this.allDevices));
+        }
+      }
     }
   }
 }

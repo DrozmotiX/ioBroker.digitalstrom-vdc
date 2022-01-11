@@ -10,6 +10,8 @@ import * as utils from '@iobroker/adapter-core';
 // import * as fs from "fs";
 
 class DigitalstromVdc extends utils.Adapter {
+	allDevices: any = [];
+
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
 			...options,
@@ -18,8 +20,9 @@ class DigitalstromVdc extends utils.Adapter {
 		this.on('ready', this.onReady.bind(this));
 		this.on('stateChange', this.onStateChange.bind(this));
 		// this.on('objectChange', this.onObjectChange.bind(this));
-		// this.on('message', this.onMessage.bind(this));
+		this.on('message', this.onMessage.bind(this));
 		this.on('unload', this.onUnload.bind(this));
+		this.allDevices = [];
 	}
 
 	/**
@@ -30,6 +33,7 @@ class DigitalstromVdc extends utils.Adapter {
 
 		// Reset the connection indicator during startup
 		this.setState('info.connection', true, true);
+		this.allDevices = await this.refreshDeviceList();
 		/*setTimeout(() => {
 			this.setState('info.connection', true, true);
 		}, 1 * 1000);*/
@@ -80,22 +84,109 @@ class DigitalstromVdc extends utils.Adapter {
 		}
 	}
 
+	/**
+	 * private function used to fill the alldevices array
+	 * @private
+	 */
+	private async refreshDeviceList(): Promise<any> {
+		interface GetObjectViewItem {
+			/** The ID of this object */
+			id: string;
+			/** A copy of the object from the DB */
+			value: ioBroker.Object | null;
+		}
+		return await this.getObjectViewAsync('digitalstrom-vdc', 'listDevices', {
+			startkey: 'digitalstrom-vdc.' + this.instance + '.',
+			endkey: 'digitalstrom-vdc.' + this.instance + '.\u9999',
+		}).then((doc: { rows: GetObjectViewItem[] }) => {
+			if (doc && doc.rows) {
+				const aD: any = [];
+				for (let i = 0; i < doc.rows.length; i++) {
+					const id = doc.rows[i].id;
+					const obj: any = doc.rows[i].value;
+					if (obj && Object.keys(obj).length > 0) {
+						this.log.debug('Found ' + id + ': ' + JSON.stringify(obj));
+						if (obj.deviceObj.dsConfig) {
+							aD.push(obj.deviceObj);
+						}
+					}
+				}
+				if (!doc.rows.length) console.log('No objects found.');
+				this.log.debug('AD: ' + JSON.stringify(aD));
+				return aD;
+			} else {
+				console.log('No objects found: ');
+				return [];
+			}
+		});
+	}
+
 	// If you need to accept messages in your adapter, uncomment the following block and the corresponding line in the constructor.
 	// /**
 	//  * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
 	//  * Using this method requires "common.messagebox" property to be set to true in io-package.json
 	//  */
-	// private onMessage(obj: ioBroker.Message): void {
-	// 	if (typeof obj === 'object' && obj.message) {
-	// 		if (obj.command === 'send') {
-	// 			// e.g. send email or pushover or whatever
-	// 			this.log.info('send command');
-
-	// 			// Send response in callback if required
-	// 			if (obj.callback) this.sendTo(obj.from, obj.command, 'Message received', obj.callback);
-	// 		}
-	// 	}
-	// }
+	private async onMessage(obj: ioBroker.Message): Promise<void> {
+		const respond = (response: any): void => {
+			if (obj.callback) this.sendTo(obj.from, obj.command, response, obj.callback);
+		};
+		// some predefined responses so we only have to define them once
+		const responses = {
+			ACK: { error: null },
+			OK: { error: null, result: 'ok' },
+			ERROR_UNKNOWN_COMMAND: { error: 'Unknown command!' },
+			MISSING_PARAMETER: (paramName: string) => {
+				return { error: 'missing parameter "' + paramName + '"!' };
+			},
+			COMMAND_ACTIVE: { error: 'command already active' },
+			RESULT: (result: unknown) => ({ error: null, result }),
+			ERROR: (error: string) => ({ error }),
+		};
+		this.log.debug(`received onMessage ${JSON.stringify(obj)}`);
+		if (typeof obj === 'object') {
+			switch (obj.command) {
+				case 'addNewDevice': {
+					this.log.debug('Add devices command received ' + JSON.stringify(obj));
+					try {
+						const deviceObj = obj.message as any;
+						this.log.debug(JSON.stringify(deviceObj));
+						this.setObjectNotExistsAsync(`DS-Devices.configuredDevices.${deviceObj.id}`, {
+							type: 'state',
+							common: {
+								name: deviceObj.name,
+								type: 'boolean',
+								role: 'indicator',
+								read: true,
+								write: true,
+							},
+							native: {
+								deviceObj,
+							},
+						});
+						await this.setStateAsync(`DS-Devices.configuredDevices.${deviceObj.id}`, true);
+						this.allDevices = await this.refreshDeviceList();
+						return respond(responses.OK);
+						//
+					} catch (err: any) {
+						console.error('Error while parsing object', err);
+						return respond(responses.ERROR(err));
+					}
+				}
+				case 'VanishDevice': {
+					this.log.info(`sendVanishDevice command receveid for device ${obj.message}`);
+				}
+				case 'ListDevices': {
+					return respond(responses.RESULT(this.allDevices));
+				}
+			}
+			// 		if (obj.command === 'send') {
+			// 			// e.g. send email or pushover or whatever
+			// 			this.log.info('send command');
+			// 			// Send response in callback if required
+			// 			if (obj.callback) this.sendTo(obj.from, obj.command, 'Message received', obj.callback);
+			// 		}
+		}
+	}
 }
 
 if (require.main !== module) {

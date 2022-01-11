@@ -52,7 +52,7 @@ var require_react_error_boundary_umd = __commonJS({
   "node_modules/react-error-boundary/dist/react-error-boundary.umd.js"(exports, module) {
     (function(global, factory) {
       typeof exports === "object" && typeof module !== "undefined" ? factory(exports, require_react()) : typeof define === "function" && define.amd ? define(["exports", "react"], factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, factory(global.ReactErrorBoundary = {}, global.React));
-    })(exports, function(exports2, React14) {
+    })(exports, function(exports2, React15) {
       "use strict";
       function _interopNamespace(e) {
         if (e && e.__esModule)
@@ -74,7 +74,7 @@ var require_react_error_boundary_umd = __commonJS({
         n["default"] = e;
         return Object.freeze(n);
       }
-      var React__namespace = /* @__PURE__ */ _interopNamespace(React14);
+      var React__namespace = /* @__PURE__ */ _interopNamespace(React15);
       function _setPrototypeOf(o, p) {
         _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o2, p2) {
           o2.__proto__ = p2;
@@ -240,7 +240,7 @@ var require_Dropdown = __commonJS({
     var MenuItem_1 = __importDefault(require_MenuItem());
     var OutlinedInput_1 = __importDefault(require_OutlinedInput());
     var Select_1 = __importDefault(require_Select());
-    var React14 = __importStar(require_react());
+    var React15 = __importStar(require_react());
     var Dropdown = (props) => {
       const {options, selectedOption, noOptionsMessage, placeholder} = props, otherProps = __rest(props, ["options", "selectedOption", "noOptionsMessage", "placeholder"]);
       const hasOptions = !!options && options.length;
@@ -248,7 +248,7 @@ var require_Dropdown = __commonJS({
       let value;
       if (options === null || options === void 0 ? void 0 : options.length)
         value = selectedOption;
-      return React14.createElement(Select_1.default, Object.assign({value: value !== null && value !== void 0 ? value : "", displayEmpty: true, input: React14.createElement(OutlinedInput_1.default, {labelWidth: 0}), margin: "dense"}, otherProps), React14.createElement(MenuItem_1.default, {value: "", disabled: true}, placeholder !== null && placeholder !== void 0 ? placeholder : ""), options && options.length && options.map(({value: value2, label}) => React14.createElement(MenuItem_1.default, {key: value2, value: value2}, label)), showNoOptionsMessage && React14.createElement(MenuItem_1.default, {key: "__empty", value: "__empty", disabled: true}, noOptionsMessage));
+      return React15.createElement(Select_1.default, Object.assign({value: value !== null && value !== void 0 ? value : "", displayEmpty: true, input: React15.createElement(OutlinedInput_1.default, {labelWidth: 0}), margin: "dense"}, otherProps), React15.createElement(MenuItem_1.default, {value: "", disabled: true}, placeholder !== null && placeholder !== void 0 ? placeholder : ""), options && options.length && options.map(({value: value2, label}) => React15.createElement(MenuItem_1.default, {key: value2, value: value2}, label)), showNoOptionsMessage && React15.createElement(MenuItem_1.default, {key: "__empty", value: "__empty", disabled: true}, noOptionsMessage));
     };
     exports.Dropdown = Dropdown;
   }
@@ -366,12 +366,181 @@ var require_Close = __commonJS({
   }
 });
 
+// node_modules/uuid/lib/rng-browser.js
+var require_rng_browser = __commonJS({
+  "node_modules/uuid/lib/rng-browser.js"(exports, module) {
+    var getRandomValues = typeof crypto != "undefined" && crypto.getRandomValues && crypto.getRandomValues.bind(crypto) || typeof msCrypto != "undefined" && typeof window.msCrypto.getRandomValues == "function" && msCrypto.getRandomValues.bind(msCrypto);
+    if (getRandomValues) {
+      rnds8 = new Uint8Array(16);
+      module.exports = function whatwgRNG() {
+        getRandomValues(rnds8);
+        return rnds8;
+      };
+    } else {
+      rnds = new Array(16);
+      module.exports = function mathRNG() {
+        for (var i = 0, r; i < 16; i++) {
+          if ((i & 3) === 0)
+            r = Math.random() * 4294967296;
+          rnds[i] = r >>> ((i & 3) << 3) & 255;
+        }
+        return rnds;
+      };
+    }
+    var rnds8;
+    var rnds;
+  }
+});
+
+// node_modules/uuid/lib/bytesToUuid.js
+var require_bytesToUuid = __commonJS({
+  "node_modules/uuid/lib/bytesToUuid.js"(exports, module) {
+    var byteToHex = [];
+    for (var i = 0; i < 256; ++i) {
+      byteToHex[i] = (i + 256).toString(16).substr(1);
+    }
+    function bytesToUuid(buf, offset) {
+      var i2 = offset || 0;
+      var bth = byteToHex;
+      return [
+        bth[buf[i2++]],
+        bth[buf[i2++]],
+        bth[buf[i2++]],
+        bth[buf[i2++]],
+        "-",
+        bth[buf[i2++]],
+        bth[buf[i2++]],
+        "-",
+        bth[buf[i2++]],
+        bth[buf[i2++]],
+        "-",
+        bth[buf[i2++]],
+        bth[buf[i2++]],
+        "-",
+        bth[buf[i2++]],
+        bth[buf[i2++]],
+        bth[buf[i2++]],
+        bth[buf[i2++]],
+        bth[buf[i2++]],
+        bth[buf[i2++]]
+      ].join("");
+    }
+    module.exports = bytesToUuid;
+  }
+});
+
+// node_modules/uuid/v1.js
+var require_v1 = __commonJS({
+  "node_modules/uuid/v1.js"(exports, module) {
+    var rng = require_rng_browser();
+    var bytesToUuid = require_bytesToUuid();
+    var _nodeId;
+    var _clockseq;
+    var _lastMSecs = 0;
+    var _lastNSecs = 0;
+    function v1(options, buf, offset) {
+      var i = buf && offset || 0;
+      var b = buf || [];
+      options = options || {};
+      var node = options.node || _nodeId;
+      var clockseq = options.clockseq !== void 0 ? options.clockseq : _clockseq;
+      if (node == null || clockseq == null) {
+        var seedBytes = rng();
+        if (node == null) {
+          node = _nodeId = [
+            seedBytes[0] | 1,
+            seedBytes[1],
+            seedBytes[2],
+            seedBytes[3],
+            seedBytes[4],
+            seedBytes[5]
+          ];
+        }
+        if (clockseq == null) {
+          clockseq = _clockseq = (seedBytes[6] << 8 | seedBytes[7]) & 16383;
+        }
+      }
+      var msecs = options.msecs !== void 0 ? options.msecs : new Date().getTime();
+      var nsecs = options.nsecs !== void 0 ? options.nsecs : _lastNSecs + 1;
+      var dt = msecs - _lastMSecs + (nsecs - _lastNSecs) / 1e4;
+      if (dt < 0 && options.clockseq === void 0) {
+        clockseq = clockseq + 1 & 16383;
+      }
+      if ((dt < 0 || msecs > _lastMSecs) && options.nsecs === void 0) {
+        nsecs = 0;
+      }
+      if (nsecs >= 1e4) {
+        throw new Error("uuid.v1(): Can't create more than 10M uuids/sec");
+      }
+      _lastMSecs = msecs;
+      _lastNSecs = nsecs;
+      _clockseq = clockseq;
+      msecs += 122192928e5;
+      var tl = ((msecs & 268435455) * 1e4 + nsecs) % 4294967296;
+      b[i++] = tl >>> 24 & 255;
+      b[i++] = tl >>> 16 & 255;
+      b[i++] = tl >>> 8 & 255;
+      b[i++] = tl & 255;
+      var tmh = msecs / 4294967296 * 1e4 & 268435455;
+      b[i++] = tmh >>> 8 & 255;
+      b[i++] = tmh & 255;
+      b[i++] = tmh >>> 24 & 15 | 16;
+      b[i++] = tmh >>> 16 & 255;
+      b[i++] = clockseq >>> 8 | 128;
+      b[i++] = clockseq & 255;
+      for (var n = 0; n < 6; ++n) {
+        b[i + n] = node[n];
+      }
+      return buf ? buf : bytesToUuid(b);
+    }
+    module.exports = v1;
+  }
+});
+
+// node_modules/uuid/v4.js
+var require_v4 = __commonJS({
+  "node_modules/uuid/v4.js"(exports, module) {
+    var rng = require_rng_browser();
+    var bytesToUuid = require_bytesToUuid();
+    function v4(options, buf, offset) {
+      var i = buf && offset || 0;
+      if (typeof options == "string") {
+        buf = options === "binary" ? new Array(16) : null;
+        options = null;
+      }
+      options = options || {};
+      var rnds = options.random || (options.rng || rng)();
+      rnds[6] = rnds[6] & 15 | 64;
+      rnds[8] = rnds[8] & 63 | 128;
+      if (buf) {
+        for (var ii = 0; ii < 16; ++ii) {
+          buf[i + ii] = rnds[ii];
+        }
+      }
+      return buf || bytesToUuid(rnds);
+    }
+    module.exports = v4;
+  }
+});
+
+// node_modules/uuid/index.js
+var require_uuid = __commonJS({
+  "node_modules/uuid/index.js"(exports, module) {
+    var v1 = require_v1();
+    var v4 = require_v4();
+    var uuid = v4;
+    uuid.v1 = v1;
+    uuid.v4 = v4;
+    module.exports = uuid;
+  }
+});
+
 // admin/src/tab.tsx
-var import_react9 = __toModule(require_react());
+var import_react10 = __toModule(require_react());
 var import_react_dom = __toModule(require_react_dom());
 var import_react_error_boundary = __toModule(require_react_error_boundary_umd());
 var import_app = __toModule(require_app());
-var import_hooks5 = __toModule(require_hooks());
+var import_hooks6 = __toModule(require_hooks());
 
 // admin/src/components/TabPanel.tsx
 var import_Box = __toModule(require_Box());
@@ -1082,15 +1251,48 @@ var AddNewDevices = ({devices}) => {
 };
 
 // admin/src/pages/ListDevices.tsx
+var import_react8 = __toModule(require_react());
+
+// admin/src/lib/useAPI.ts
 var import_react7 = __toModule(require_react());
+var import_hooks5 = __toModule(require_hooks());
+var import_uuid = __toModule(require_uuid());
+var API = class {
+  constructor(namespace, connection) {
+    this.namespace = namespace;
+    this.connection = connection;
+    this.uuid = (0, import_uuid.v4)();
+  }
+  async listDevices() {
+    const {error, result} = await this.connection.sendTo(this.namespace, "ListDevices");
+    if (error)
+      throw error;
+    return result ?? [];
+  }
+  async createDevice(device) {
+    const {error, result} = await this.connection.sendTo(this.namespace, "addNewDevice", device);
+    if (error)
+      throw error;
+    return result ?? [];
+  }
+};
+function useAPI() {
+  const {namespace} = (0, import_hooks5.useGlobals)();
+  const connection = (0, import_hooks5.useConnection)();
+  const api = import_react7.default.useMemo(() => new API(namespace, connection), [connection, namespace]);
+  return api;
+}
+
+// admin/src/pages/ListDevices.tsx
 var import_iobroker_react2 = __toModule(require_build());
 var ListDevices = (props) => {
   const {alive: adapterRunning, connected: driverReady} = (0, import_iobroker_react2.useAdapter)();
-  const [selectIdValue, setSelectIdValue] = import_react7.default.useState();
+  const [selectIdValue, setSelectIdValue] = import_react8.default.useState();
   const {showSelectId} = (0, import_iobroker_react2.useDialogs)();
-  return /* @__PURE__ */ import_react7.default.createElement("div", {
+  const api = useAPI();
+  return /* @__PURE__ */ import_react8.default.createElement("div", {
     id: "ListDevices"
-  }, /* @__PURE__ */ import_react7.default.createElement(Button_default, {
+  }, /* @__PURE__ */ import_react8.default.createElement(Button_default, {
     onClick: () => {
       {
         console.log("click to open selectID");
@@ -1101,18 +1303,46 @@ var ListDevices = (props) => {
       }
     },
     variant: "outlined"
-  }, "SelectID"), /* @__PURE__ */ import_react7.default.createElement("br", null), /* @__PURE__ */ import_react7.default.createElement("br", null), "SelectIDs: ", JSON.stringify(selectIdValue));
+  }, "SelectID"), /* @__PURE__ */ import_react8.default.createElement("br", null), /* @__PURE__ */ import_react8.default.createElement("br", null), "SelectIDs: ", JSON.stringify(selectIdValue), /* @__PURE__ */ import_react8.default.createElement("br", null), /* @__PURE__ */ import_react8.default.createElement("br", null), /* @__PURE__ */ import_react8.default.createElement(Button_default, {
+    onClick: async () => {
+      {
+        console.log("click to open Add Mock Device");
+        console.log(JSON.stringify(await api.listDevices()));
+        const testDevice = {
+          name: "test",
+          watchStateID: {button_0: "test"},
+          id: "12345",
+          dsConfig: {
+            dSUID: "1234556",
+            primaryGroup: 8,
+            name: "testDevice",
+            modelFeatures: {
+              highlevel: true
+            },
+            displayId: "",
+            model: "ioBroker",
+            modelUID: "UUID",
+            modelVersion: "0.0.1",
+            vendorName: "KYUKA"
+          }
+        };
+        console.log(JSON.stringify(await api.createDevice(testDevice)));
+        console.log(JSON.stringify(await api.listDevices()));
+      }
+    },
+    variant: "outlined"
+  }, "Add Mock Device"));
 };
 
 // admin/src/lib/useDevices.ts
-var import_react8 = __toModule(require_react());
-var DevicesContext = import_react8.default.createContext({
+var import_react9 = __toModule(require_react());
+var DevicesContext = import_react9.default.createContext({
   devices: {},
   async updateDevices() {
   }
 });
 function useDevices() {
-  const [devices, setDevices] = import_react8.default.useState();
+  const [devices, setDevices] = import_react9.default.useState();
   async function updateDevices() {
   }
   return [devices, updateDevices];
@@ -1132,46 +1362,46 @@ var translations = {
   "zh-cn": require_zh_cn()
 };
 function ErrorFallback({error, resetErrorBoundary}) {
-  return /* @__PURE__ */ import_react9.default.createElement("div", {
+  return /* @__PURE__ */ import_react10.default.createElement("div", {
     role: "alert"
-  }, /* @__PURE__ */ import_react9.default.createElement("p", null, "Something went wrong:"), /* @__PURE__ */ import_react9.default.createElement("pre", null, error.stack), /* @__PURE__ */ import_react9.default.createElement("button", {
+  }, /* @__PURE__ */ import_react10.default.createElement("p", null, "Something went wrong:"), /* @__PURE__ */ import_react10.default.createElement("pre", null, error.stack), /* @__PURE__ */ import_react10.default.createElement("button", {
     onClick: resetErrorBoundary
   }, "Try again"));
 }
 var Root = () => {
-  const [value, setValue] = import_react9.default.useState(0);
-  const {translate: _} = (0, import_hooks5.useI18n)();
+  const [value, setValue] = import_react10.default.useState(0);
+  const {translate: _} = (0, import_hooks6.useI18n)();
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
   const [devices, updateDevices] = useDevices();
-  return /* @__PURE__ */ import_react9.default.createElement("div", null, /* @__PURE__ */ import_react9.default.createElement(Tabs_default, {
+  return /* @__PURE__ */ import_react10.default.createElement("div", null, /* @__PURE__ */ import_react10.default.createElement(Tabs_default, {
     value,
     onChange: handleTabChange
-  }, /* @__PURE__ */ import_react9.default.createElement(Tab_default, {
+  }, /* @__PURE__ */ import_react10.default.createElement(Tab_default, {
     label: _("tabListDevices")
-  }), /* @__PURE__ */ import_react9.default.createElement(Tab_default, {
+  }), /* @__PURE__ */ import_react10.default.createElement(Tab_default, {
     label: _("tabAddNewDevices")
-  })), /* @__PURE__ */ import_react9.default.createElement(TabPanel, {
+  })), /* @__PURE__ */ import_react10.default.createElement(TabPanel, {
     value,
     index: 0
-  }, /* @__PURE__ */ import_react9.default.createElement(import_react_error_boundary.ErrorBoundary, {
+  }, /* @__PURE__ */ import_react10.default.createElement(import_react_error_boundary.ErrorBoundary, {
     FallbackComponent: ErrorFallback
-  }, /* @__PURE__ */ import_react9.default.createElement(ListDevices, {
+  }, /* @__PURE__ */ import_react10.default.createElement(ListDevices, {
     devices
-  }))), /* @__PURE__ */ import_react9.default.createElement(TabPanel, {
+  }))), /* @__PURE__ */ import_react10.default.createElement(TabPanel, {
     value,
     index: 1
-  }, /* @__PURE__ */ import_react9.default.createElement(import_react_error_boundary.ErrorBoundary, {
+  }, /* @__PURE__ */ import_react10.default.createElement(import_react_error_boundary.ErrorBoundary, {
     FallbackComponent: ErrorFallback
-  }, /* @__PURE__ */ import_react9.default.createElement(AddNewDevices, {
+  }, /* @__PURE__ */ import_react10.default.createElement(AddNewDevices, {
     devices
   }))));
 };
-import_react_dom.default.render(/* @__PURE__ */ import_react9.default.createElement(import_app.IoBrokerApp, {
+import_react_dom.default.render(/* @__PURE__ */ import_react10.default.createElement(import_app.IoBrokerApp, {
   name: "digitalstrom-vdc",
   translations
-}, /* @__PURE__ */ import_react9.default.createElement(Root, null)), document.getElementById("root"));
+}, /* @__PURE__ */ import_react10.default.createElement(Root, null)), document.getElementById("root"));
 /** @license Material-UI v4.11.2
  *
  * This source code is licensed under the MIT license found in the
