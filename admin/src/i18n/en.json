@@ -14,6 +14,7 @@
   "noDSUIDText": "as long as there is no DSUID configured. The VDC is unable to run. Please generate a DSUID.",
   "tabListDevices": "list configured devices",
   "tabAddNewDevices": "add new device to digitalstrom",
+  "tabExperts": "experts",
   "adapter not ready": "The adapter is currently not running",
   "No devices present": "There are no devices configured. Please add a few!",
   "listDevices-deviceNameTitle": "device name",
@@ -25,5 +26,6 @@
   "remove device?": "remove device?",
   "are you sure you want to remove": "are you sure you want to remove",
   "adapter running": "VDC online",
-  "adapter not running": "VDC offline"
+  "adapter not running": "VDC offline",
+  "restart vdc": "restart VDC"
 }

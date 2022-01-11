@@ -1,6 +1,6 @@
 import React from 'react';
 import { Device, useAPI } from '../lib/useAPI';
-import { useAdapter } from 'iobroker-react';
+import { useAdapter, useDialogs } from 'iobroker-react';
 import { NotRunning } from '../components/Messages';
 import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
@@ -69,6 +69,9 @@ export const AddNewDevices: React.FC = () => {
 	};
 
 	const api = useAPI();
+	// following line is used for selectID which will be deleted from this view
+	const [selectIdValue, setSelectIdValue] = React.useState<string | string[] | undefined>();
+	const { showSelectId } = useDialogs();
 
 	return (
 		<div>
@@ -88,7 +91,8 @@ export const AddNewDevices: React.FC = () => {
 					</Button>
 				</DialogActions>
 			</BootstrapDialog>
-
+			<br />
+			<br />
 			<Button
 				onClick={async () => {
 					{
@@ -120,6 +124,30 @@ export const AddNewDevices: React.FC = () => {
 			>
 				Add Mock Device
 			</Button>
+			<br />
+			<br />
+			<Button
+				onClick={() => {
+					{
+						console.log('click to open selectID');
+						console.log('showSelectId', showSelectId);
+						showSelectId(
+							'test',
+							() => {
+								console.log('onClose');
+							},
+							setSelectIdValue,
+							selectIdValue,
+						);
+					}
+				}}
+				variant="outlined"
+			>
+				SelectID
+			</Button>
+			<br />
+			<br />
+			SelectIDs: {JSON.stringify(selectIdValue)}
 		</div>
 	);
 };

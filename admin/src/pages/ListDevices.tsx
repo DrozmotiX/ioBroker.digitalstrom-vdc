@@ -123,37 +123,9 @@ export const ListDevices: React.FC = () => {
 		// }
 	}, []);
 
-	// following line is used for selectID which will be deleted from this view
-	const [selectIdValue, setSelectIdValue] = React.useState<string | string[] | undefined>();
-	const { showSelectId } = useDialogs();
-
 	if (!devices || devices.length === 0) return <NoDevices />;
 	return (
 		<div id="ListDevices">
-			<Button
-				onClick={() => {
-					{
-						console.log('click to open selectID');
-						console.log('showSelectId', showSelectId);
-						showSelectId(
-							'test',
-							() => {
-								console.log('onClose');
-							},
-							setSelectIdValue,
-							selectIdValue,
-						);
-					}
-				}}
-				variant="outlined"
-			>
-				SelectID
-			</Button>
-			<br />
-			<br />
-			SelectIDs: {JSON.stringify(selectIdValue)}
-			<br />
-			<br />
 			<TableContainer component={Paper} elevation={2}>
 				<Table aria-label="collapsible table">
 					<TableHead>

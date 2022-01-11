@@ -8,8 +8,8 @@ import { IoBrokerApp } from 'iobroker-react/app';
 
 // UI elements are imported from Material-UI
 import { useI18n } from 'iobroker-react/hooks';
-import { Tab, Tabs, Chip } from '@mui/material';
-import { Done, HighlightOff } from '@mui/icons-material';
+import { Tab, Tabs, Chip, ButtonGroup } from '@mui/material';
+import { Done, HighlightOff, RestartAlt } from '@mui/icons-material';
 // Components are imported here
 import { TabPanel } from './components/TabPanel';
 import { AddNewDevices } from './pages/AddNewDevices';
@@ -46,30 +46,42 @@ const connectionState = () => {
 
 	if (!adapterRunning || !driverReady)
 		return (
-			<Chip
+			<ButtonGroup
 				style={{
 					position: 'absolute',
 					right: '30px',
 				}}
-				label={_('adapter not running')}
-				color="warning"
-				deleteIcon={<HighlightOff />}
-				onDelete={() => {}}
-			/>
+				variant="text"
+				aria-label="outlined primary button group"
+			>
+				<Chip label={_('restart vdc')} color="primary" deleteIcon={<RestartAlt />} onDelete={() => {}} />
+				<Chip
+					label={_('adapter not running')}
+					color="warning"
+					deleteIcon={<HighlightOff />}
+					onDelete={() => {}}
+				/>
+			</ButtonGroup>
 		);
 
 	return (
-		<Chip
+		<ButtonGroup
 			style={{
 				position: 'absolute',
 				right: '30px',
 			}}
-			label={_('adapter running')}
-			deleteIcon={<Done />}
-			onDelete={() => {}}
-			color="success"
-			variant="outlined"
-		/>
+			variant="text"
+			aria-label="outlined primary button group"
+		>
+			<Chip label={_('restart vdc')} color="primary" deleteIcon={<RestartAlt />} onDelete={() => {}} />
+			<Chip
+				label={_('adapter running')}
+				deleteIcon={<Done />}
+				onDelete={() => {}}
+				color="success"
+				variant="outlined"
+			/>
+		</ButtonGroup>
 	);
 };
 
@@ -91,6 +103,7 @@ const Root: React.FC = () => {
 			<Tabs value={value} onChange={handleTabChange}>
 				<Tab label={_('tabListDevices')} />
 				<Tab label={_('tabAddNewDevices')} />
+				<Tab label={_('tabExperts')} />
 				{connectionState()}
 			</Tabs>
 
@@ -103,6 +116,9 @@ const Root: React.FC = () => {
 				<ErrorBoundary FallbackComponent={ErrorFallback}>
 					<AddNewDevices />
 				</ErrorBoundary>
+			</TabPanel>
+			<TabPanel value={value} index={2}>
+				<ErrorBoundary FallbackComponent={ErrorFallback}>Experts</ErrorBoundary>
 			</TabPanel>
 		</div>
 	);
