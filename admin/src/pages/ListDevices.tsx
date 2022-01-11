@@ -23,6 +23,7 @@ import Box from '@material-ui/core/Box';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import LightIcon from '@mui/icons-material/Light';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useI18n } from 'iobroker-react/hooks';
 // import { useSelect } from '../hooks/useSelect';
 
@@ -79,7 +80,7 @@ function Row(props: any) {
 						}}
 						variant="outlined"
 					>
-						{_('listDevices-removeButton')}
+						<DeleteOutlineIcon /> {_('listDevices-removeButton')}
 					</Button>
 				</TableCell>
 			</TableRow>
