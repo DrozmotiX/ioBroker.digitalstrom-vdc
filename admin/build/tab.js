@@ -15,16 +15,17 @@ import {
   Tab_default,
   Tabs_default,
   TextField_default,
+  ThemeProvider_default,
   Tooltip_default,
   __commonJS,
   __toModule,
-  material_exports,
   require_Box,
   require_Loader,
   require_MenuItem,
   require_ModalDialog,
   require_OutlinedInput,
   require_Select,
+  require_Theme,
   require_app,
   require_de,
   require_en,
@@ -33,7 +34,6 @@ import {
   require_hooks,
   require_i18n,
   require_it,
-  require_jsx_runtime,
   require_nl,
   require_pl,
   require_pt,
@@ -42,17 +42,15 @@ import {
   require_ru,
   require_styles,
   require_utils,
-  require_utils2,
-  require_zh_cn,
-  styled_default
-} from "./chunk-HBPZ5HBF.js";
+  require_zh_cn
+} from "./chunk-I4AYBCHB.js";
 
 // node_modules/react-error-boundary/dist/react-error-boundary.umd.js
 var require_react_error_boundary_umd = __commonJS({
   "node_modules/react-error-boundary/dist/react-error-boundary.umd.js"(exports, module) {
     (function(global, factory) {
       typeof exports === "object" && typeof module !== "undefined" ? factory(exports, require_react()) : typeof define === "function" && define.amd ? define(["exports", "react"], factory) : (global = typeof globalThis !== "undefined" ? globalThis : global || self, factory(global.ReactErrorBoundary = {}, global.React));
-    })(exports, function(exports2, React15) {
+    })(exports, function(exports2, React14) {
       "use strict";
       function _interopNamespace(e) {
         if (e && e.__esModule)
@@ -74,7 +72,7 @@ var require_react_error_boundary_umd = __commonJS({
         n["default"] = e;
         return Object.freeze(n);
       }
-      var React__namespace = /* @__PURE__ */ _interopNamespace(React15);
+      var React__namespace = /* @__PURE__ */ _interopNamespace(React14);
       function _setPrototypeOf(o, p) {
         _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o2, p2) {
           o2.__proto__ = p2;
@@ -240,7 +238,7 @@ var require_Dropdown = __commonJS({
     var MenuItem_1 = __importDefault(require_MenuItem());
     var OutlinedInput_1 = __importDefault(require_OutlinedInput());
     var Select_1 = __importDefault(require_Select());
-    var React15 = __importStar(require_react());
+    var React14 = __importStar(require_react());
     var Dropdown = (props) => {
       const {options, selectedOption, noOptionsMessage, placeholder} = props, otherProps = __rest(props, ["options", "selectedOption", "noOptionsMessage", "placeholder"]);
       const hasOptions = !!options && options.length;
@@ -248,7 +246,7 @@ var require_Dropdown = __commonJS({
       let value;
       if (options === null || options === void 0 ? void 0 : options.length)
         value = selectedOption;
-      return React15.createElement(Select_1.default, Object.assign({value: value !== null && value !== void 0 ? value : "", displayEmpty: true, input: React15.createElement(OutlinedInput_1.default, {labelWidth: 0}), margin: "dense"}, otherProps), React15.createElement(MenuItem_1.default, {value: "", disabled: true}, placeholder !== null && placeholder !== void 0 ? placeholder : ""), options && options.length && options.map(({value: value2, label}) => React15.createElement(MenuItem_1.default, {key: value2, value: value2}, label)), showNoOptionsMessage && React15.createElement(MenuItem_1.default, {key: "__empty", value: "__empty", disabled: true}, noOptionsMessage));
+      return React14.createElement(Select_1.default, Object.assign({value: value !== null && value !== void 0 ? value : "", displayEmpty: true, input: React14.createElement(OutlinedInput_1.default, {labelWidth: 0}), margin: "dense"}, otherProps), React14.createElement(MenuItem_1.default, {value: "", disabled: true}, placeholder !== null && placeholder !== void 0 ? placeholder : ""), options && options.length && options.map(({value: value2, label}) => React14.createElement(MenuItem_1.default, {key: value2, value: value2}, label)), showNoOptionsMessage && React14.createElement(MenuItem_1.default, {key: "__empty", value: "__empty", disabled: true}, noOptionsMessage));
     };
     exports.Dropdown = Dropdown;
   }
@@ -319,227 +317,12 @@ var require_build = __commonJS({
   }
 });
 
-// node_modules/@mui/icons-material/node_modules/@babel/runtime/helpers/interopRequireDefault.js
-var require_interopRequireDefault = __commonJS({
-  "node_modules/@mui/icons-material/node_modules/@babel/runtime/helpers/interopRequireDefault.js"(exports, module) {
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : {
-        "default": obj
-      };
-    }
-    module.exports = _interopRequireDefault, module.exports.__esModule = true, module.exports["default"] = module.exports;
-  }
-});
-
-// node_modules/@mui/icons-material/utils/createSvgIcon.js
-var require_createSvgIcon = __commonJS({
-  "node_modules/@mui/icons-material/utils/createSvgIcon.js"(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    Object.defineProperty(exports, "default", {
-      enumerable: true,
-      get: function() {
-        return _utils.createSvgIcon;
-      }
-    });
-    var _utils = require_utils2();
-  }
-});
-
-// node_modules/@mui/icons-material/Close.js
-var require_Close = __commonJS({
-  "node_modules/@mui/icons-material/Close.js"(exports) {
-    "use strict";
-    var _interopRequireDefault = require_interopRequireDefault();
-    Object.defineProperty(exports, "__esModule", {
-      value: true
-    });
-    exports.default = void 0;
-    var _createSvgIcon = _interopRequireDefault(require_createSvgIcon());
-    var _jsxRuntime = require_jsx_runtime();
-    var _default = (0, _createSvgIcon.default)(/* @__PURE__ */ (0, _jsxRuntime.jsx)("path", {
-      d: "M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-    }), "Close");
-    exports.default = _default;
-  }
-});
-
-// node_modules/uuid/lib/rng-browser.js
-var require_rng_browser = __commonJS({
-  "node_modules/uuid/lib/rng-browser.js"(exports, module) {
-    var getRandomValues = typeof crypto != "undefined" && crypto.getRandomValues && crypto.getRandomValues.bind(crypto) || typeof msCrypto != "undefined" && typeof window.msCrypto.getRandomValues == "function" && msCrypto.getRandomValues.bind(msCrypto);
-    if (getRandomValues) {
-      rnds8 = new Uint8Array(16);
-      module.exports = function whatwgRNG() {
-        getRandomValues(rnds8);
-        return rnds8;
-      };
-    } else {
-      rnds = new Array(16);
-      module.exports = function mathRNG() {
-        for (var i = 0, r; i < 16; i++) {
-          if ((i & 3) === 0)
-            r = Math.random() * 4294967296;
-          rnds[i] = r >>> ((i & 3) << 3) & 255;
-        }
-        return rnds;
-      };
-    }
-    var rnds8;
-    var rnds;
-  }
-});
-
-// node_modules/uuid/lib/bytesToUuid.js
-var require_bytesToUuid = __commonJS({
-  "node_modules/uuid/lib/bytesToUuid.js"(exports, module) {
-    var byteToHex = [];
-    for (var i = 0; i < 256; ++i) {
-      byteToHex[i] = (i + 256).toString(16).substr(1);
-    }
-    function bytesToUuid(buf, offset) {
-      var i2 = offset || 0;
-      var bth = byteToHex;
-      return [
-        bth[buf[i2++]],
-        bth[buf[i2++]],
-        bth[buf[i2++]],
-        bth[buf[i2++]],
-        "-",
-        bth[buf[i2++]],
-        bth[buf[i2++]],
-        "-",
-        bth[buf[i2++]],
-        bth[buf[i2++]],
-        "-",
-        bth[buf[i2++]],
-        bth[buf[i2++]],
-        "-",
-        bth[buf[i2++]],
-        bth[buf[i2++]],
-        bth[buf[i2++]],
-        bth[buf[i2++]],
-        bth[buf[i2++]],
-        bth[buf[i2++]]
-      ].join("");
-    }
-    module.exports = bytesToUuid;
-  }
-});
-
-// node_modules/uuid/v1.js
-var require_v1 = __commonJS({
-  "node_modules/uuid/v1.js"(exports, module) {
-    var rng = require_rng_browser();
-    var bytesToUuid = require_bytesToUuid();
-    var _nodeId;
-    var _clockseq;
-    var _lastMSecs = 0;
-    var _lastNSecs = 0;
-    function v1(options, buf, offset) {
-      var i = buf && offset || 0;
-      var b = buf || [];
-      options = options || {};
-      var node = options.node || _nodeId;
-      var clockseq = options.clockseq !== void 0 ? options.clockseq : _clockseq;
-      if (node == null || clockseq == null) {
-        var seedBytes = rng();
-        if (node == null) {
-          node = _nodeId = [
-            seedBytes[0] | 1,
-            seedBytes[1],
-            seedBytes[2],
-            seedBytes[3],
-            seedBytes[4],
-            seedBytes[5]
-          ];
-        }
-        if (clockseq == null) {
-          clockseq = _clockseq = (seedBytes[6] << 8 | seedBytes[7]) & 16383;
-        }
-      }
-      var msecs = options.msecs !== void 0 ? options.msecs : new Date().getTime();
-      var nsecs = options.nsecs !== void 0 ? options.nsecs : _lastNSecs + 1;
-      var dt = msecs - _lastMSecs + (nsecs - _lastNSecs) / 1e4;
-      if (dt < 0 && options.clockseq === void 0) {
-        clockseq = clockseq + 1 & 16383;
-      }
-      if ((dt < 0 || msecs > _lastMSecs) && options.nsecs === void 0) {
-        nsecs = 0;
-      }
-      if (nsecs >= 1e4) {
-        throw new Error("uuid.v1(): Can't create more than 10M uuids/sec");
-      }
-      _lastMSecs = msecs;
-      _lastNSecs = nsecs;
-      _clockseq = clockseq;
-      msecs += 122192928e5;
-      var tl = ((msecs & 268435455) * 1e4 + nsecs) % 4294967296;
-      b[i++] = tl >>> 24 & 255;
-      b[i++] = tl >>> 16 & 255;
-      b[i++] = tl >>> 8 & 255;
-      b[i++] = tl & 255;
-      var tmh = msecs / 4294967296 * 1e4 & 268435455;
-      b[i++] = tmh >>> 8 & 255;
-      b[i++] = tmh & 255;
-      b[i++] = tmh >>> 24 & 15 | 16;
-      b[i++] = tmh >>> 16 & 255;
-      b[i++] = clockseq >>> 8 | 128;
-      b[i++] = clockseq & 255;
-      for (var n = 0; n < 6; ++n) {
-        b[i + n] = node[n];
-      }
-      return buf ? buf : bytesToUuid(b);
-    }
-    module.exports = v1;
-  }
-});
-
-// node_modules/uuid/v4.js
-var require_v4 = __commonJS({
-  "node_modules/uuid/v4.js"(exports, module) {
-    var rng = require_rng_browser();
-    var bytesToUuid = require_bytesToUuid();
-    function v4(options, buf, offset) {
-      var i = buf && offset || 0;
-      if (typeof options == "string") {
-        buf = options === "binary" ? new Array(16) : null;
-        options = null;
-      }
-      options = options || {};
-      var rnds = options.random || (options.rng || rng)();
-      rnds[6] = rnds[6] & 15 | 64;
-      rnds[8] = rnds[8] & 63 | 128;
-      if (buf) {
-        for (var ii = 0; ii < 16; ++ii) {
-          buf[i + ii] = rnds[ii];
-        }
-      }
-      return buf || bytesToUuid(rnds);
-    }
-    module.exports = v4;
-  }
-});
-
-// node_modules/uuid/index.js
-var require_uuid = __commonJS({
-  "node_modules/uuid/index.js"(exports, module) {
-    var v1 = require_v1();
-    var v4 = require_v4();
-    var uuid = v4;
-    uuid.v1 = v1;
-    uuid.v4 = v4;
-    module.exports = uuid;
-  }
-});
-
 // admin/src/tab.tsx
-var import_react10 = __toModule(require_react());
+var import_react9 = __toModule(require_react());
 var import_react_dom = __toModule(require_react_dom());
 var import_react_error_boundary = __toModule(require_react_error_boundary_umd());
 var import_app = __toModule(require_app());
+var import_Theme = __toModule(require_Theme());
 var import_hooks6 = __toModule(require_hooks());
 
 // admin/src/components/TabPanel.tsx
@@ -578,6 +361,7 @@ var import_react2 = __toModule(require_react());
 var import_hooks = __toModule(require_hooks());
 var Message = ({children, severity}) => {
   return /* @__PURE__ */ import_react2.default.createElement(Alert_default, {
+    variant: "filled",
     sx: {marginTop: 1},
     severity
   }, children);
@@ -588,9 +372,12 @@ var NotRunning = () => {
     severity: "error"
   }, _("adapter not ready"));
 };
-
-// admin/src/pages/AddNewDevices.tsx
-var import_Close = __toModule(require_Close());
+var NoDevices = () => {
+  const {translate: _} = (0, import_hooks.useI18n)();
+  return /* @__PURE__ */ import_react2.default.createElement(Message, {
+    severity: "info"
+  }, _("No devices present"));
+};
 
 // admin/src/lib/Config.ts
 var InitialConfig = {
@@ -1196,34 +983,24 @@ var SelectDeviceType = () => {
 };
 
 // admin/src/pages/AddNewDevices.tsx
+var import_hooks5 = __toModule(require_hooks());
 var AddNewDevices = ({devices}) => {
   const [open, setOpen] = import_react6.default.useState(false);
   const {alive: adapterRunning, connected: driverReady} = (0, import_iobroker_react.useAdapter)();
+  const [themeName] = (0, import_hooks5.useIoBrokerTheme)();
   if (!adapterRunning || !driverReady)
     return /* @__PURE__ */ import_react6.default.createElement(NotRunning, null);
-  const BootstrapDialog = styled_default(Dialog_default)(({theme}) => ({
-    "& .MuiDialogContent-root": {
-      padding: theme.spacing(2)
-    },
-    "& .MuiDialogActions-root": {
-      padding: theme.spacing(1)
+  const Color = () => {
+    switch (themeName) {
+      case "dark":
+        return {titel: "#3b3b3b66"};
+      case "blue":
+        return {titel: "#3e464a61"};
+      case "light":
+        return {titel: "#b7b7b7"};
+      case "colored":
+        return {titel: "#b7b7b7"};
     }
-  }));
-  const BootstrapDialogTitle = (props) => {
-    const {children, onClose, ...other} = props;
-    return /* @__PURE__ */ import_react6.default.createElement(DialogTitle_default, {
-      sx: {m: 0, p: 2},
-      ...other
-    }, children, onClose ? /* @__PURE__ */ import_react6.default.createElement(IconButton_default, {
-      "aria-label": "close",
-      onClick: onClose,
-      sx: {
-        position: "absolute",
-        right: 8,
-        top: 8,
-        color: (theme) => theme.palette.grey[500]
-      }
-    }, /* @__PURE__ */ import_react6.default.createElement(import_Close.default, null)) : null);
   };
   const handleClickOpen = () => {
     setOpen(true);
@@ -1235,120 +1012,56 @@ var AddNewDevices = ({devices}) => {
   return /* @__PURE__ */ import_react6.default.createElement("div", null, /* @__PURE__ */ import_react6.default.createElement(Button_default, {
     variant: "outlined",
     onClick: handleClickOpen
-  }, "Add new Device"), /* @__PURE__ */ import_react6.default.createElement(BootstrapDialog, {
-    onClose: handleClose,
-    "aria-labelledby": "customized-dialog-title",
-    open
-  }, /* @__PURE__ */ import_react6.default.createElement(BootstrapDialogTitle, {
-    id: "customized-dialog-title",
+  }, "Add new Device"), /* @__PURE__ */ import_react6.default.createElement(Dialog_default, {
+    open,
     onClose: handleClose
+  }, /* @__PURE__ */ import_react6.default.createElement(DialogTitle_default, {
+    sx: {
+      bgcolor: Color().titel,
+      textAlignLast: "center",
+      fontSize: "1.4rem"
+    }
   }, "Add Device"), /* @__PURE__ */ import_react6.default.createElement(DialogContent_default, {
     dividers: true
   }, /* @__PURE__ */ import_react6.default.createElement(SelectDeviceType, null)), /* @__PURE__ */ import_react6.default.createElement(DialogActions_default, null, /* @__PURE__ */ import_react6.default.createElement(Button_default, {
     autoFocus: true,
     onClick: handleClose
-  }, "Save changes"))));
+  }, "Save changes"), /* @__PURE__ */ import_react6.default.createElement(Button_default, {
+    autoFocus: true,
+    onClick: handleClose
+  }, "Close"))));
 };
 
 // admin/src/pages/ListDevices.tsx
-var import_react8 = __toModule(require_react());
-
-// admin/src/lib/useAPI.ts
 var import_react7 = __toModule(require_react());
-var import_hooks5 = __toModule(require_hooks());
-var import_uuid = __toModule(require_uuid());
-var API = class {
-  constructor(namespace, connection) {
-    this.namespace = namespace;
-    this.connection = connection;
-    this.uuid = (0, import_uuid.v4)();
-  }
-  async listDevices() {
-    const {error, result} = await this.connection.sendTo(this.namespace, "ListDevices");
-    if (error)
-      throw error;
-    return result ?? [];
-  }
-  async createDevice(device) {
-    const {error, result} = await this.connection.sendTo(this.namespace, "addNewDevice", device);
-    if (error)
-      throw error;
-    return result ?? [];
-  }
-};
-function useAPI() {
-  const {namespace} = (0, import_hooks5.useGlobals)();
-  const connection = (0, import_hooks5.useConnection)();
-  const api = import_react7.default.useMemo(() => new API(namespace, connection), [connection, namespace]);
-  return api;
-}
-
-// admin/src/pages/ListDevices.tsx
 var import_iobroker_react2 = __toModule(require_build());
 var ListDevices = (props) => {
   const {alive: adapterRunning, connected: driverReady} = (0, import_iobroker_react2.useAdapter)();
-  const [selectIdValue, setSelectIdValue] = import_react8.default.useState();
-  const {showSelectId} = (0, import_iobroker_react2.useDialogs)();
-  const api = useAPI();
-  return /* @__PURE__ */ import_react8.default.createElement("div", {
+  if (!adapterRunning || !driverReady)
+    return /* @__PURE__ */ import_react7.default.createElement(NotRunning, null);
+  if (!props.devices)
+    return /* @__PURE__ */ import_react7.default.createElement(NoDevices, null);
+  return /* @__PURE__ */ import_react7.default.createElement("div", {
     id: "ListDevices"
-  }, /* @__PURE__ */ import_react8.default.createElement(Button_default, {
-    onClick: () => {
-      {
-        console.log("click to open selectID");
-        console.log("showSelectId", showSelectId);
-        showSelectId("test", () => {
-          console.log("onClose");
-        }, setSelectIdValue, selectIdValue);
-      }
-    },
-    variant: "outlined"
-  }, "SelectID"), /* @__PURE__ */ import_react8.default.createElement("br", null), /* @__PURE__ */ import_react8.default.createElement("br", null), "SelectIDs: ", JSON.stringify(selectIdValue), /* @__PURE__ */ import_react8.default.createElement("br", null), /* @__PURE__ */ import_react8.default.createElement("br", null), /* @__PURE__ */ import_react8.default.createElement(Button_default, {
-    onClick: async () => {
-      {
-        console.log("click to open Add Mock Device");
-        console.log(JSON.stringify(await api.listDevices()));
-        const testDevice = {
-          name: "test",
-          watchStateID: {button_0: "test"},
-          id: "12345",
-          dsConfig: {
-            dSUID: "1234556",
-            primaryGroup: 8,
-            name: "testDevice",
-            modelFeatures: {
-              highlevel: true
-            },
-            displayId: "",
-            model: "ioBroker",
-            modelUID: "UUID",
-            modelVersion: "0.0.1",
-            vendorName: "KYUKA"
-          }
-        };
-        console.log(JSON.stringify(await api.createDevice(testDevice)));
-        console.log(JSON.stringify(await api.listDevices()));
-      }
-    },
-    variant: "outlined"
-  }, "Add Mock Device"));
+  }, "ListDevices");
 };
 
 // admin/src/lib/useDevices.ts
-var import_react9 = __toModule(require_react());
-var DevicesContext = import_react9.default.createContext({
+var import_react8 = __toModule(require_react());
+var DevicesContext = import_react8.default.createContext({
   devices: {},
   async updateDevices() {
   }
 });
 function useDevices() {
-  const [devices, setDevices] = import_react9.default.useState();
+  const [devices, setDevices] = import_react8.default.useState();
   async function updateDevices() {
   }
   return [devices, updateDevices];
 }
 
 // admin/src/tab.tsx
+var import_hooks7 = __toModule(require_hooks());
 var translations = {
   en: require_en(),
   de: require_de(),
@@ -1362,46 +1075,49 @@ var translations = {
   "zh-cn": require_zh_cn()
 };
 function ErrorFallback({error, resetErrorBoundary}) {
-  return /* @__PURE__ */ import_react10.default.createElement("div", {
+  return /* @__PURE__ */ import_react9.default.createElement("div", {
     role: "alert"
-  }, /* @__PURE__ */ import_react10.default.createElement("p", null, "Something went wrong:"), /* @__PURE__ */ import_react10.default.createElement("pre", null, error.stack), /* @__PURE__ */ import_react10.default.createElement("button", {
+  }, /* @__PURE__ */ import_react9.default.createElement("p", null, "Something went wrong:"), /* @__PURE__ */ import_react9.default.createElement("pre", null, error.stack), /* @__PURE__ */ import_react9.default.createElement("button", {
     onClick: resetErrorBoundary
   }, "Try again"));
 }
 var Root = () => {
-  const [value, setValue] = import_react10.default.useState(0);
+  const [value, setValue] = import_react9.default.useState(0);
   const {translate: _} = (0, import_hooks6.useI18n)();
+  const [themeName] = (0, import_hooks7.useIoBrokerTheme)();
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
   const [devices, updateDevices] = useDevices();
-  return /* @__PURE__ */ import_react10.default.createElement("div", null, /* @__PURE__ */ import_react10.default.createElement(Tabs_default, {
+  return /* @__PURE__ */ import_react9.default.createElement(import_react9.default.Fragment, null, /* @__PURE__ */ import_react9.default.createElement(ThemeProvider_default, {
+    theme: (0, import_Theme.default)(themeName)
+  }, /* @__PURE__ */ import_react9.default.createElement(Tabs_default, {
     value,
     onChange: handleTabChange
-  }, /* @__PURE__ */ import_react10.default.createElement(Tab_default, {
+  }, /* @__PURE__ */ import_react9.default.createElement(Tab_default, {
     label: _("tabListDevices")
-  }), /* @__PURE__ */ import_react10.default.createElement(Tab_default, {
+  }), /* @__PURE__ */ import_react9.default.createElement(Tab_default, {
     label: _("tabAddNewDevices")
-  })), /* @__PURE__ */ import_react10.default.createElement(TabPanel, {
+  })), /* @__PURE__ */ import_react9.default.createElement(TabPanel, {
     value,
     index: 0
-  }, /* @__PURE__ */ import_react10.default.createElement(import_react_error_boundary.ErrorBoundary, {
+  }, /* @__PURE__ */ import_react9.default.createElement(import_react_error_boundary.ErrorBoundary, {
     FallbackComponent: ErrorFallback
-  }, /* @__PURE__ */ import_react10.default.createElement(ListDevices, {
+  }, /* @__PURE__ */ import_react9.default.createElement(ListDevices, {
     devices
-  }))), /* @__PURE__ */ import_react10.default.createElement(TabPanel, {
+  }))), /* @__PURE__ */ import_react9.default.createElement(TabPanel, {
     value,
     index: 1
-  }, /* @__PURE__ */ import_react10.default.createElement(import_react_error_boundary.ErrorBoundary, {
+  }, /* @__PURE__ */ import_react9.default.createElement(import_react_error_boundary.ErrorBoundary, {
     FallbackComponent: ErrorFallback
-  }, /* @__PURE__ */ import_react10.default.createElement(AddNewDevices, {
+  }, /* @__PURE__ */ import_react9.default.createElement(AddNewDevices, {
     devices
-  }))));
+  })))));
 };
-import_react_dom.default.render(/* @__PURE__ */ import_react10.default.createElement(import_app.IoBrokerApp, {
+import_react_dom.default.render(/* @__PURE__ */ import_react9.default.createElement(import_app.IoBrokerApp, {
   name: "digitalstrom-vdc",
   translations
-}, /* @__PURE__ */ import_react10.default.createElement(Root, null)), document.getElementById("root"));
+}, /* @__PURE__ */ import_react9.default.createElement(Root, null)), document.getElementById("root"));
 /** @license Material-UI v4.11.2
  *
  * This source code is licensed under the MIT license found in the
