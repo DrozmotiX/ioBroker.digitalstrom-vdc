@@ -5,17 +5,16 @@ import type { Translations } from 'iobroker-react/i18n';
 // import from @iobroker/adapter-react
 import { ErrorBoundary } from 'react-error-boundary';
 import { IoBrokerApp } from 'iobroker-react/app';
-import { ThemeProvider } from '@mui/material/styles';
-import theme from '@iobroker/adapter-react/Theme';
+
 // UI elements are imported from Material-UI
 import { useI18n } from 'iobroker-react/hooks';
-import { Tab, Tabs } from '@mui/material';
+import { Tab, Tabs, Chip } from '@mui/material';
+import { Done, HighlightOff } from '@mui/icons-material';
 // Components are imported here
 import { TabPanel } from './components/TabPanel';
 import { AddNewDevices } from './pages/AddNewDevices';
 import { ListDevices } from './pages/ListDevices';
-import { useDevices } from './lib/useDevices';
-import { useIoBrokerTheme } from 'iobroker-react/hooks';
+import { useAdapter } from 'iobroker-react';
 
 // Load your translations
 const translations: Translations = {
@@ -41,11 +40,43 @@ function ErrorFallback({ error, resetErrorBoundary }: any) {
 	);
 }
 
-// eslint-disable-next-line react/display-name
+const connectionState = () => {
+	const { alive: adapterRunning, connected: driverReady } = useAdapter();
+	const { translate: _ } = useI18n();
+
+	if (!adapterRunning || !driverReady)
+		return (
+			<Chip
+				style={{
+					position: 'absolute',
+					right: '30px',
+				}}
+				label={_('adapter not running')}
+				color="warning"
+				deleteIcon={<HighlightOff />}
+				onDelete={() => {}}
+			/>
+		);
+
+	return (
+		<Chip
+			style={{
+				position: 'absolute',
+				right: '30px',
+			}}
+			label={_('adapter running')}
+			deleteIcon={<Done />}
+			onDelete={() => {}}
+			color="success"
+			variant="outlined"
+		/>
+	);
+};
+
 const Root: React.FC = () => {
+	// const [themeName, setTheme] = useIoBrokerTheme();
 	const [value, setValue] = React.useState(0);
 	const { translate: _ } = useI18n();
-	const [themeName] = useIoBrokerTheme();
 
 	const handleTabChange = (
 		// eslint-disable-next-line @typescript-eslint/ban-types
@@ -55,28 +86,25 @@ const Root: React.FC = () => {
 		setValue(newValue);
 	};
 
-	const [devices, updateDevices] = useDevices();
-
 	return (
-		<React.Fragment>
-			<ThemeProvider theme={theme(themeName)}>
-				<Tabs value={value} onChange={handleTabChange}>
-					<Tab label={_('tabListDevices')} />
-					<Tab label={_('tabAddNewDevices')} />
-				</Tabs>
+		<div>
+			<Tabs value={value} onChange={handleTabChange}>
+				<Tab label={_('tabListDevices')} />
+				<Tab label={_('tabAddNewDevices')} />
+				{connectionState()}
+			</Tabs>
 
-				<TabPanel value={value} index={0}>
-					<ErrorBoundary FallbackComponent={ErrorFallback}>
-						<ListDevices devices={devices} />
-					</ErrorBoundary>
-				</TabPanel>
-				<TabPanel value={value} index={1}>
-					<ErrorBoundary FallbackComponent={ErrorFallback}>
-						<AddNewDevices devices={devices} />
-					</ErrorBoundary>
-				</TabPanel>
-			</ThemeProvider>
-		</React.Fragment>
+			<TabPanel value={value} index={0}>
+				<ErrorBoundary FallbackComponent={ErrorFallback}>
+					<ListDevices />
+				</ErrorBoundary>
+			</TabPanel>
+			<TabPanel value={value} index={1}>
+				<ErrorBoundary FallbackComponent={ErrorFallback}>
+					<AddNewDevices />
+				</ErrorBoundary>
+			</TabPanel>
+		</div>
 	);
 };
 

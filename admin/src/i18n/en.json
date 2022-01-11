@@ -15,6 +15,15 @@
   "tabListDevices": "list configured devices",
   "tabAddNewDevices": "add new device to digitalstrom",
   "adapter not ready": "The adapter is currently not running",
-  "No devices present": "There are no devices configured. Please add a few!"
-
+  "No devices present": "There are no devices configured. Please add a few!",
+  "listDevices-deviceNameTitle": "device name",
+  "listDevices-CreationDateTitle": "creation date",
+  "listDevices-dSUIDTitle": "digitalstrom unique-id",
+  "listDevices-removeTitle": "remove",
+  "listDevices-removeButton": "remove device",
+  "listDevices-watchStateHeader": "Digitalstrom details",
+  "remove device?": "remove device?",
+  "are you sure you want to remove": "are you sure you want to remove",
+  "adapter running": "VDC online",
+  "adapter not running": "VDC offline"
 }

@@ -32,8 +32,10 @@ class DigitalstromVdc extends utils.Adapter {
 		// Initialize your adapter here
 
 		// Reset the connection indicator during startup
-		this.setState('info.connection', true, true);
+		this.setState('info.connection', false, true);
 		this.allDevices = await this.refreshDeviceList();
+		this.log.debug(`allDevices - ${JSON.stringify(this.allDevices)}`);
+		this.setState('info.connection', true, true);
 		/*setTimeout(() => {
 			this.setState('info.connection', true, true);
 		}, 1 * 1000);*/
@@ -95,7 +97,7 @@ class DigitalstromVdc extends utils.Adapter {
 			/** A copy of the object from the DB */
 			value: ioBroker.Object | null;
 		}
-		return await this.getObjectViewAsync('digitalstrom-vdc', 'listDevices', {
+		return await this.getObjectViewAsync('digitalstrom-vdc', 'listDevicesFullObj', {
 			startkey: 'digitalstrom-vdc.' + this.instance + '.',
 			endkey: 'digitalstrom-vdc.' + this.instance + '.\u9999',
 		}).then((doc: { rows: GetObjectViewItem[] }) => {
@@ -105,8 +107,12 @@ class DigitalstromVdc extends utils.Adapter {
 					const id = doc.rows[i].id;
 					const obj: any = doc.rows[i].value;
 					if (obj && Object.keys(obj).length > 0) {
-						this.log.debug('Found ' + id + ': ' + JSON.stringify(obj));
-						if (obj.deviceObj.dsConfig) {
+						if (
+							obj.deviceObj &&
+							typeof obj.deviceObj == 'object' &&
+							Object.keys(obj.deviceObj).length > 0
+						) {
+							this.log.debug('Found ' + id + ': ' + JSON.stringify(obj.deviceObj));
 							aD.push(obj.deviceObj);
 						}
 					}
@@ -176,7 +182,19 @@ class DigitalstromVdc extends utils.Adapter {
 					this.log.info(`sendVanishDevice command receveid for device ${obj.message}`);
 				}
 				case 'ListDevices': {
+					this.allDevices = await this.refreshDeviceList();
+					this.log.debug(`allDevices sendToListDevices - ${JSON.stringify(this.allDevices)}`);
 					return respond(responses.RESULT(this.allDevices));
+				}
+				case 'RemoveDevice': {
+					this.log.debug(`Remove device for ${JSON.stringify(obj.message)} received`);
+					const deviceObj = obj.message as any;
+					this.log.debug(`removing ${deviceObj._id}`);
+					await this.delObject(deviceObj._id as string);
+					this.log.debug(`Device ${JSON.stringify(obj.message)} successfully removed`);
+					// if (deviceObj.dSUID) this.vdc.sendVanish(deviceObj.dSUID as string);
+					this.allDevices = await this.refreshDeviceList();
+					return respond(responses.OK);
 				}
 			}
 			// 		if (obj.command === 'send') {

@@ -84,6 +84,9 @@
         "listDevices": {
           "map": "function(doc) {\n  if (doc._id.match(/^digitalstrom-vdc.[0-9]+.DS-Devices.configuredDevices.*$/)) {\n   emit(doc._id, {deviceObj:(doc.native?doc.native.deviceObj:{})});\n  }\n}"
         },
+        "listDevicesFullObj": {
+          "map": "function(doc) {\n  if (doc._id.match(/^digitalstrom-vdc.[0-9]+.DS-Devices.configuredDevices.*$/)) {\n   emit(doc._id, {deviceObj:(doc.native?doc:{})});\n  }\n}"
+        },
         "paramsetDescription": {
           "map": "function(doc) {\n  if (doc._id.match(/^digitalstrom-vdc\\.meta/) && doc.meta.type === 'paramsetDescription') {\n   emit(doc._id, doc);\n  }\n}"
         }

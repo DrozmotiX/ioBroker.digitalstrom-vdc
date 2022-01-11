@@ -24,7 +24,8 @@
 		"url": "https://github.com/kyuka-dom/ioBroker.digitalstrom-vdc"
 	},
 	"dependencies": {
-		"@iobroker/adapter-core": "^2.5.1"
+		"@iobroker/adapter-core": "^2.5.1",
+		"moment": "^2.29.1"
 	},
 	"devDependencies": {
 		"@alcalzone/release-script": "^3.4.2",

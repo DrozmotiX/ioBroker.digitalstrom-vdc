@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Device, useAPI } from '../lib/useAPI';
 import { NotRunning, NoDevices } from '../components/Messages';
 import { useAdapter, useDialogs } from 'iobroker-react';
+import moment from 'moment';
 
 import {
 	Button,
+	Chip,
 	Collapse,
 	Paper,
 	Table,
@@ -20,15 +22,29 @@ import IconButton from '@mui/material/IconButton';
 import Box from '@material-ui/core/Box';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import LightIcon from '@mui/icons-material/Light';
+import { useI18n } from 'iobroker-react/hooks';
 // import { useSelect } from '../hooks/useSelect';
 
 export interface DevicesProps {
 	devices: Record<number, Device> | undefined;
 }
 
-function Row(props) {
+function Row(props: any) {
 	const { row } = props;
+	const { showModal } = useDialogs();
+	const api = useAPI();
+	const [devices, setDevices] = React.useState<string[]>([]);
 	const [open, setOpen] = React.useState(false);
+	const { translate: _ } = useI18n();
+
+	console.log('ROW', row);
+
+	const removeDevice = async (row) => {
+		await api.removeDevice(row);
+		const devs = await api.listDevices();
+		setDevices(devs);
+	};
 
 	return (
 		<React.Fragment>
@@ -39,44 +55,44 @@ function Row(props) {
 					</IconButton>
 				</TableCell>
 				<TableCell component="th" scope="row">
-					{row.name}
+					<Chip icon={<LightIcon />} label={row.common.name} variant="outlined" />
 				</TableCell>
-				<TableCell align="right">{row.calories}</TableCell>
-				<TableCell align="right">{row.fat}</TableCell>
-				<TableCell align="right">{row.carbs}</TableCell>
-				<TableCell align="right">{row.protein}</TableCell>
+				<TableCell align="right">{moment(row.ts).format('DD.MM.YYYY')}</TableCell>
+				<TableCell align="right">{row.native.deviceObj.dsConfig.dSUID}</TableCell>
+				<TableCell align="right">
+					<Button
+						onClick={async () => {
+							{
+								console.log('click to remove', row);
+								const result = await showModal(
+									_('remove device?'),
+									`${_('are you sure you want to remove')} «${row.common.name}»?`,
+								);
+								if (!result) return;
+								useEffect(() => {
+									if (!devices || devices.length === 0) {
+										console.log('refreshing devices');
+										removeDevice(row);
+									}
+								}, []);
+							}
+						}}
+						variant="outlined"
+					>
+						{_('listDevices-removeButton')}
+					</Button>
+				</TableCell>
 			</TableRow>
 			<TableRow>
 				<TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
 					<Collapse in={open} timeout="auto" unmountOnExit>
 						<Box sx={{ margin: 1 }}>
 							<Typography variant="h6" gutterBottom component="div">
-								History
+								{_('listDevices-watchStateHeader')}
 							</Typography>
-							<Table size="small" aria-label="purchases">
-								<TableHead>
-									<TableRow>
-										<TableCell>Date</TableCell>
-										<TableCell>Customer</TableCell>
-										<TableCell align="right">Amount</TableCell>
-										<TableCell align="right">Total price ($)</TableCell>
-									</TableRow>
-								</TableHead>
-								<TableBody>
-									{row.history.map((historyRow) => (
-										<TableRow key={historyRow.date}>
-											<TableCell component="th" scope="row">
-												{historyRow.date}
-											</TableCell>
-											<TableCell>{historyRow.customerId}</TableCell>
-											<TableCell align="right">{historyRow.amount}</TableCell>
-											<TableCell align="right">
-												{Math.round(historyRow.amount * row.price * 100) / 100}
-											</TableCell>
-										</TableRow>
-									))}
-								</TableBody>
-							</Table>
+							<pre>
+								<code>{JSON.stringify(row.native.deviceObj.dsConfig, null, 2)}</code>
+							</pre>
 						</Box>
 					</Collapse>
 				</TableCell>
@@ -85,17 +101,32 @@ function Row(props) {
 	);
 }
 
-export const ListDevices: React.FC<DevicesProps> = async (props) => {
-	const { alive: adapterRunning, connected: driverReady } = useAdapter();
+export const ListDevices: React.FC = () => {
+	// init
+	const [devices, setDevices] = React.useState<string[]>([]);
+	const api = useAPI();
+	const { translate: _ } = useI18n();
+
+	// functions
+	const refreshDevices = async () => {
+		const devices = await api.listDevices();
+		console.log('effectHook', devices);
+		setDevices(devices);
+	};
+
+	// load device array
+	useEffect(() => {
+		// if (!devices || devices.length === 0) {
+		console.log('refreshing devices');
+		refreshDevices();
+		// }
+	}, []);
+
+	// following line is used for selectID which will be deleted from this view
 	const [selectIdValue, setSelectIdValue] = React.useState<string | string[] | undefined>();
 	const { showSelectId } = useDialogs();
 
-	const api = useAPI();
-
-	const devices = await api.listDevices();
-
-	// if (!adapterRunning || !driverReady) return <NotRunning />;
-	if (!props.devices) return <NoDevices />;
+	if (!devices || devices.length === 0) return <NoDevices />;
 	return (
 		<div id="ListDevices">
 			<Button
@@ -122,52 +153,28 @@ export const ListDevices: React.FC<DevicesProps> = async (props) => {
 			SelectIDs: {JSON.stringify(selectIdValue)}
 			<br />
 			<br />
-			<Button
-				onClick={async () => {
-					{
-						console.log('click to open Add Mock Device');
-						console.log(JSON.stringify(await api.listDevices()));
-						const testDevice: dsDevice = {
-							name: 'test',
-							watchStateID: { button_0: 'test' },
-							id: '12345',
-							dsConfig: {
-								dSUID: '1234556',
-								primaryGroup: 8,
-								name: 'testDevice',
-								modelFeatures: {
-									highlevel: true,
-								},
-								displayId: '',
-								model: 'ioBroker',
-								modelUID: 'UUID',
-								modelVersion: '0.0.1',
-								vendorName: 'KYUKA',
-							},
-						};
-						console.log(JSON.stringify(await api.createDevice(testDevice)));
-						console.log(JSON.stringify(await api.listDevices()));
-					}
-				}}
-				variant="outlined"
-			>
-				Add Mock Device
-			</Button>
-			<TableContainer component={Paper}>
+			<TableContainer component={Paper} elevation={2}>
 				<Table aria-label="collapsible table">
 					<TableHead>
 						<TableRow>
 							<TableCell />
-							<TableCell>Dessert (100g serving)</TableCell>
-							<TableCell align="right">Calories</TableCell>
-							<TableCell align="right">Fat&nbsp;(g)</TableCell>
-							<TableCell align="right">Carbs&nbsp;(g)</TableCell>
-							<TableCell align="right">Protein&nbsp;(g)</TableCell>
+							<TableCell>
+								<p style={{ textTransform: 'uppercase' }}>{_('listDevices-deviceNameTitle')}</p>
+							</TableCell>
+							<TableCell align="right">
+								<p style={{ textTransform: 'uppercase' }}>{_('listDevices-CreationDateTitle')}</p>
+							</TableCell>
+							<TableCell align="right">
+								<p style={{ textTransform: 'uppercase' }}>{_('listDevices-dSUIDTitle')}</p>
+							</TableCell>
+							<TableCell align="right">
+								<p style={{ textTransform: 'uppercase' }}>{_('listDevices-removeTitle')}</p>
+							</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{devices.map((row) => (
-							<Row key={row.name} row={row} />
+						{devices.map((row: any) => (
+							<Row key={row.common.name} row={row} />
 						))}
 					</TableBody>
 				</Table>

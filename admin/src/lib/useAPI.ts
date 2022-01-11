@@ -28,7 +28,8 @@ export class API {
 	private readonly uuid: string;
 	// add API calls here
 	public async listDevices(): Promise<string[]> {
-		const { error, result } = await this.connection.sendTo<SendToResult<string[]>>(this.namespace, 'ListDevices');
+		const { error, result } = await this.connection.sendTo(this.namespace, 'ListDevices');
+		console.log('LISTDEVICEAPI', result);
 		if (error) throw error;
 		return result ?? [];
 	}
@@ -42,6 +43,16 @@ export class API {
 		if (error) throw error;
 		return result ?? [];
 	}
+
+	public async removeDevice(deviceObj: any): Promise<string[]> {
+		const { error, result } = await this.connection.sendTo<SendToResult<string[]>>(
+			this.namespace,
+			'RemoveDevice',
+			deviceObj,
+		);
+		if (error) throw error;
+		return result ?? [];
+	}
 }
 
 /** Hook to communicate with the adapter via sendTo calls */
@@ -50,6 +61,7 @@ export function useAPI(): API {
 	const connection = useConnection();
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	// @ts-ignore
-	const api = React.useMemo(() => new API(namespace, connection), [connection, namespace]);
+	// const api = React.useMemo(() => new API(namespace, connection), [connection, namespace]);
+	const api = new API(namespace, connection);
 	return api;
 }
