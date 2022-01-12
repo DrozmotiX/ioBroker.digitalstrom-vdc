@@ -23,6 +23,7 @@ jobs:
     steps:
       - uses: ioBroker/testing-action-check@v1
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           node-version: '14.x'
           # Uncomment the following line if your adapter cannot be installed using 'npm ci'
           # install-command: 'npm install'
@@ -75,7 +76,7 @@ jobs:
           # Enter this token as a GitHub secret (with name SENTRY_AUTH_TOKEN) in the repository options
           # Then uncomment and customize the following block:
           sentry-token: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          sentry-project: "iobroker-template_react"
+          sentry-project: "iobroker-digitalstrom-vdc"
           sentry-version-prefix: "iobroker.template_react"
           sentry-sourcemap-paths: "build/ admin/build/"
           # If your sentry project is linked to a GitHub repository, you can enable the following option
