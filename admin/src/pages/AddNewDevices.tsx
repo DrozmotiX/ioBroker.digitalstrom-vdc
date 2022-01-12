@@ -26,10 +26,8 @@ export interface DialogTitleProps {
 
 export const AddNewDevices: React.FC = () => {
 	const [open, setOpen] = React.useState(false);
-	const { alive: adapterRunning, connected: driverReady } = useAdapter();
 	const [themeName] = useIoBrokerTheme();
 
-	if (!adapterRunning || !driverReady) return <NotRunning />;
 	/*
 	const Color = (): { titel: string } => {
 		switch (themeName) {
@@ -65,6 +63,10 @@ export const AddNewDevices: React.FC = () => {
 			<SelectDeviceType />
 			<br />
 			<br />
+			<hr />
+			<h3>
+				This is not part of the UI. More or less a store of buttons to allow the rest of the UI to be tested
+			</h3>
 			<Button
 				onClick={async () => {
 					{
