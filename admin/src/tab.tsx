@@ -8,14 +8,16 @@ import { IoBrokerApp } from 'iobroker-react/app';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '@iobroker/adapter-react/Theme';
 // UI elements are imported from Material-UI
-import { useI18n } from 'iobroker-react/hooks';
-import { Tab, Tabs } from '@mui/material';
+import { useI18n, useIoBrokerTheme } from 'iobroker-react/hooks';
+import { Tab, Tabs, Chip, ButtonGroup } from '@mui/material';
+import { Done, HighlightOff, RestartAlt } from '@mui/icons-material';
+
 // Components are imported here
 import { TabPanel } from './components/TabPanel';
 import { AddNewDevices } from './pages/AddNewDevices';
 import { ListDevices } from './pages/ListDevices';
-import { useDevices } from './lib/useDevices';
-import { useIoBrokerTheme } from 'iobroker-react/hooks';
+
+import { useAdapter } from 'iobroker-react';
 
 // Load your translations
 const translations: Translations = {
@@ -41,7 +43,51 @@ function ErrorFallback({ error, resetErrorBoundary }: any) {
 	);
 }
 
-// eslint-disable-next-line react/display-name
+const connectionState = () => {
+	const { alive: adapterRunning, connected: driverReady } = useAdapter();
+	const { translate: _ } = useI18n();
+
+	if (!adapterRunning || !driverReady)
+		return (
+			<ButtonGroup
+				style={{
+					position: 'absolute',
+					right: '30px',
+				}}
+				variant="text"
+				aria-label="outlined primary button group"
+			>
+				<Chip label={_('restart vdc')} color="primary" deleteIcon={<RestartAlt />} onDelete={() => {}} />
+				<Chip
+					label={_('adapter not running')}
+					color="warning"
+					deleteIcon={<HighlightOff />}
+					onDelete={() => {}}
+				/>
+			</ButtonGroup>
+		);
+
+	return (
+		<ButtonGroup
+			style={{
+				position: 'absolute',
+				right: '30px',
+			}}
+			variant="text"
+			aria-label="outlined primary button group"
+		>
+			<Chip label={_('restart vdc')} color="primary" deleteIcon={<RestartAlt />} onDelete={() => {}} />
+			<Chip
+				label={_('adapter running')}
+				deleteIcon={<Done />}
+				onDelete={() => {}}
+				color="success"
+				variant="outlined"
+			/>
+		</ButtonGroup>
+	);
+};
+
 const Root: React.FC = () => {
 	const [value, setValue] = React.useState(0);
 	const { translate: _ } = useI18n();
@@ -55,25 +101,28 @@ const Root: React.FC = () => {
 		setValue(newValue);
 	};
 
-	const [devices] = useDevices();
-
 	return (
 		<React.Fragment>
 			<ThemeProvider theme={theme(themeName)}>
 				<Tabs value={value} onChange={handleTabChange}>
 					<Tab label={_('tabListDevices')} />
 					<Tab label={_('tabAddNewDevices')} />
+					<Tab label={_('tabExperts')} />
+					{connectionState()}
 				</Tabs>
 
 				<TabPanel value={value} index={0}>
 					<ErrorBoundary FallbackComponent={ErrorFallback}>
-						<ListDevices devices={devices} />
+						<ListDevices />
 					</ErrorBoundary>
 				</TabPanel>
 				<TabPanel value={value} index={1}>
 					<ErrorBoundary FallbackComponent={ErrorFallback}>
-						<AddNewDevices devices={devices} />
+						<AddNewDevices />
 					</ErrorBoundary>
+				</TabPanel>
+				<TabPanel value={value} index={2}>
+					<ErrorBoundary FallbackComponent={ErrorFallback}>Experts</ErrorBoundary>
 				</TabPanel>
 			</ThemeProvider>
 		</React.Fragment>
