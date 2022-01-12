@@ -1,4 +1,4 @@
-import { Box, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
+import { Box, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { useI18n } from 'iobroker-react/hooks';
 import React, { useState } from 'react';
 import { Config } from '../lib/Config';
@@ -7,6 +7,10 @@ import DefineConfigURL from './DefineConfigURL';
 import DefineName from './DefineName';
 import DefineResolution from './DefineResolution';
 import { SelectLightOptions } from './LightOptions';
+import { Button } from '@mui/material';
+import { useAPI } from '../lib/useAPI';
+import { dsDevice } from '../types/dsDevice';
+import OnOffSelectID from './Select ID/OnOffSelectID';
 
 //const deviceTypeOptions: { value: string; title: string }[] = [
 const deviceTypeOptions = [
@@ -61,7 +65,13 @@ export const SelectDeviceType = (): JSX.Element => {
 		console.log(Config);
 
 		sethandleDeviceType(event.target.value);
+		console.log(event.target.value);
+		Config.deviceType = event.target.value;
 	};
+
+	/* 	const [selectIdValue, setSelectIdValue] = React.useState<string | string[] | undefined>(); */
+	/* const { showSelectId } = useDialogs(); */
+	const api = useAPI();
 
 	/* const TextField = (event: object) => void */
 
@@ -147,7 +157,38 @@ export const SelectDeviceType = (): JSX.Element => {
 							flexDirection: 'row',
 						}}
 					>
-						<TextField id="outlined-basic" label="Select ID Placeholder" variant="outlined" />
+						<OnOffSelectID />
+						<Button
+							onClick={async () => {
+								{
+									console.log('click to open Add Mock Device');
+									console.log(JSON.stringify(await api.listDevices()));
+									const testDevice: dsDevice = {
+										name: Config.name,
+										watchStateID: { button_0: 'test' },
+										id: '1234567',
+										dsConfig: {
+											dSUID: '123455678',
+											primaryGroup: 1,
+											name: Config.name,
+											modelFeatures: {
+												highlevel: true,
+											},
+											displayId: '',
+											model: 'ioBroker',
+											modelUID: 'UUID',
+											modelVersion: '0.0.1',
+											vendorName: 'KOS',
+										},
+									};
+									console.log(JSON.stringify(await api.createDevice(testDevice)));
+									console.log(JSON.stringify(await api.listDevices()));
+								}
+							}}
+							variant="outlined"
+						>
+							Add New Device
+						</Button>
 					</Grid>
 				</React.Fragment>
 			) : null}
@@ -167,12 +208,25 @@ export const SelectDeviceType = (): JSX.Element => {
 						}}
 					>
 						<React.Fragment>
-							<SelectLightOptions />
-							<SelectColorClassOptions />
-
 							<DefineName />
 							<DefineConfigURL />
 						</React.Fragment>
+					</Grid>
+					<Grid
+						container
+						spacing={1}
+						sx={{
+							marginTop: '10px',
+							paddingBottom: '15px',
+							alignItems: 'center',
+							justifyContent: 'space-around',
+							display: 'flex',
+							flexWrap: 'wrap',
+							flexDirection: 'row',
+						}}
+					>
+						<SelectLightOptions />
+						<SelectColorClassOptions />
 					</Grid>
 					<Grid
 						container

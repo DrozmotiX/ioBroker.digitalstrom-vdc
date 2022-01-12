@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Config } from '../lib/Config';
 
 export default function DefineConfigURL() {
-	const [name, setName] = React.useState('http://localhost:8081');
+	const [name, setName] = React.useState('');
 	const handleChange = (event) => {
 		setName(event.target.value);
 		console.log(event.target.value);
@@ -20,7 +20,7 @@ export default function DefineConfigURL() {
 			noValidate
 			autoComplete="off"
 		>
-			<TextField id="outlined-name" label="ConfigURL" value={name} onChange={handleChange} />
+			<TextField id="outlined-name" label="http://localhost:8081" value={name} onChange={handleChange} />
 		</Box>
 	);
 }

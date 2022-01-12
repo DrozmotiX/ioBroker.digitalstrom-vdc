@@ -1,18 +1,16 @@
 import React from 'react';
 import { Device, useAPI } from '../lib/useAPI';
-import { useAdapter, useDialogs } from 'iobroker-react';
+import { useAdapter } from 'iobroker-react';
 import { NotRunning } from '../components/Messages';
-import CloseIcon from '@mui/icons-material/Close';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import IconButton from '@mui/material/IconButton';
-import { styled } from '@mui/material/styles';
 import { clearConfig } from '../lib/Config';
 import { SelectDeviceType } from '../options/DeviceTypeOptions';
-import { dsDevice } from '../types/dsDevice';
+import { useIoBrokerTheme } from 'iobroker-react/hooks';
+import Box from '@mui/material/Box';
 
 export interface DevicesProps {
 	devices: Record<number, Device> | undefined;
@@ -24,40 +22,24 @@ export interface DialogTitleProps {
 	onClose: () => void;
 }
 
-export const AddNewDevices: React.FC = () => {
+export const AddNewDevices: React.FC<DevicesProps> = ({ devices }) => {
 	const [open, setOpen] = React.useState(false);
+	const { alive: adapterRunning, connected: driverReady } = useAdapter();
+	const [themeName] = useIoBrokerTheme();
 
-	const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-		'& .MuiDialogContent-root': {
-			padding: theme.spacing(2),
-		},
-		'& .MuiDialogActions-root': {
-			padding: theme.spacing(1),
-		},
-	}));
-
-	const BootstrapDialogTitle = (props: DialogTitleProps) => {
-		const { children, onClose, ...other } = props;
-
-		return (
-			<DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-				{children}
-				{onClose ? (
-					<IconButton
-						aria-label="close"
-						onClick={onClose}
-						sx={{
-							position: 'absolute',
-							right: 8,
-							top: 8,
-							color: (theme) => theme.palette.grey[500],
-						}}
-					>
-						<CloseIcon />
-					</IconButton>
-				) : null}
-			</DialogTitle>
-		);
+	if (!adapterRunning || !driverReady) return <NotRunning />;
+	/* 
+	const Color = (): { titel: string } => {
+		switch (themeName) {
+			case 'dark':
+				return { titel: '#3b3b3b66' };
+			case 'blue':
+				return { titel: '#3e464a61' };
+			case 'light':
+				return { titel: '#b7b7b7' };
+			case 'colored':
+				return { titel: '#b7b7b7' };
+		}
 	};
 
 	const handleClickOpen = () => {
@@ -67,21 +49,23 @@ export const AddNewDevices: React.FC = () => {
 		setOpen(false);
 		clearConfig();
 	};
-
-	const api = useAPI();
-	// following line is used for selectID which will be deleted from this view
-	const [selectIdValue, setSelectIdValue] = React.useState<string | string[] | undefined>();
-	const { showSelectId } = useDialogs();
-
+ */
 	return (
 		<div>
-			<Button variant="outlined" onClick={handleClickOpen}>
+			<SelectDeviceType />
+			{/* <Button variant="outlined" onClick={handleClickOpen}>
 				Add new Device
 			</Button>
-			<BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
-				<BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+			<Dialog open={open} onClose={handleClose}>
+				<DialogTitle
+					sx={{
+						bgcolor: Color().titel,
+						textAlignLast: 'center',
+						fontSize: '1.4rem',
+					}}
+				>
 					Add Device
-				</BootstrapDialogTitle>
+				</DialogTitle>
 				<DialogContent dividers>
 					<SelectDeviceType />
 				</DialogContent>
@@ -89,65 +73,11 @@ export const AddNewDevices: React.FC = () => {
 					<Button autoFocus onClick={handleClose}>
 						Save changes
 					</Button>
+					<Button autoFocus onClick={handleClose}>
+						Close
+					</Button>
 				</DialogActions>
-			</BootstrapDialog>
-			<br />
-			<br />
-			<Button
-				onClick={async () => {
-					{
-						console.log('click to open Add Mock Device');
-						console.log(JSON.stringify(await api.listDevices()));
-						const testDevice: dsDevice = {
-							name: 'test',
-							watchStateID: { button_0: 'test' },
-							id: '12345',
-							dsConfig: {
-								dSUID: '1234556',
-								primaryGroup: 8,
-								name: 'testDevice',
-								modelFeatures: {
-									highlevel: true,
-								},
-								displayId: '',
-								model: 'ioBroker',
-								modelUID: 'UUID',
-								modelVersion: '0.0.1',
-								vendorName: 'KYUKA',
-							},
-						};
-						console.log(JSON.stringify(await api.createDevice(testDevice)));
-						console.log(JSON.stringify(await api.listDevices()));
-					}
-				}}
-				variant="outlined"
-			>
-				Add Mock Device
-			</Button>
-			<br />
-			<br />
-			<Button
-				onClick={() => {
-					{
-						console.log('click to open selectID');
-						console.log('showSelectId', showSelectId);
-						showSelectId(
-							'test',
-							() => {
-								console.log('onClose');
-							},
-							setSelectIdValue,
-							selectIdValue,
-						);
-					}
-				}}
-				variant="outlined"
-			>
-				SelectID
-			</Button>
-			<br />
-			<br />
-			SelectIDs: {JSON.stringify(selectIdValue)}
+			</Dialog> */}
 		</div>
 	);
 };

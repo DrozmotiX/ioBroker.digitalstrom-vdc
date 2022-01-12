@@ -1,4 +1,20 @@
 {
-  "template_react adapter settings": "Adaptereinstellungen für Digitalstrom VDC"
-
+	"template_react adapter settings": "Adaptereinstellungen für Digitalstrom VDC",
+	"pageTitle": "Digitalstrom VDC - Configuration Page",
+	"vdcName": "VDC name",
+	"vdcNameTooltip": "the name of the VDC within digitalstrom",
+	"vdcConfigURL": "ioBroker URL",
+	"vdcConfigURLTooltip": "Rightclick within digitalstrom and click on 'configuration interface' will open this URL",
+	"vdcPort": "VDC Port",
+	"vdcPortTooltip": "listener port for incoming connection from digitalstrom",
+	"vdcDSUIDTooltip": "UniqueID for the VDC",
+	"vdcDSUID": "dSUID",
+	"generateVDCDSUID": "generate new dSUID",
+	"noDSUIDTitle": "VDC unable to run",
+	"noDSUIDText": "as long as there is no DSUID configured. The VDC is unable to run. Please generate a DSUID.",
+	"tabListDevices": "list configured devices",
+	"tabAddNewDevices": "add new device to digitalstrom",
+	"adapter not ready": "The adapter is currently not running",
+	"No devices present": "There are no devices configured. Please add a few!",
+	"defineName": "Name vergeben"
 }

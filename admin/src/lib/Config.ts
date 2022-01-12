@@ -4,7 +4,7 @@ interface Config {
 	name: string;
 	deviceType: string;
 	color: number;
-	watchStateID: string;
+	watchStateID: any;
 	addDeviceDeviceType: string;
 	basicButton: string;
 	DeviceSensorColorClass: string;
@@ -32,13 +32,21 @@ interface Config {
 	sensorList: string;
 	unitValue: string;
 	sensorMultiplier: string;
+	OnOffSelectID: any;
+	ColorModeSelectID: any;
+	DimmerSelectID: any;
+	HueSelectID: any;
+	SaturationSelectID: any;
+	RGBSelectID: any;
+	SensorSelectID: any;
+	ButtonSelectID: any;
 }
 
 export const InitialConfig = {
 	deviceConfig: {
 		light: false,
 		addDeviceDeviceType: '',
-		configUrl: '',
+		configUrl: 'http://localhost:8081',
 		name: '',
 		deviceType: '',
 		color: 0,
@@ -69,6 +77,14 @@ export const InitialConfig = {
 		sensorList: '',
 		unitValue: '',
 		sensorMultiplier: '',
+		OnOffSelectID: '',
+		ColorModeSelectID: '',
+		DimmerSelectID: '',
+		HueSelectID: '',
+		SaturationSelectID: '',
+		RGBSelectID: '',
+		SensorSelectID: '',
+		ButtonSelectID: '',
 	},
 };
 
@@ -106,7 +122,53 @@ export let Config: Config = {
 	sensorList: '',
 	unitValue: '',
 	sensorMultiplier: '',
+	OnOffSelectID: '',
+	ColorModeSelectID: '',
+	DimmerSelectID: '',
+	HueSelectID: '',
+	SaturationSelectID: '',
+	RGBSelectID: '',
+	SensorSelectID: '',
+	ButtonSelectID: '',
 };
+
+/* lamp: {
+	light: false,
+	configUrl: '',
+	name: '',
+	deviceType: '',
+	color: 0,
+	watchStateID: '',
+	addDeviceDeviceType: '',
+	basicButton: '',
+	DeviceSensorColorClass: '',
+	deviceSensorResolution: '',
+	DeviceSensorState: '',
+	DeviceSensorType: '',
+	DeviceSensorUsage: '',
+	DeviceSensorMax: '',
+	DeviceSensorMin: '',
+	DeviceSensorSIUnit: '',
+	DeviceSensorSymbol: '',
+ 	onfirmMsg: boolean;
+	showCreateConfirmation: '',
+	manualDeviceId: '',
+	showSelectId: '',
+	selectIdValue: '',
+	basicDoorbell: '',
+	DeviceRGBLampPowerSwitch: '',
+	DeviceRGBLampColormode: '',
+	DeviceRGBLampDimmer: '',
+	DeviceRGBLampColortemp: '',
+	DeviceRGBLampHue: '',
+	DeviceRGBLampSaturation: '',
+	DeviceRGBLampRGB: '',
+	sensorList: '',
+	unitValue: '',
+	sensorMultiplier: '',
+	OnOffSelectID: '',
+	ColorModeSelectID: '',
+	} */
 
 export const clearConfig = (): void => {
 	Config = InitialConfig.deviceConfig;

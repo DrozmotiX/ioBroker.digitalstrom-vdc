@@ -2,9 +2,13 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import * as React from 'react';
 import { Config } from '../lib/Config';
+import { useI18n } from 'iobroker-react/hooks';
+
+/* const { translate: _ } = useI18n(); */
 
 export default function DefineName() {
-	const [name, setName] = React.useState('VDC DeviceName');
+	const [name, setName] = React.useState('');
+	const { translate: _ } = useI18n();
 	const handleChange = (event) => {
 		setName(event.target.value);
 		console.log(event.target.value);
@@ -20,7 +24,7 @@ export default function DefineName() {
 			noValidate
 			autoComplete="off"
 		>
-			<TextField id="outlined-name" label="Name" value={name} onChange={handleChange} />
+			<TextField id="outlined-name" label={_('defineName')} value={name} onChange={handleChange} />
 		</Box>
 	);
 }
