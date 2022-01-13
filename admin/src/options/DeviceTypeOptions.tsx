@@ -11,6 +11,12 @@ import { Button } from '@mui/material';
 import { useAPI } from '../lib/useAPI';
 import { dsDevice } from '../types/dsDevice';
 import OnOffSelectID from './Select ID/OnOffSelectID';
+import RGBSelectID from './Select ID/RGBSelectID';
+import HueSelectID from './Select ID/HueSelectID';
+import SaturationSelectID from './Select ID/SaturationSelectID';
+import ColorModeSelectID from './Select ID/ColorModeSelectID';
+import DimmerSelectID from './Select ID/DimmerSelectID';
+import ColorTempSelectID from './Select ID/ColorTempSelectID';
 
 //const deviceTypeOptions: { value: string; title: string }[] = [
 const deviceTypeOptions = [
@@ -101,7 +107,7 @@ export const SelectDeviceType = (): JSX.Element => {
 						marginTop: '10px',
 						paddingBottom: '15px',
 						alignItems: 'center',
-						justifyContent: 'space-around',
+						justifyContent: 'center',
 						display: 'flex',
 						flexWrap: 'wrap',
 						flexDirection: 'row',
@@ -133,7 +139,7 @@ export const SelectDeviceType = (): JSX.Element => {
 							marginTop: '10px',
 							paddingBottom: '15px',
 							alignItems: 'center',
-							justifyContent: 'space-around',
+							justifyContent: 'center',
 							display: 'flex',
 							flexWrap: 'wrap',
 							flexDirection: 'row',
@@ -151,13 +157,27 @@ export const SelectDeviceType = (): JSX.Element => {
 							marginTop: '10px',
 							paddingBottom: '15px',
 							alignItems: 'center',
-							justifyContent: 'space-around',
+							justifyContent: 'center',
 							display: 'flex',
 							flexWrap: 'wrap',
 							flexDirection: 'row',
 						}}
 					>
 						<OnOffSelectID />
+					</Grid>
+					<Grid
+						container
+						spacing={1}
+						sx={{
+							marginTop: '10px',
+							paddingBottom: '15px',
+							alignItems: 'center',
+							justifyContent: 'center',
+							display: 'flex',
+							flexWrap: 'wrap',
+							flexDirection: 'row',
+						}}
+					>
 						<Button
 							onClick={async () => {
 								{
@@ -192,6 +212,7 @@ export const SelectDeviceType = (): JSX.Element => {
 					</Grid>
 				</React.Fragment>
 			) : null}
+
 			{devicetype === 'deviceTypeOptionsRGBLamp' ? (
 				<React.Fragment>
 					<Grid
@@ -201,7 +222,7 @@ export const SelectDeviceType = (): JSX.Element => {
 							marginTop: '10px',
 							paddingBottom: '15px',
 							alignItems: 'center',
-							justifyContent: 'space-around',
+							justifyContent: 'center',
 							display: 'flex',
 							flexWrap: 'wrap',
 							flexDirection: 'row',
@@ -219,14 +240,14 @@ export const SelectDeviceType = (): JSX.Element => {
 							marginTop: '10px',
 							paddingBottom: '15px',
 							alignItems: 'center',
-							justifyContent: 'space-around',
+							justifyContent: 'center',
 							display: 'flex',
 							flexWrap: 'wrap',
 							flexDirection: 'row',
 						}}
 					>
-						<SelectLightOptions />
-						<SelectColorClassOptions />
+						<OnOffSelectID />
+						<DimmerSelectID />
 					</Grid>
 					<Grid
 						container
@@ -235,15 +256,76 @@ export const SelectDeviceType = (): JSX.Element => {
 							marginTop: '10px',
 							paddingBottom: '15px',
 							alignItems: 'center',
-							justifyContent: 'space-around',
+							justifyContent: 'center',
 							display: 'flex',
 							flexWrap: 'wrap',
 							flexDirection: 'row',
 						}}
 					>
-						<SelectLightOptions />
-						{/* <SelectColorClaasOptions onChange={(value) => (Config.color = value)} /> */}
-						<SelectColorClassOptions />
+						<ColorModeSelectID />
+						<ColorTempSelectID />
+					</Grid>
+					<Grid
+						container
+						spacing={1}
+						sx={{
+							marginTop: '10px',
+							paddingBottom: '15px',
+							alignItems: 'center',
+							justifyContent: 'center',
+							display: 'flex',
+							flexWrap: 'wrap',
+							flexDirection: 'row',
+						}}
+					>
+						<HueSelectID />
+						<SaturationSelectID />
+						<RGBSelectID />
+					</Grid>
+					<Grid
+						container
+						spacing={1}
+						sx={{
+							marginTop: '10px',
+							paddingBottom: '15px',
+							alignItems: 'center',
+							justifyContent: 'center',
+							display: 'flex',
+							flexWrap: 'wrap',
+							flexDirection: 'row',
+						}}
+					>
+						<Button
+							onClick={async () => {
+								{
+									console.log('click to open Add Mock Device');
+									console.log(JSON.stringify(await api.listDevices()));
+									const testDevice: dsDevice = {
+										name: Config.name,
+										watchStateID: { button_0: 'test' },
+										id: '1234567',
+										dsConfig: {
+											dSUID: '123455678',
+											primaryGroup: 1,
+											name: Config.name,
+											modelFeatures: {
+												highlevel: true,
+											},
+											displayId: '',
+											model: 'ioBroker',
+											modelUID: 'UUID',
+											modelVersion: '0.0.1',
+											vendorName: 'KOS',
+										},
+									};
+									console.log(JSON.stringify(await api.createDevice(testDevice)));
+									console.log(JSON.stringify(await api.listDevices()));
+								}
+							}}
+							variant="outlined"
+						>
+							Add New Device
+						</Button>
 					</Grid>
 				</React.Fragment>
 			) : null}

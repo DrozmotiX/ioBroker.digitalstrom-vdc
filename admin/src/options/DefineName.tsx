@@ -4,8 +4,6 @@ import * as React from 'react';
 import { Config } from '../lib/Config';
 import { useI18n } from 'iobroker-react/hooks';
 
-/* const { translate: _ } = useI18n(); */
-
 export default function DefineName() {
 	const [name, setName] = React.useState('');
 	const { translate: _ } = useI18n();

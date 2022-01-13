@@ -34,6 +34,7 @@ interface Config {
 	sensorMultiplier: string;
 	OnOffSelectID: any;
 	ColorModeSelectID: any;
+	ColorTempSelectID: any;
 	DimmerSelectID: any;
 	HueSelectID: any;
 	SaturationSelectID: any;
@@ -79,6 +80,7 @@ export const InitialConfig = {
 		sensorMultiplier: '',
 		OnOffSelectID: '',
 		ColorModeSelectID: '',
+		ColorTempSelectID: '',
 		DimmerSelectID: '',
 		HueSelectID: '',
 		SaturationSelectID: '',
@@ -124,6 +126,7 @@ export let Config: Config = {
 	sensorMultiplier: '',
 	OnOffSelectID: '',
 	ColorModeSelectID: '',
+	ColorTempSelectID: '',
 	DimmerSelectID: '',
 	HueSelectID: '',
 	SaturationSelectID: '',
