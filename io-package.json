@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "digitalstrom-vdc",
-    "version": "0.0.1",
+    "version": "0.2.0",
     "news": {
       "0.0.1": {
         "en": "initial release",
@@ -14,6 +14,15 @@
         "es": "Versión inicial",
         "pl": "Pierwsze wydanie",
         "zh-cn": "首次出版"
+            },
+            "0.0.2": {
+                "en": "work in progress"
+            },
+            "0.1.0": {
+                "en": "work in progress"
+            },
+            "0.1.1": {
+                "en": "work in progress"
       }
     },
     "title": "Digitalstrom VDC",
@@ -38,8 +47,8 @@
     "main": "build/main.js",
     "icon": "digitalstrom-vdc.png",
     "enabled": true,
-    "extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.template_react/main/admin/template_react.png",
-    "readme": "https://github.com/xXBJXx/ioBroker.template_react/blob/main/README.md",
+    "extIcon": "https://raw.githubusercontent.com/DrozmotiX/ioBroker.digitalstrom-vdc/main/admin/digitalstrom-vdc.png",
+    "readme": "https://github.com/DrozmotiX/ioBroker.digitalstrom-vdc/blob/main/README.md",
     "loglevel": "info",
     "mode": "daemon",
     "type": "iot-systems",
@@ -74,7 +83,10 @@
     "vdcDSUID": "",
     "vdcDebug": false,
     "vdcPort": 40000,
-    "vdcConfigURL": ""
+        "vdcConfigURL": "",
+        "vdcRunning": false,
+        "lastDeviceUpdate": "",
+        "dsDevices": []
   },
   "objects": [
     {

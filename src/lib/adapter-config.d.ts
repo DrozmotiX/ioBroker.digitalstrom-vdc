@@ -7,8 +7,10 @@ declare global {
 			vdcName: string;
 			vdcPort: number;
 			vdcDebug: boolean;
+			dsDevices: Array<any>;
 			vdcDSUID: string;
 			vdcConfigURL: string;
+            vdcRunning: boolean;
 		}
 	}
 }
