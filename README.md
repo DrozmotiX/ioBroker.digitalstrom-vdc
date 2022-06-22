@@ -16,7 +16,6 @@ Diese können unteranderem zb. Temperatursensoren, Fenster/Türkontakte und Lamp
 So kann fast jedes beliebige Gerät aus IoBroker in Digitalstrom erzeugt werden.
 
 ![Datapoints](admin/Iobroker_ Datapoints.png)
-
 Adding ioBroker datapoints / devices directly into digitalstrom.
 
 ## Changelog
