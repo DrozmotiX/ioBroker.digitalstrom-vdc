@@ -11,6 +11,10 @@
 **Tests:** ![Test and Release](https://github.com/xXBJXx/ioBroker.template_react/workflows/Test%20and%20Release/badge.svg)
 
 ## Digitalstrom VDC adapter for ioBroker
+Mit dem VDC Adpater für Digitalstrom werden im Digitalstrom Ökosystem virtuelle Devices erstellt.
+Diese können unteranderem zb. Temperatursensoren, Fenster/Türkontakte und Lampen sein.
+So kann fast jedes beliebige Gerät aus IoBroker in Digitalstrom erzeugt werden.
+
 
 Adding ioBroker datapoints / devices directly into digitalstrom.
 
