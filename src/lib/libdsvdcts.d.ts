@@ -1,1 +1,1 @@
-declare module "libdsvdcts";
+declare module 'libdsvdcts';

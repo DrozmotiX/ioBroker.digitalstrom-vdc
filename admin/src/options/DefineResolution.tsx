@@ -7,28 +7,28 @@ import * as React from 'react';
 import { Config } from '../lib/Config';
 
 export default function DefineResolution() {
-	const [name, setName] = React.useState('');
-	const handleChange = (event) => {
-		setName(event.target.value);
-		console.log(event.target.value);
-		Config.deviceSensorResolution = event.target.value;
-	};
+    const [name, setName] = React.useState('');
+    const handleChange = (event) => {
+        setName(event.target.value);
+        console.log(event.target.value);
+        Config.deviceSensorResolution = event.target.value;
+    };
 
-	return (
-		<Box
-			component="form"
-			sx={{
-				'& > :not(style)': { m: 1, width: '25ch' },
-			}}
-			noValidate
-			autoComplete="off"
-		>
-			<TextField id="outlined-name" label="Resolution" value={name} onChange={handleChange} />
-			<Tooltip title="tooltipResolution">
-				<IconButton>
-					<Info />
-				</IconButton>
-			</Tooltip>
-		</Box>
-	);
+    return (
+        <Box
+            component="form"
+            sx={{
+                '& > :not(style)': { m: 1, width: '25ch' },
+            }}
+            noValidate
+            autoComplete="off"
+        >
+            <TextField id="outlined-name" label="Resolution" value={name} onChange={handleChange} />
+            <Tooltip title="tooltipResolution">
+                <IconButton>
+                    <Info />
+                </IconButton>
+            </Tooltip>
+        </Box>
+    );
 }

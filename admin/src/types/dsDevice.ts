@@ -1,48 +1,48 @@
 export type dsDevice = {
-	name: string;
-	watchStateID: watchStateID;
-	id: string;
-	dsConfig: dsConfig;
+    name: string;
+    watchStateID: watchStateID;
+    id: string;
+    dsConfig: dsConfig;
 };
 
 export type watchStateID = {
-	[key: string]: string;
+    [key: string]: string;
 };
 
 export type dsConfig = {
-	dSUID: string;
-	primaryGroup: colorGroup;
-	name: string;
-	configURL?: string;
-	modelFeatures: {
-		highlevel?: boolean;
-		jokerconfig?: boolean;
-		pushbadvanced?: boolean;
-		pushbarea?: boolean;
-		pushbutton?: boolean;
-		akmsensor?: boolean;
-		blink?: boolean;
-		dontcare?: boolean;
-		identification?: boolean;
-		outmode?: boolean;
-		outputchannels?: boolean;
-		outvalue8?: boolean;
-		transt?: boolean;
-	};
-	displayId: string;
-	model: 'ioBroker';
-	modelUID: string;
-	modelVersion: '0.0.1';
-	vendorName: 'KOS' | 'KYUKA';
-	channelDescriptions?: [channelDescription];
-	outputDescription?: [outputDescription];
-	outputSettings?: [outputSetting];
-	sensorDescriptions?: [sensorDescription];
-	sensorSettings?: [sensorSetting];
-	binaryInputDescriptions?: [binaryInputDescription];
-	binaryInputSettings?: [binaryInputSetting];
-	buttonInputDescriptions?: [buttonInputDescription];
-	buttonInputSettings?: [buttonInputSetting];
+    dSUID: string;
+    primaryGroup: colorGroup;
+    name: string;
+    configURL?: string;
+    modelFeatures: {
+        highlevel?: boolean;
+        jokerconfig?: boolean;
+        pushbadvanced?: boolean;
+        pushbarea?: boolean;
+        pushbutton?: boolean;
+        akmsensor?: boolean;
+        blink?: boolean;
+        dontcare?: boolean;
+        identification?: boolean;
+        outmode?: boolean;
+        outputchannels?: boolean;
+        outvalue8?: boolean;
+        transt?: boolean;
+    };
+    displayId: string;
+    model: 'ioBroker';
+    modelUID: string;
+    modelVersion: '0.0.1';
+    vendorName: 'KOS' | 'KYUKA';
+    channelDescriptions?: [channelDescription];
+    outputDescription?: [outputDescription];
+    outputSettings?: [outputSetting];
+    sensorDescriptions?: [sensorDescription];
+    sensorSettings?: [sensorSetting];
+    binaryInputDescriptions?: [binaryInputDescription];
+    binaryInputSettings?: [binaryInputSetting];
+    buttonInputDescriptions?: [buttonInputDescription];
+    buttonInputSettings?: [buttonInputSetting];
 };
 
 /**
@@ -82,13 +82,13 @@ export type dsConfig = {
  * 9..12 : button1..4 up
  */
 export type buttonInputSetting = {
-	objName: string;
-	group: colorGroup;
-	function: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15;
-	mode: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 255;
-	channel: number;
-	setsLocalPriority: boolean;
-	callsPresent: boolean;
+    objName: string;
+    group: colorGroup;
+    function: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15;
+    mode: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 255;
+    channel: number;
+    setsLocalPriority: boolean;
+    callsPresent: boolean;
 };
 /**
  * buttonType
@@ -111,14 +111,14 @@ export type buttonInputSetting = {
  * 8: lower right
  */
 export type buttonInputDescription = {
-	objName: string;
-	type: 'buttonInput';
-	dsIndex: number;
-	supportsLocalKeyMode: boolean;
-	buttonID?: number;
-	combinables?: boolean;
-	buttonType: 0 | 1 | 2 | 3 | 4 | 5 | 6;
-	buttonElementID: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+    objName: string;
+    type: 'buttonInput';
+    dsIndex: number;
+    supportsLocalKeyMode: boolean;
+    buttonID?: number;
+    combinables?: boolean;
+    buttonType: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+    buttonElementID: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 };
 
 /**
@@ -159,67 +159,67 @@ export type buttonInputDescription = {
  * 23 Service: Connected device requires maintenance. Normal operation still possible.
  */
 export type binaryInputDescription = {
-	objName: string;
-	dsIndex: number;
-	inputType: 0 | 1;
-	inputUsage: 0 | 1 | 2 | 3;
-	sensorFunction:
-		| 0
-		| 1
-		| 2
-		| 3
-		| 4
-		| 5
-		| 6
-		| 7
-		| 8
-		| 9
-		| 10
-		| 11
-		| 12
-		| 13
-		| 14
-		| 15
-		| 16
-		| 17
-		| 18
-		| 19
-		| 20
-		| 21
-		| 22
-		| 23;
-	updateInterval: number;
-	type: 'binaryInput';
+    objName: string;
+    dsIndex: number;
+    inputType: 0 | 1;
+    inputUsage: 0 | 1 | 2 | 3;
+    sensorFunction:
+        | 0
+        | 1
+        | 2
+        | 3
+        | 4
+        | 5
+        | 6
+        | 7
+        | 8
+        | 9
+        | 10
+        | 11
+        | 12
+        | 13
+        | 14
+        | 15
+        | 16
+        | 17
+        | 18
+        | 19
+        | 20
+        | 21
+        | 22
+        | 23;
+    updateInterval: number;
+    type: 'binaryInput';
 };
 
 export type binaryInputSetting = {
-	group: colorGroup;
-	sensorFunction:
-		| 0
-		| 1
-		| 2
-		| 3
-		| 4
-		| 5
-		| 6
-		| 7
-		| 8
-		| 9
-		| 10
-		| 11
-		| 12
-		| 13
-		| 14
-		| 15
-		| 16
-		| 17
-		| 18
-		| 19
-		| 20
-		| 21
-		| 22
-		| 23;
-	objName: string;
+    group: colorGroup;
+    sensorFunction:
+        | 0
+        | 1
+        | 2
+        | 3
+        | 4
+        | 5
+        | 6
+        | 7
+        | 8
+        | 9
+        | 10
+        | 11
+        | 12
+        | 13
+        | 14
+        | 15
+        | 16
+        | 17
+        | 18
+        | 19
+        | 20
+        | 21
+        | 22
+        | 23;
+    objName: string;
 };
 /**
  * channelType
@@ -261,55 +261,55 @@ export type binaryInputSetting = {
  * 24 Power Level powerLevel 0 100 percent
  */
 export type channelDescription = {
-	[key in 'brightness' | 'colortemp' | 'hue' | 'saturation' | 'x' | 'y']: {
-		channelType:
-			| 1
-			| 2
-			| 3
-			| 4
-			| 5
-			| 6
-			| 7
-			| 8
-			| 9
-			| 10
-			| 11
-			| 12
-			| 13
-			| 14
-			| 15
-			| 16
-			| 17
-			| 18
-			| 19
-			| 20
-			| 21
-			| 22
-			| 23
-			| 24;
-		dsIndex: number;
-		max: number;
-		min: number;
-		name: string;
-		resolution: number;
-		siunit?: string;
-		symbol?: string;
-	};
+    [key in 'brightness' | 'colortemp' | 'hue' | 'saturation' | 'x' | 'y']: {
+        channelType:
+            | 1
+            | 2
+            | 3
+            | 4
+            | 5
+            | 6
+            | 7
+            | 8
+            | 9
+            | 10
+            | 11
+            | 12
+            | 13
+            | 14
+            | 15
+            | 16
+            | 17
+            | 18
+            | 19
+            | 20
+            | 21
+            | 22
+            | 23
+            | 24;
+        dsIndex: number;
+        max: number;
+        min: number;
+        name: string;
+        resolution: number;
+        siunit?: string;
+        symbol?: string;
+    };
 };
 
 export type outputSetting = {
-	objName: string;
-	dimTimeDown?: number;
-	dimTimeDownAlt1?: number;
-	dimTimeDownAlt2?: number;
-	dimTimeUp?: number;
-	dimTimeUpAlt1?: number;
-	dimTimeUpAlt2?: number;
-	minBrightness?: number;
-	onThreshold?: number;
-	pushChanges: boolean;
-	mode: number;
-	groups: [1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9];
+    objName: string;
+    dimTimeDown?: number;
+    dimTimeDownAlt1?: number;
+    dimTimeDownAlt2?: number;
+    dimTimeUp?: number;
+    dimTimeUpAlt1?: number;
+    dimTimeUpAlt2?: number;
+    minBrightness?: number;
+    onThreshold?: number;
+    pushChanges: boolean;
+    mode: number;
+    groups: [1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9];
 };
 
 /**
@@ -325,13 +325,13 @@ export type outputSetting = {
  * 6: internally controlled (e.g. device has temperature control algorithm integrated)
  */
 export type outputDescription = {
-	objName: string;
-	dsIndex: number;
-	maxPower: number;
-	function: 1 | 2 | 3 | 4 | 5 | 6;
-	outputUsage: 0 | 1 | 2;
-	type: 'output';
-	variableRamp: boolean;
+    objName: string;
+    dsIndex: number;
+    maxPower: number;
+    function: 1 | 2 | 3 | 4 | 5 | 6;
+    outputUsage: 0 | 1 | 2;
+    type: 'output';
+    variableRamp: boolean;
 };
 
 /**
@@ -376,54 +376,54 @@ export type outputDescription = {
  * 6: device level average
  */
 export type sensorDescription = {
-	objName: string;
-	dsIndex: number;
-	sensorType:
-		| 0
-		| 1
-		| 2
-		| 3
-		| 4
-		| 5
-		| 6
-		| 7
-		| 8
-		| 9
-		| 10
-		| 11
-		| 12
-		| 13
-		| 14
-		| 15
-		| 16
-		| 17
-		| 18
-		| 19
-		| 20
-		| 21
-		| 22
-		| 23
-		| 24
-		| 25
-		| 26
-		| 27
-		| 28;
-	sensorUsage: 0 | 1 | 2 | 3 | 4 | 5 | 6;
-	min: number;
-	max: number;
-	resolution: number;
-	updateInterval: number;
-	aliveSignInterval: number;
-	maxPushInterval?: number;
-	siunit?: string;
-	symbol?: string;
-	type: 'sensor';
+    objName: string;
+    dsIndex: number;
+    sensorType:
+        | 0
+        | 1
+        | 2
+        | 3
+        | 4
+        | 5
+        | 6
+        | 7
+        | 8
+        | 9
+        | 10
+        | 11
+        | 12
+        | 13
+        | 14
+        | 15
+        | 16
+        | 17
+        | 18
+        | 19
+        | 20
+        | 21
+        | 22
+        | 23
+        | 24
+        | 25
+        | 26
+        | 27
+        | 28;
+    sensorUsage: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+    min: number;
+    max: number;
+    resolution: number;
+    updateInterval: number;
+    aliveSignInterval: number;
+    maxPushInterval?: number;
+    siunit?: string;
+    symbol?: string;
+    type: 'sensor';
 };
 
 export type sensorSetting = {
-	group: colorGroup;
-	minPushInterval: number;
-	changesOnlyInterval: number;
+    group: colorGroup;
+    minPushInterval: number;
+    changesOnlyInterval: number;
 };
 
 export type colorGroup = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;

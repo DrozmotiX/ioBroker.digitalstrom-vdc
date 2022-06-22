@@ -15,20 +15,20 @@ import Box from '@mui/material/Box';
 import { dsDevice } from '../types/dsDevice';
 
 export interface DevicesProps {
-	devices: Record<number, Device> | undefined;
+    devices: Record<number, Device> | undefined;
 }
 
 export interface DialogTitleProps {
-	id: string;
-	children?: React.ReactNode;
-	onClose: () => void;
+    id: string;
+    children?: React.ReactNode;
+    onClose: () => void;
 }
 
 export const AddNewDevices: React.FC = () => {
-	const [open, setOpen] = React.useState(false);
-	const [themeName] = useIoBrokerTheme();
+    const [open, setOpen] = React.useState(false);
+    const [themeName] = useIoBrokerTheme();
 
-	/*
+    /*
 	const Color = (): { titel: string } => {
 		switch (themeName) {
 			case 'dark':
@@ -53,75 +53,75 @@ export const AddNewDevices: React.FC = () => {
 
  */
 
-	const api = useAPI();
-	// following line is used for selectID which will be deleted from this view
-	const [selectIdValue, setSelectIdValue] = React.useState<string | string[] | undefined>();
-	const { showSelectId } = useDialogs();
+    const api = useAPI();
+    // following line is used for selectID which will be deleted from this view
+    const [selectIdValue, setSelectIdValue] = React.useState<string | string[] | undefined>();
+    const { showSelectId } = useDialogs();
 
-	return (
-		<div>
-			<SelectDeviceType />
-			<br />
-			<br />
-			<hr />
-			<h3>
-				This is not part of the UI. More or less a store of buttons to allow the rest of the UI to be tested
-			</h3>
-			<Button
-				onClick={async () => {
-					{
-						console.log('click to open Add Mock Device');
-						console.log(JSON.stringify(await api.listDevices()));
-						const testDevice: dsDevice = {
-							name: 'test',
-							watchStateID: { button_0: 'test' },
-							id: '12345',
-							dsConfig: {
-								dSUID: '1234556',
-								primaryGroup: 8,
-								name: 'testDevice',
-								modelFeatures: {
-									highlevel: true,
-								},
-								displayId: '',
-								model: 'ioBroker',
-								modelUID: 'UUID',
-								modelVersion: '0.0.1',
-								vendorName: 'KYUKA',
-							},
-						};
-						console.log(JSON.stringify(await api.createDevice(testDevice)));
-						console.log(JSON.stringify(await api.listDevices()));
-					}
-				}}
-				variant="outlined"
-			>
-				Add Mock Device
-			</Button>
-			<br />
-			<br />
-			<Button
-				onClick={() => {
-					{
-						console.log('click to open selectID');
-						console.log('showSelectId', showSelectId);
-						showSelectId(
-							'test',
-							() => {
-								console.log('onClose');
-							},
-							setSelectIdValue,
-							selectIdValue,
-						);
-					}
-				}}
-				variant="outlined"
-			>
-				SelectID
-			</Button>
-			<br />
-			<br />
-			SelectIDs: {JSON.stringify(selectIdValue)}
-		</div>
-	);
+    return (
+        <div>
+            <SelectDeviceType />
+            <br />
+            <br />
+            <hr />
+            <h3>
+                This is not part of the UI. More or less a store of buttons to allow the rest of the UI to be tested
+            </h3>
+            <Button
+                onClick={async () => {
+                    {
+                        console.log('click to open Add Mock Device');
+                        console.log(JSON.stringify(await api.listDevices()));
+                        const testDevice: dsDevice = {
+                            name: 'test',
+                            watchStateID: { button_0: 'test' },
+                            id: '12345',
+                            dsConfig: {
+                                dSUID: '1234556',
+                                primaryGroup: 8,
+                                name: 'testDevice',
+                                modelFeatures: {
+                                    highlevel: true,
+                                },
+                                displayId: '',
+                                model: 'ioBroker',
+                                modelUID: 'UUID',
+                                modelVersion: '0.0.1',
+                                vendorName: 'KYUKA',
+                            },
+                        };
+                        console.log(JSON.stringify(await api.createDevice(testDevice)));
+                        console.log(JSON.stringify(await api.listDevices()));
+                    }
+                }}
+                variant="outlined"
+            >
+                Add Mock Device
+            </Button>
+            <br />
+            <br />
+            <Button
+                onClick={() => {
+                    {
+                        console.log('click to open selectID');
+                        console.log('showSelectId', showSelectId);
+                        showSelectId(
+                            'test',
+                            () => {
+                                console.log('onClose');
+                            },
+                            setSelectIdValue,
+                            selectIdValue,
+                        );
+                    }
+                }}
+                variant="outlined"
+            >
+                SelectID
+            </Button>
+            <br />
+            <br />
+            SelectIDs: {JSON.stringify(selectIdValue)}
+        </div>
+    );
 };

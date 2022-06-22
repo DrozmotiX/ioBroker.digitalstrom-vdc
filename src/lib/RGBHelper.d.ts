@@ -1,1 +1,1 @@
-declare module "rgbhelper";
+declare module 'rgbhelper';

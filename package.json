@@ -109,7 +109,7 @@
 		"coverage": "nyc npm run test:ts",
 		"lint": "eslint --ext .ts,.tsx src/ admin/src/",
 		"release": "release-script",
-		"prettier": "prettier -u -w '*.ts' build admin/build test"
+		"prettier": "prettier -u -w 'src/' 'admin/src/'"
 	},
 	"nyc": {
 		"include": [

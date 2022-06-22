@@ -5,34 +5,34 @@ import { Button } from '@mui/material';
 import { useEffect } from 'react';
 
 export default function ButtonSelectID() {
-	const [selectIdValue, setSelectIdValue] = React.useState<string | string[] | undefined>();
-	const { showSelectId } = useDialogs();
+    const [selectIdValue, setSelectIdValue] = React.useState<string | string[] | undefined>();
+    const { showSelectId } = useDialogs();
 
-	useEffect(() => {
-		Config.ButtonSelectID = selectIdValue;
-	});
+    useEffect(() => {
+        Config.ButtonSelectID = selectIdValue;
+    });
 
-	console.log(Config.ButtonSelectID);
+    console.log(Config.ButtonSelectID);
 
-	return (
-		<Button
-			onClick={() => {
-				{
-					console.log('click to open selectID');
-					console.log('showSelectId', showSelectId);
-					showSelectId(
-						'test',
-						() => {
-							console.log('onClose');
-						},
-						setSelectIdValue,
-						selectIdValue,
-					);
-				}
-			}}
-			variant="outlined"
-		>
-			SelectID
-		</Button>
-	);
+    return (
+        <Button
+            onClick={() => {
+                {
+                    console.log('click to open selectID');
+                    console.log('showSelectId', showSelectId);
+                    showSelectId(
+                        'test',
+                        () => {
+                            console.log('onClose');
+                        },
+                        setSelectIdValue,
+                        selectIdValue,
+                    );
+                }
+            }}
+            variant="outlined"
+        >
+            SelectID
+        </Button>
+    );
 }

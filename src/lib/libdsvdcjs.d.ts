@@ -1,1 +1,1 @@
-declare module "libdsvdcjs";
+declare module 'libdsvdcjs';

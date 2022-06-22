@@ -3,29 +3,29 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
 interface TabPanelProps {
-	children?: React.ReactNode;
-	index: any;
-	value: any;
+    children?: React.ReactNode;
+    index: any;
+    value: any;
 }
 
 const useStyles = makeStyles((_theme) => ({
-	tabpanel: {
-		flex: 1,
-		position: 'relative',
-		'& > *': {
-			width: '100%',
-			height: '100%',
-		},
-	},
+    tabpanel: {
+        flex: 1,
+        position: 'relative',
+        '& > *': {
+            width: '100%',
+            height: '100%',
+        },
+    },
 }));
 
 export const TabPanel: React.FC<TabPanelProps> = (props) => {
-	const { children, value, index, ...other } = props;
-	const classes = useStyles();
+    const { children, value, index, ...other } = props;
+    const classes = useStyles();
 
-	return (
-		<div className={classes.tabpanel} role="tabpanel" hidden={value !== index} {...other}>
-			{value === index && <Box p={3}>{children}</Box>}
-		</div>
-	);
+    return (
+        <div className={classes.tabpanel} role="tabpanel" hidden={value !== index} {...other}>
+            {value === index && <Box p={3}>{children}</Box>}
+        </div>
+    );
 };
