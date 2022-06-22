@@ -968,19 +968,6 @@ class DigitalstromVdc extends utils.Adapter {
     // }
 
     /**
-     * Is called if a subscribed state changes
-     */
-    private onStateChange(id: string, state: ioBroker.State | null | undefined): void {
-        if (state) {
-            // The state was changed
-            this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
-        } else {
-            // The state was deleted
-            this.log.info(`state ${id} deleted`);
-        }
-    }
-
-    /**
      * private function used to fill the alldevices array
      * @private
      */
