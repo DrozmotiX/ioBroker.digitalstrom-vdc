@@ -63,7 +63,7 @@
 		"eslint-plugin-react": "^7.30.0",
 		"estrella": "^1.4.1",
 		"gulp": "^4.0.2",
-		"iobroker-react": "git+https://github.com/kyuka-dom/iobroker-react",
+		"iobroker-react": "git+https://git@github.com/kyuka-dom/iobroker-react",
 		"mocha": "^9.2.2",
 		"nyc": "^15.1.0",
 		"prettier": "^2.7.1",
