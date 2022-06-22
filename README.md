@@ -15,7 +15,8 @@ Mit dem VDC Adpater für Digitalstrom werden im Digitalstrom Ökosystem virtuell
 Diese können unteranderem zb. Temperatursensoren, Fenster/Türkontakte und Lampen sein.
 So kann fast jedes beliebige Gerät aus IoBroker in Digitalstrom erzeugt werden.
 
-![Datapoints](admin/Iobroker_ Datapoints.png)
+![Datapoints](admin/Iobroker_Datapoints.png)
+
 Adding ioBroker datapoints / devices directly into digitalstrom.
 
 ## Changelog
