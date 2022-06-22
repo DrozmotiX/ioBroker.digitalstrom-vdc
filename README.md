@@ -20,7 +20,6 @@ So kann fast jedes beliebige Gerät aus IoBroker in Digitalstrom erzeugt werden.
 ![Datapoints](admin/Iobroker_Datapoints.png)
 ![Datapoints](admin/DigitalstromVDC.png)
 
-Adding ioBroker datapoints / devices directly into digitalstrom.
 
 ## Changelog
 <!--
