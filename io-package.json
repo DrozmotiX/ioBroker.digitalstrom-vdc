@@ -1,19 +1,19 @@
 {
-  "common": {
-    "name": "digitalstrom-vdc",
-    "version": "0.2.0",
-    "news": {
-      "0.0.1": {
-        "en": "initial release",
-        "de": "Erstveröffentlichung",
-        "ru": "Начальная версия",
-        "pt": "lançamento inicial",
-        "nl": "Eerste uitgave",
-        "fr": "Première version",
-        "it": "Versione iniziale",
-        "es": "Versión inicial",
-        "pl": "Pierwsze wydanie",
-        "zh-cn": "首次出版"
+    "common": {
+        "name": "digitalstrom-vdc",
+        "version": "0.2.0",
+        "news": {
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "zh-cn": "首次出版"
             },
             "0.0.2": {
                 "en": "work in progress"
@@ -23,183 +23,183 @@
             },
             "0.1.1": {
                 "en": "work in progress"
-      }
+            }
+        },
+        "title": "Digitalstrom VDC",
+        "titleLang": {
+            "en": "Digitalstrom VDC",
+            "de": "Digitalstrom VDC"
+        },
+        "desc": {
+            "en": "generates ioBroker devices directly in Digitalstrom",
+            "de": "Generiert ioBroker DP direkt in Digitalstrom"
+        },
+        "authors": [
+            "kyuka-dom <dom@bugger.ch>"
+        ],
+        "keywords": [
+            "ds",
+            "digitalstrom",
+            "vdc"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "build/main.js",
+        "icon": "digitalstrom-vdc.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/DrozmotiX/ioBroker.digitalstrom-vdc/main/admin/digitalstrom-vdc.png",
+        "readme": "https://github.com/DrozmotiX/ioBroker.digitalstrom-vdc/blob/main/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "iot-systems",
+        "compact": true,
+        "connectionType": "local",
+        "dataSource": "push",
+        "materialize": true,
+        "materializeTab": true,
+        "messagebox": true,
+        "adminTab": {
+            "name": {
+                "en": "Digitalstrom",
+                "de": "Digitalstrom"
+            },
+            "link": "",
+            "fa-icon": "wifi"
+        },
+        "dependencies": [
+            {
+                "js-controller": ">=2.0.0"
+            }
+        ],
+        "plugins": {
+            "sentry": {
+                "dsn": "https://17e7a2d73e9e45dcbf4ebd5fecf62aa0@o1110646.ingest.sentry.io/6140286"
+            }
+        },
+        "adminUI": {"config":"materialize","tab":"materialize"}
     },
-    "title": "Digitalstrom VDC",
-    "titleLang": {
-      "en": "Digitalstrom VDC",
-      "de": "Digitalstrom VDC"
-    },
-    "desc": {
-      "en": "generates ioBroker devices directly in Digitalstrom",
-      "de": "Generiert ioBroker DP direkt in Digitalstrom"
-    },
-    "authors": [
-      "kyuka-dom <dom@bugger.ch>"
-    ],
-    "keywords": [
-      "ds",
-      "digitalstrom",
-      "vdc"
-    ],
-    "license": "MIT",
-    "platform": "Javascript/Node.js",
-    "main": "build/main.js",
-    "icon": "digitalstrom-vdc.png",
-    "enabled": true,
-    "extIcon": "https://raw.githubusercontent.com/DrozmotiX/ioBroker.digitalstrom-vdc/main/admin/digitalstrom-vdc.png",
-    "readme": "https://github.com/DrozmotiX/ioBroker.digitalstrom-vdc/blob/main/README.md",
-    "loglevel": "info",
-    "mode": "daemon",
-    "type": "iot-systems",
-    "compact": true,
-    "connectionType": "local",
-    "dataSource": "push",
-    "materialize": true,
-    "materializeTab": true,
-    "messagebox": true,
-    "adminTab": {
-      "name": {
-        "en": "Digitalstrom",
-        "de": "Digitalstrom"
-      },
-      "link": "",
-      "fa-icon": "wifi"
-    },
-    "dependencies": [
-      {
-        "js-controller": ">=2.0.0"
-      }
-    ],
-    "plugins": {
-      "sentry": {
-        "dsn": "https://17e7a2d73e9e45dcbf4ebd5fecf62aa0@o1110646.ingest.sentry.io/6140286"
-      }
-    },
-    "adminUI": {"config":"materialize","tab":"materialize"}
-  },
-  "native": {
-    "vdcName": "ioBroker Controller",
-    "vdcDSUID": "",
-    "vdcDebug": false,
-    "vdcPort": 40000,
+    "native": {
+        "vdcName": "ioBroker Controller",
+        "vdcDSUID": "",
+        "vdcDebug": false,
+        "vdcPort": 40000,
         "vdcConfigURL": "",
         "vdcRunning": false,
         "lastDeviceUpdate": "",
         "dsDevices": []
-  },
-  "objects": [
-    {
-      "_id": "_design/digitalstrom-vdc",
-      "language": "javascript",
-      "views": {
-        "listDevices": {
-          "map": "function(doc) {\n  if (doc._id.match(/^digitalstrom-vdc.[0-9]+.DS-Devices.configuredDevices.*$/)) {\n   emit(doc._id, {deviceObj:(doc.native?doc.native.deviceObj:{})});\n  }\n}"
-        },
-        "listDevicesFullObj": {
-          "map": "function(doc) {\n  if (doc._id.match(/^digitalstrom-vdc.[0-9]+.DS-Devices.configuredDevices.*$/)) {\n   emit(doc._id, {deviceObj:(doc.native?doc:{})});\n  }\n}"
-        },
-        "paramsetDescription": {
-          "map": "function(doc) {\n  if (doc._id.match(/^digitalstrom-vdc\\.meta/) && doc.meta.type === 'paramsetDescription') {\n   emit(doc._id, doc);\n  }\n}"
+    },
+    "objects": [
+        {
+            "_id": "_design/digitalstrom-vdc",
+            "language": "javascript",
+            "views": {
+                "listDevices": {
+                    "map": "function(doc) {\n  if (doc._id.match(/^digitalstrom-vdc.[0-9]+.DS-Devices.configuredDevices.*$/)) {\n   emit(doc._id, {deviceObj:(doc.native?doc.native.deviceObj:{})});\n  }\n}"
+                },
+                "listDevicesFullObj": {
+                    "map": "function(doc) {\n  if (doc._id.match(/^digitalstrom-vdc.[0-9]+.DS-Devices.configuredDevices.*$/)) {\n   emit(doc._id, {deviceObj:(doc.native?doc:{})});\n  }\n}"
+                },
+                "paramsetDescription": {
+                    "map": "function(doc) {\n  if (doc._id.match(/^digitalstrom-vdc\\.meta/) && doc.meta.type === 'paramsetDescription') {\n   emit(doc._id, doc);\n  }\n}"
+                }
+            }
         }
-      }
-    }
-  ],
-  "instanceObjects": [
-    {
-      "_id": "info",
-      "type": "channel",
-      "common": {
-        "name": "Information"
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.connection",
-      "type": "state",
-      "common": {
-        "role": "indicator.connected",
-        "name": "Whether the digitalstrom vdc is ready",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    },
-    {
-      "common": {
-        "name": "DS-Devices"
-      },
-      "type": "folder",
-      "_id": "DS-Devices"
-    },
-    {
-      "common": {
-        "name": "configuredDevices"
-      },
-      "type": "folder",
-      "from": "DS-Devices",
-      "_id": "DS-Devices.configuredDevices"
-    },
-    {
-      "type": "channel",
-      "common": {
-        "name": "outdoorValues"
-      },
-      "native": {},
-      "from": "DS-Devices",
-      "_id": "DS-Devices.outdoorValues"
-    },
-    {
-      "type": "channel",
-      "common": {
-        "name": "VDC"
-      },
-      "native": {},
-      "from": "DS-Devices",
-      "_id": "DS-Devices.VDC"
-    },
-    {
-      "_id": "DS-Devices.outdoorValues.brightness",
-      "type": "state",
-      "common": {
-        "name": "outdoor brightness",
-        "type": "number",
-        "role": "value.brightness",
-        "read": true,
-        "write": false,
-        "unit": "lx"
-      },
-      "native": {
-        "Name": "outdoorBrightness",
-        "Attribute": "brightness",
-        "Readings": true,
-        "type": "number",
-        "role": "value.brightness"
-      },
-      "from": "DS-Devices.outdoorValues"
-    },
-    {
-      "_id": "DS-Devices.outdoorValues.temperature",
-      "type": "state",
-      "common": {
-        "name": "outdoor temperature",
-        "type": "number",
-        "role": "value.temperature",
-        "read": true,
-        "write": false,
-        "unit": "°C"
-      },
-      "native": {
-        "Name": "outdoorTemperature",
-        "Attribute": "temperature",
-        "Readings": true,
-        "type": "number",
-        "role": "value.temperature",
-        "unit": "°C"
-      },
-      "from": "DS-Devices.outdoorValues"
-    }
-  ]
+    ],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Whether the digitalstrom vdc is ready",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        },
+        {
+            "common": {
+                "name": "DS-Devices"
+            },
+            "type": "folder",
+            "_id": "DS-Devices"
+        },
+        {
+            "common": {
+                "name": "configuredDevices"
+            },
+            "type": "folder",
+            "from": "DS-Devices",
+            "_id": "DS-Devices.configuredDevices"
+        },
+        {
+            "type": "channel",
+            "common": {
+                "name": "outdoorValues"
+            },
+            "native": {},
+            "from": "DS-Devices",
+            "_id": "DS-Devices.outdoorValues"
+        },
+        {
+            "type": "channel",
+            "common": {
+                "name": "VDC"
+            },
+            "native": {},
+            "from": "DS-Devices",
+            "_id": "DS-Devices.VDC"
+        },
+        {
+            "_id": "DS-Devices.outdoorValues.brightness",
+            "type": "state",
+            "common": {
+                "name": "outdoor brightness",
+                "type": "number",
+                "role": "value.brightness",
+                "read": true,
+                "write": false,
+                "unit": "lx"
+            },
+            "native": {
+                "Name": "outdoorBrightness",
+                "Attribute": "brightness",
+                "Readings": true,
+                "type": "number",
+                "role": "value.brightness"
+            },
+            "from": "DS-Devices.outdoorValues"
+        },
+        {
+            "_id": "DS-Devices.outdoorValues.temperature",
+            "type": "state",
+            "common": {
+                "name": "outdoor temperature",
+                "type": "number",
+                "role": "value.temperature",
+                "read": true,
+                "write": false,
+                "unit": "°C"
+            },
+            "native": {
+                "Name": "outdoorTemperature",
+                "Attribute": "temperature",
+                "Readings": true,
+                "type": "number",
+                "role": "value.temperature",
+                "unit": "°C"
+            },
+            "from": "DS-Devices.outdoorValues"
+        }
+    ]
 }
