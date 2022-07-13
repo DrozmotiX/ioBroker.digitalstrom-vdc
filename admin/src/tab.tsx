@@ -2,22 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 // import from iobroker-react docu page => https://github.com/AlCalzone/iobroker-react
 import type { Translations } from 'iobroker-react/i18n';
-// import from @iobroker/adapter-react
 import { ErrorBoundary } from 'react-error-boundary';
 import { IoBrokerApp } from 'iobroker-react/app';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '@iobroker/adapter-react/Theme';
-// UI elements are imported from Material-UI
 import { useI18n, useIoBrokerTheme } from 'iobroker-react/hooks';
-import { Button, Stack, Tab, Tabs } from '@mui/material';
-import { HighlightOff, RestartAlt, TaskAlt } from '@mui/icons-material';
+import { Box, Tab, Tabs } from '@mui/material';
 
 // Components are imported here
 import { TabPanel } from './components/TabPanel';
-import { AddNewDevices } from './pages/AddNewDevices';
 import { ListDevices } from './pages/ListDevices';
-
-import { useAdapter } from 'iobroker-react';
+import { ConnectionHeader } from './components/ConnectionHeader';
+import { SelectDeviceType } from './options/DeviceTypeOptions';
 
 // Load your translations
 const translations: Translations = {
@@ -43,66 +39,6 @@ function ErrorFallback({ error, resetErrorBoundary }: any) {
     );
 }
 
-const connectionState = () => {
-    const { alive: adapterRunning, connected: driverReady } = useAdapter();
-    const { translate: _ } = useI18n();
-
-    if (!adapterRunning || !driverReady)
-        return (
-            <Stack spacing={2} direction="row" justifyContent="center">
-                <Button
-                    variant="outlined"
-                    color="primary"
-                    endIcon={<RestartAlt />}
-                    sx={{
-                        borderRadius: '15px',
-                        // pointerEvents: 'none',
-                    }}
-                >
-                    {_('restart vdc')}
-                </Button>
-                <Button
-                    variant="contained"
-                    color="warning"
-                    endIcon={<HighlightOff />}
-                    sx={{
-                        borderRadius: '15px',
-                        pointerEvents: 'none',
-                    }}
-                >
-                    {_('adapter running')}
-                </Button>
-            </Stack>
-        );
-
-    return (
-        <Stack spacing={2} justifyContent="center" direction="row">
-            <Button
-                variant="outlined"
-                color="primary"
-                endIcon={<RestartAlt />}
-                sx={{
-                    borderRadius: '15px',
-                    // pointerEvents: 'none',
-                }}
-            >
-                {_('restart vdc')}
-            </Button>
-            <Button
-                variant="outlined"
-                color="success"
-                endIcon={<TaskAlt />}
-                sx={{
-                    borderRadius: '15px',
-                    pointerEvents: 'none',
-                }}
-            >
-                {_('adapter running')}
-            </Button>
-        </Stack>
-    );
-};
-
 const Root: React.FC = () => {
     const [value, setValue] = React.useState(0);
     const { translate: _ } = useI18n();
@@ -119,33 +55,39 @@ const Root: React.FC = () => {
     return (
         <React.Fragment>
             <ThemeProvider theme={theme(themeName)}>
-                {connectionState()}
-                <Tabs
-                    value={value}
-                    onChange={handleTabChange}
-                    centered
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                    }}
-                >
-                    <Tab label={_('tabListDevices')} />
-                    <Tab label={_('tabAddNewDevices')} />
-                    <Tab label={_('tabExperts')} />
-                </Tabs>
-                <TabPanel value={value} index={0}>
-                    <ErrorBoundary FallbackComponent={ErrorFallback}>
-                        <ListDevices />
-                    </ErrorBoundary>
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                    <ErrorBoundary FallbackComponent={ErrorFallback}>
-                        <AddNewDevices />
-                    </ErrorBoundary>
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                    <ErrorBoundary FallbackComponent={ErrorFallback}>Experts</ErrorBoundary>
-                </TabPanel>
+                <ConnectionHeader />
+                <Box sx={{ marginTop: 1, width: '100%' }}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                        <Tabs
+                            value={value}
+                            onChange={handleTabChange}
+                            variant="scrollable"
+                            scrollButtons="auto"
+                            sx={{
+                                '.MuiTabs-flexContainer': {
+                                    justifyContent: 'space-around',
+                                },
+                            }}
+                        >
+                            <Tab label={_('tabListDevices')} />
+                            <Tab label={_('tabAddNewDevices')} />
+                            {/*<Tab label={_('tabExperts')} />*/}
+                        </Tabs>
+                    </Box>
+                    <TabPanel value={value} index={0}>
+                        <ErrorBoundary FallbackComponent={ErrorFallback}>
+                            <ListDevices />
+                        </ErrorBoundary>
+                    </TabPanel>
+                    <TabPanel value={value} index={1}>
+                        <ErrorBoundary FallbackComponent={ErrorFallback}>
+                            <SelectDeviceType />
+                        </ErrorBoundary>
+                    </TabPanel>
+                    {/*<TabPanel value={value} index={2}>*/}
+                    {/*    <ErrorBoundary FallbackComponent={ErrorFallback}>Experts</ErrorBoundary>*/}
+                    {/*</TabPanel>*/}
+                </Box>
             </ThemeProvider>
         </React.Fragment>
     );

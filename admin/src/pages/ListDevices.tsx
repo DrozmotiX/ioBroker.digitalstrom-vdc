@@ -18,7 +18,7 @@ export const ListDevices: React.FC = () => {
     const refreshDevices = React.useCallback(async () => {
         const devs = await api.listDevices();
         setDevices(devs);
-        console.log('all Devices', devices);
+        console.log('all Devices', devs);
     }, [api]);
 
     // load device array

@@ -175,4 +175,5 @@ export let Config: Config = {
 
 export const clearConfig = (): void => {
     Config = InitialConfig.deviceConfig;
+    console.log('Config cleared');
 };

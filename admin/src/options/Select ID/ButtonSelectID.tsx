@@ -12,26 +12,17 @@ export default function ButtonSelectID() {
         Config.ButtonSelectID = selectIdValue;
     });
 
+    const askUser = React.useCallback(async () => {
+        const selected = await showSelectId({
+            title: 'Select an ID',
+        });
+        setSelectIdValue(selected);
+    }, [showSelectId]);
+
     console.log(Config.ButtonSelectID);
 
     return (
-        <Button
-            onClick={() => {
-                {
-                    console.log('click to open selectID');
-                    console.log('showSelectId', showSelectId);
-                    showSelectId(
-                        'test',
-                        () => {
-                            console.log('onClose');
-                        },
-                        setSelectIdValue,
-                        selectIdValue,
-                    );
-                }
-            }}
-            variant="outlined"
-        >
+        <Button onClick={askUser} variant="outlined">
             SelectID
         </Button>
     );

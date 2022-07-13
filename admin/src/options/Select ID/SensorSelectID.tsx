@@ -13,25 +13,14 @@ export default function SensorSelectID() {
     });
 
     console.log(Config.SensorSelectID);
-
+    const askUser = React.useCallback(async () => {
+        const selected = await showSelectId({
+            title: 'Select an ID',
+        });
+        setSelectIdValue(selected);
+    }, [showSelectId]);
     return (
-        <Button
-            onClick={() => {
-                {
-                    console.log('click to open selectID');
-                    console.log('showSelectId', showSelectId);
-                    showSelectId(
-                        'test',
-                        () => {
-                            console.log('onClose');
-                        },
-                        setSelectIdValue,
-                        selectIdValue,
-                    );
-                }
-            }}
-            variant="outlined"
-        >
+        <Button onClick={askUser} variant="outlined">
             SelectID
         </Button>
     );

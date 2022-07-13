@@ -14,26 +14,15 @@ export default function SaturationSelectID() {
     };
 
     console.log(Config.SaturationSelectID);
-
+    const askUser = React.useCallback(async () => {
+        const selected = await showSelectId({
+            title: 'Select an ID',
+        });
+        setSelectIdValue(selected);
+    }, [showSelectId]);
     return (
         <Box component="span" sx={{ p: 2, border: '1px dashed grey', textAlign: 'center' }}>
-            <Button
-                onClick={() => {
-                    {
-                        console.log('click to open selectID');
-                        console.log('showSelectId', showSelectId);
-                        showSelectId(
-                            'test',
-                            () => {
-                                console.log('onClose');
-                            },
-                            writeBackSelectId,
-                            selectIdValue,
-                        );
-                    }
-                }}
-                variant="outlined"
-            >
+            <Button onClick={askUser} variant="outlined">
                 {_('saturationSelectID')}
             </Button>
             <br />

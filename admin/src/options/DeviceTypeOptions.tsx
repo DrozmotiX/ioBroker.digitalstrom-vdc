@@ -1,4 +1,4 @@
-import { Box, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { useI18n } from 'iobroker-react/hooks';
 import React, { useState } from 'react';
 import { Config } from '../lib/Config';
@@ -6,17 +6,11 @@ import { SelectColorClassOptions } from './ColorClassOption';
 import DefineConfigURL from './DefineConfigURL';
 import DefineName from './DefineName';
 import DefineResolution from './DefineResolution';
-import { SelectLightOptions } from './LightOptions';
-import { Button } from '@mui/material';
 import { useAPI } from '../lib/useAPI';
 import { dsDevice } from '../types/dsDevice';
-import OnOffSelectID from './Select ID/OnOffSelectID';
-import RGBSelectID from './Select ID/RGBSelectID';
-import HueSelectID from './Select ID/HueSelectID';
-import SaturationSelectID from './Select ID/SaturationSelectID';
-import ColorModeSelectID from './Select ID/ColorModeSelectID';
-import DimmerSelectID from './Select ID/DimmerSelectID';
-import ColorTempSelectID from './Select ID/ColorTempSelectID';
+import { SelectID } from '../components/SelectID';
+import { handleSelectId } from '../lib/handleSelectID';
+import { Lamp } from '../device/Lamp';
 
 //const deviceTypeOptions: { value: string; title: string }[] = [
 const deviceTypeOptions = [
@@ -75,13 +69,7 @@ export const SelectDeviceType = (): JSX.Element => {
         Config.deviceType = event.target.value;
     };
 
-    /* 	const [selectIdValue, setSelectIdValue] = React.useState<string | string[] | undefined>(); */
-    /* const { showSelectId } = useDialogs(); */
     const api = useAPI();
-
-    /* const TextField = (event: object) => void */
-
-    /* function(event: object) => void */
 
     const deviceTypeSelect = () => {
         const menuItem: JSX.Element[] = [];
@@ -130,88 +118,7 @@ export const SelectDeviceType = (): JSX.Element => {
                     </Box>
                 </Grid>
             </React.Fragment>
-            {devicetype === 'deviceTypeOptionsLamp' ? (
-                <React.Fragment>
-                    <Grid
-                        container
-                        spacing={1}
-                        sx={{
-                            marginTop: '10px',
-                            paddingBottom: '15px',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            display: 'flex',
-                            flexWrap: 'wrap',
-                            flexDirection: 'row',
-                        }}
-                    >
-                        <React.Fragment>
-                            <DefineName />
-                            <DefineConfigURL />
-                        </React.Fragment>
-                    </Grid>
-                    <Grid
-                        container
-                        spacing={1}
-                        sx={{
-                            marginTop: '10px',
-                            paddingBottom: '15px',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            display: 'flex',
-                            flexWrap: 'wrap',
-                            flexDirection: 'row',
-                        }}
-                    >
-                        <OnOffSelectID />
-                    </Grid>
-                    <Grid
-                        container
-                        spacing={1}
-                        sx={{
-                            marginTop: '10px',
-                            paddingBottom: '15px',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            display: 'flex',
-                            flexWrap: 'wrap',
-                            flexDirection: 'row',
-                        }}
-                    >
-                        <Button
-                            onClick={async () => {
-                                {
-                                    console.log('click to open Add Mock Device');
-                                    console.log(JSON.stringify(await api.listDevices()));
-                                    const testDevice: dsDevice = {
-                                        name: Config.name,
-                                        watchStateID: { button_0: 'test' },
-                                        id: '1234567',
-                                        dsConfig: {
-                                            dSUID: '123455678',
-                                            primaryGroup: 1,
-                                            name: Config.name,
-                                            modelFeatures: {
-                                                highlevel: true,
-                                            },
-                                            displayId: '',
-                                            model: 'ioBroker',
-                                            modelUID: 'UUID',
-                                            modelVersion: '0.0.1',
-                                            vendorName: 'KOS',
-                                        },
-                                    };
-                                    console.log(JSON.stringify(await api.createDevice(testDevice)));
-                                    console.log(JSON.stringify(await api.listDevices()));
-                                }
-                            }}
-                            variant="outlined"
-                        >
-                            Add New Device
-                        </Button>
-                    </Grid>
-                </React.Fragment>
-            ) : null}
+            {devicetype === 'deviceTypeOptionsLamp' ? <Lamp api={api} /> : null}
 
             {devicetype === 'deviceTypeOptionsRGBLamp' ? (
                 <React.Fragment>
@@ -246,8 +153,18 @@ export const SelectDeviceType = (): JSX.Element => {
                             flexDirection: 'row',
                         }}
                     >
-                        <OnOffSelectID />
-                        <DimmerSelectID />
+                        <SelectID
+                            title={'OnOffSelectID'}
+                            type={'lamp'}
+                            buttonTitle={'onOffSelectID'}
+                            onSelect={(selectId, type) => handleSelectId(selectId, type)}
+                        />
+                        <SelectID
+                            title={'DimmerSelectID'}
+                            type={'dimmer'}
+                            buttonTitle={'dimmerSelectID'}
+                            onSelect={(selectId, type) => handleSelectId(selectId, type)}
+                        />
                     </Grid>
                     <Grid
                         container
@@ -262,8 +179,18 @@ export const SelectDeviceType = (): JSX.Element => {
                             flexDirection: 'row',
                         }}
                     >
-                        <ColorModeSelectID />
-                        <ColorTempSelectID />
+                        <SelectID
+                            title={'ColorModeSelectID'}
+                            type={'colorMode'}
+                            buttonTitle={'colorModeSelectID'}
+                            onSelect={(selectId, type) => handleSelectId(selectId, type)}
+                        />
+                        <SelectID
+                            title={'ColorTempSelectID'}
+                            type={'colorTemp'}
+                            buttonTitle={'colorTempSelectID'}
+                            onSelect={(selectId, type) => handleSelectId(selectId, type)}
+                        />
                     </Grid>
                     <Grid
                         container
@@ -278,9 +205,24 @@ export const SelectDeviceType = (): JSX.Element => {
                             flexDirection: 'row',
                         }}
                     >
-                        <HueSelectID />
-                        <SaturationSelectID />
-                        <RGBSelectID />
+                        <SelectID
+                            title={'HueSelectID'}
+                            type={'hue'}
+                            buttonTitle={'hueSelectID'}
+                            onSelect={(selectId, type) => handleSelectId(selectId, type)}
+                        />
+                        <SelectID
+                            title={'SaturationSelectID'}
+                            type={'saturation'}
+                            buttonTitle={'saturationSelectID'}
+                            onSelect={(selectId, type) => handleSelectId(selectId, type)}
+                        />
+                        <SelectID
+                            title={'RGBSelectID'}
+                            type={'rgbLamp'}
+                            buttonTitle={'rgbSelectID'}
+                            onSelect={(selectId, type) => handleSelectId(selectId, type)}
+                        />
                     </Grid>
                     <Grid
                         container
@@ -302,7 +244,7 @@ export const SelectDeviceType = (): JSX.Element => {
                                     console.log(JSON.stringify(await api.listDevices()));
                                     const testDevice: dsDevice = {
                                         name: Config.name,
-                                        watchStateID: { button_0: 'test' },
+                                        watchStateID: { button_0: 'test2' },
                                         id: '1234567',
                                         dsConfig: {
                                             dSUID: '123455678',

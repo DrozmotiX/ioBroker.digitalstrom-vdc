@@ -261,7 +261,8 @@ export type binaryInputSetting = {
  * 24 Power Level powerLevel 0 100 percent
  */
 export type channelDescription = {
-    [key in 'brightness' | 'colortemp' | 'hue' | 'saturation' | 'x' | 'y']: {
+    // [key in 'brightness' | 'colortemp' | 'hue' | 'saturation' | 'x' | 'y']: {
+    [key: string]: {
         channelType:
             | 1
             | 2

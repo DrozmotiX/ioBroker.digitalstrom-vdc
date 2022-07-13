@@ -1,8 +1,9 @@
-import React from 'react';
 import type { Connection } from '@iobroker/socket-client';
 import { useConnection, useGlobals } from 'iobroker-react/hooks';
 import { v4 as uuidv4 } from 'uuid';
 import { dsDevice } from '../types/dsDevice';
+import { Config } from './Config';
+import { genDSUID } from './genDSUID';
 
 export interface Device {
     id: string;
@@ -62,6 +63,5 @@ export function useAPI(): API {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     // const api = React.useMemo(() => new API(namespace, connection), [connection, namespace]);
-    const api = new API(namespace, connection);
-    return api;
+    return new API(namespace, connection);
 }

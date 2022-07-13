@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 // import from iobroker-react docu page => https://github.com/AlCalzone/iobroker-react
 import { SettingsApp } from 'iobroker-react/app';
 import type { Translations } from 'iobroker-react/i18n';
-// import from @iobroker/adapter-react
 import theme from '@iobroker/adapter-react/Theme';
 import Utils from '@iobroker/adapter-react/Components/Utils';
-// UI elements are imported from Material-UI
 import { ThemeProvider } from '@mui/material/styles';
-import { useSettings, useI18n } from 'iobroker-react/hooks';
-import { TextField, Tooltip, Grid, Button, Box, Alert, AlertTitle } from '@mui/material/';
-import I18n from '@iobroker/adapter-react/i18n';
+import { useI18n, useSettings } from 'iobroker-react/hooks';
+import { Alert, AlertTitle, Box, Button, Grid, TextField, Tooltip } from '@mui/material/';
 import { Avatar } from '@mui/material';
 
 // Components are imported here
@@ -22,6 +19,7 @@ const SettingsPageContent: React.FC = React.memo(() => {
     // settings is the current settings object, including the changes made in the UI
     // originalSettings is the original settings object, as it was loaded from ioBroker
     // setSettings is used to update the current settings object
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { settings, originalSettings, setSettings } = useSettings<ioBroker.AdapterConfig>();
 
     const { translate: _ } = useI18n();
