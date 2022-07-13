@@ -72,19 +72,20 @@ class DigitalstromVdc extends utils.Adapter {
 
         const dsDevices: Array<any> = [];
         this.allDevices.forEach((d: any) => {
-            this.log.info(JSON.stringify(d.dsConfig));
-            if (typeof d.watchStateID == 'object') {
-                for (const [key, value] of Object.entries(d.watchStateID)) {
+            this.log.info(JSON.stringify(d.native.deviceObj.dsConfig));
+            console.log(JSON.stringify(d.native.deviceObj.dsConfig));
+            if (typeof d.native.deviceObj.watchStateID == 'object') {
+                for (const [key, value] of Object.entries(d.native.deviceObj.watchStateID)) {
                     this.log.debug(`subscribing to ${key} / ${value}`);
                     this.subscribeForeignStates(value as string);
                 }
-            } else if (d.watchStateID && d.watchStateID.length > 0) {
-                this.log.debug(`subscribing to ${d.watchStateID}`);
-                this.subscribeForeignStates(d.watchStateID);
+            } else if (d.native.deviceObj.watchStateID && d.native.deviceObj.watchStateID.length > 0) {
+                this.log.debug(`subscribing to ${d.native.deviceObj.watchStateID}`);
+                this.subscribeForeignStates(d.native.deviceObj.watchStateID);
             }
-            if (d.dsConfig) {
-                this.log.debug(`Pushing ${JSON.stringify(d.dsConfig)} to devices`);
-                dsDevices.push(d.dsConfig);
+            if (d.native.deviceObj.dsConfig) {
+                this.log.debug(`Pushing ${JSON.stringify(d.native.deviceObj.dsConfig)} to devices`);
+                dsDevices.push(d.native.deviceObj.dsConfig);
             }
         });
 
@@ -1282,6 +1283,7 @@ class DigitalstromVdc extends utils.Adapter {
                 }
                 case 'VanishDevice': {
                     this.log.info(`sendVanishDevice command receveid for device ${obj.message}`);
+                    break;
                 }
                 case 'ListDevices': {
                     this.allDevices = await this.refreshDeviceList();

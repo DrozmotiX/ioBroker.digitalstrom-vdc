@@ -1,46 +1,28 @@
+"use strict";
 var __create = Object.create;
 var __defProp = Object.defineProperty;
-var __defProps = Object.defineProperties;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getOwnPropSymbols = Object.getOwnPropertySymbols;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __propIsEnum = Object.prototype.propertyIsEnumerable;
-var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, {enumerable: true, configurable: true, writable: true, value}) : obj[key] = value;
-var __spreadValues = (a, b) => {
-  for (var prop in b || (b = {}))
-    if (__hasOwnProp.call(b, prop))
-      __defNormalProp(a, prop, b[prop]);
-  if (__getOwnPropSymbols)
-    for (var prop of __getOwnPropSymbols(b)) {
-      if (__propIsEnum.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
-    }
-  return a;
-};
-var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
-var __markAsModule = (target) => __defProp(target, "__esModule", {value: true});
-var __reExport = (target, module2, desc) => {
-  if (module2 && typeof module2 === "object" || typeof module2 === "function") {
-    for (let key of __getOwnPropNames(module2))
-      if (!__hasOwnProp.call(target, key) && key !== "default")
-        __defProp(target, key, {get: () => module2[key], enumerable: !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable});
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
   }
-  return target;
+  return to;
 };
-var __toModule = (module2) => {
-  return __reExport(__markAsModule(__defProp(module2 != null ? __create(__getProtoOf(module2)) : {}, "default", module2 && module2.__esModule && "default" in module2 ? {get: () => module2.default, enumerable: true} : {value: module2, enumerable: true})), module2);
-};
-var utils = __toModule(require("@iobroker/adapter-core"));
-var import_libdsvdcts = __toModule(require("libdsvdcts"));
-var import_rgbhelper = __toModule(require("rgbhelper"));
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
+var utils = __toESM(require("@iobroker/adapter-core"));
+var import_libdsvdcts = require("libdsvdcts");
+var import_rgbhelper = require("rgbhelper");
 class DigitalstromVdc extends utils.Adapter {
   constructor(options = {}) {
-    super(__spreadProps(__spreadValues({}, options), {
+    super({
+      ...options,
       name: "digitalstrom-vdc"
-    }));
+    });
     this.setOutputChannel = [];
     this.allDevices = [];
     this.on("ready", this.onReady.bind(this));
@@ -68,23 +50,24 @@ class DigitalstromVdc extends utils.Adapter {
     this.allDevices = await this.refreshDeviceList();
     const dsDevices = [];
     this.allDevices.forEach((d) => {
-      this.log.info(JSON.stringify(d.dsConfig));
-      if (typeof d.watchStateID == "object") {
-        for (const [key, value] of Object.entries(d.watchStateID)) {
+      this.log.info(JSON.stringify(d.native.deviceObj.dsConfig));
+      console.log(JSON.stringify(d.native.deviceObj.dsConfig));
+      if (typeof d.native.deviceObj.watchStateID == "object") {
+        for (const [key, value] of Object.entries(d.native.deviceObj.watchStateID)) {
           this.log.debug(`subscribing to ${key} / ${value}`);
           this.subscribeForeignStates(value);
         }
-      } else if (d.watchStateID && d.watchStateID.length > 0) {
-        this.log.debug(`subscribing to ${d.watchStateID}`);
-        this.subscribeForeignStates(d.watchStateID);
+      } else if (d.native.deviceObj.watchStateID && d.native.deviceObj.watchStateID.length > 0) {
+        this.log.debug(`subscribing to ${d.native.deviceObj.watchStateID}`);
+        this.subscribeForeignStates(d.native.deviceObj.watchStateID);
       }
-      if (d.dsConfig) {
-        this.log.debug(`Pushing ${JSON.stringify(d.dsConfig)} to devices`);
-        dsDevices.push(d.dsConfig);
+      if (d.native.deviceObj.dsConfig) {
+        this.log.debug(`Pushing ${JSON.stringify(d.native.deviceObj.dsConfig)} to devices`);
+        dsDevices.push(d.native.deviceObj.dsConfig);
       }
     });
     this.log.debug(`dsDevices: ${JSON.stringify(this.allDevices)}`);
-    const vdc = new import_libdsvdcts.libdsvdc({debug: this.config.vdcDebug});
+    const vdc = new import_libdsvdcts.libdsvdc({ debug: this.config.vdcDebug });
     if (this.config.vdcName && this.config.vdcName.length > 0 && this.config.vdcDSUID && this.config.vdcDSUID.length > 0 && this.config.vdcPort) {
       vdc.start({
         vdcName: this.config.vdcName,
@@ -290,10 +273,10 @@ class DigitalstromVdc extends utils.Adapter {
                     dC = SMC.val ? false : true;
                     break;
                 }
-                sceneVals[key] = {value: state.val, dontCare: dC};
+                sceneVals[key] = { value: state.val, dontCare: dC };
               }
               affectedDevice.scenes = affectedDevice.scenes.filter((d) => d.sceneId != msg.scene);
-              affectedDevice.scenes.push({sceneId: msg.scene, values: sceneVals});
+              affectedDevice.scenes.push({ sceneId: msg.scene, values: sceneVals });
               this.log.debug(`Set scene ${msg.scene} on ${affectedDevice.name} ::: ${JSON.stringify(this.allDevices)}`);
               await this.setObjectAsync(`digitalstrom-vdc.0.DS-Devices.configuredDevices.${affectedDevice.id}`, {
                 type: "state",
@@ -321,10 +304,10 @@ class DigitalstromVdc extends utils.Adapter {
                   affectedDevice.scenes = [];
                 }
                 const dC = false;
-                sceneVals[key] = {value: state.val, dontCare: dC};
+                sceneVals[key] = { value: state.val, dontCare: dC };
               }
               affectedDevice.scenes = affectedDevice.scenes.filter((d) => d.sceneId != msg.scene);
-              affectedDevice.scenes.push({sceneId: msg.scene, values: sceneVals});
+              affectedDevice.scenes.push({ sceneId: msg.scene, values: sceneVals });
               this.log.debug(`Set scene ${msg.scene} on ${affectedDevice.name} ::: ${JSON.stringify(this.allDevices)}`);
               await this.setObjectAsync(`digitalstrom-vdc.0.DS-Devices.configuredDevices.${affectedDevice.id}`, {
                 type: "state",
@@ -440,7 +423,7 @@ class DigitalstromVdc extends utils.Adapter {
               this.log.debug("msg value from state: " + JSON.stringify(state));
               const subElement = {
                 name: e,
-                elements: [{name: "value", value: {vDouble: state.val}}]
+                elements: [{ name: "value", value: { vDouble: state.val } }]
               };
               vdc.sendComplexState(msg.messageId, subElement);
             } else if (e == "x" || e == "y") {
@@ -465,14 +448,14 @@ class DigitalstromVdc extends utils.Adapter {
                       case "x":
                         subElement = {
                           name: "x",
-                          elements: [{name: "value", value: {vDouble: cie[0]}}]
+                          elements: [{ name: "value", value: { vDouble: cie[0] } }]
                         };
                         vdc.sendComplexState(msg.messageId, subElement);
                         break;
                       case "y":
                         subElement = {
                           name: "y",
-                          elements: [{name: "value", value: {vDouble: cie[1]}}]
+                          elements: [{ name: "value", value: { vDouble: cie[1] } }]
                         };
                         vdc.sendComplexState(msg.messageId, subElement);
                         break;
@@ -492,9 +475,9 @@ class DigitalstromVdc extends utils.Adapter {
               elements.push({
                 name: key,
                 elements: [
-                  {name: "age", value: {vDouble: 1}},
-                  {name: "error", value: {vUint64: "0"}},
-                  {name: "value", value: {vDouble: subState.val}}
+                  { name: "age", value: { vDouble: 1 } },
+                  { name: "error", value: { vUint64: "0" } },
+                  { name: "value", value: { vDouble: subState.val } }
                 ]
               });
             }
@@ -509,9 +492,9 @@ class DigitalstromVdc extends utils.Adapter {
               elements.push({
                 name: key,
                 elements: [
-                  {name: "age", value: {vDouble: 1}},
-                  {name: "error", value: {vUint64: "0"}},
-                  {name: "value", value: {vDouble: subState.val}}
+                  { name: "age", value: { vDouble: 1 } },
+                  { name: "error", value: { vUint64: "0" } },
+                  { name: "value", value: { vDouble: subState.val } }
                 ]
               });
             }
@@ -525,9 +508,9 @@ class DigitalstromVdc extends utils.Adapter {
               elements.push({
                 name: key,
                 elements: [
-                  {name: "age", value: {vDouble: 1}},
-                  {name: "error", value: {vUint64: "0"}},
-                  {name: "value", value: {vBool: subState.val}}
+                  { name: "age", value: { vDouble: 1 } },
+                  { name: "error", value: { vUint64: "0" } },
+                  { name: "value", value: { vBool: subState.val } }
                 ]
               });
             }
@@ -624,7 +607,7 @@ class DigitalstromVdc extends utils.Adapter {
       }
     });
     vdc.on("vdcRunningState", () => {
-      this.setStateAsync("DS-Devices.VDC.running", {val: true, ack: true});
+      this.setStateAsync("DS-Devices.VDC.running", { val: true, ack: true });
       this.log.info(`VDC <${this.config.vdcName}> is running on port ${this.config.vdcPort}`);
     });
     vdc.on("deviceZoneChange", (msg) => {
@@ -704,9 +687,9 @@ class DigitalstromVdc extends utils.Adapter {
         elements.push({
           name: key,
           elements: [
-            {name: "age", value: {vDouble: 10}},
-            {name: "error", value: {vUint64: "0"}},
-            {name: "value", value: {vDouble: subState.val}}
+            { name: "age", value: { vDouble: 10 } },
+            { name: "error", value: { vUint64: "0" } },
+            { name: "value", value: { vDouble: subState.val } }
           ]
         });
       }
@@ -735,9 +718,9 @@ class DigitalstromVdc extends utils.Adapter {
                 {
                   name: updateName,
                   elements: [
-                    {name: "age", value: null},
-                    {name: "error", value: {vUint64: "0"}},
-                    {name: "value", value: {vDouble: state.val}}
+                    { name: "age", value: null },
+                    { name: "error", value: { vUint64: "0" } },
+                    { name: "value", value: { vDouble: state.val } }
                   ]
                 }
               ]
@@ -754,9 +737,9 @@ class DigitalstromVdc extends utils.Adapter {
                 {
                   name: updateName,
                   elements: [
-                    {name: "age", value: {vDouble: 0.1}},
-                    {name: "error", value: {vUint64: "0"}},
-                    {name: "value", value: {vDouble: state.val}}
+                    { name: "age", value: { vDouble: 0.1 } },
+                    { name: "error", value: { vUint64: "0" } },
+                    { name: "value", value: { vDouble: state.val } }
                   ]
                 }
               ]
@@ -771,9 +754,9 @@ class DigitalstromVdc extends utils.Adapter {
                 {
                   name: updateName,
                   elements: [
-                    {name: "age", value: {vDouble: 1}},
-                    {name: "error", value: {vUint64: "0"}},
-                    {name: "value", value: {vBool: newState}}
+                    { name: "age", value: { vDouble: 1 } },
+                    { name: "error", value: { vUint64: "0" } },
+                    { name: "value", value: { vBool: newState } }
                   ]
                 }
               ]
@@ -788,9 +771,9 @@ class DigitalstromVdc extends utils.Adapter {
                 {
                   name: updateName,
                   elements: [
-                    {name: "age", value: {vDouble: 1}},
-                    {name: "error", value: {vUint64: "0"}},
-                    {name: "value", value: {vBool: newState}}
+                    { name: "age", value: { vDouble: 1 } },
+                    { name: "error", value: { vUint64: "0" } },
+                    { name: "value", value: { vBool: newState } }
                   ]
                 }
               ]
@@ -804,10 +787,10 @@ class DigitalstromVdc extends utils.Adapter {
                 {
                   name: updateName,
                   elements: [
-                    {name: "age", value: {vDouble: 1}},
-                    {name: "clickType", value: {vUint64: 0}},
-                    {name: "error", value: {vUint64: "0"}},
-                    {name: "value", value: {vBool: 0}}
+                    { name: "age", value: { vDouble: 1 } },
+                    { name: "clickType", value: { vUint64: 0 } },
+                    { name: "error", value: { vUint64: "0" } },
+                    { name: "value", value: { vBool: 0 } }
                   ]
                 }
               ]
@@ -821,10 +804,10 @@ class DigitalstromVdc extends utils.Adapter {
                 {
                   name: updateName,
                   elements: [
-                    {name: "age", value: {vDouble: 1}},
-                    {name: "clickType", value: {vUint64: 4}},
-                    {name: "error", value: {vUint64: "0"}},
-                    {name: "value", value: {vBool: 0}}
+                    { name: "age", value: { vDouble: 1 } },
+                    { name: "clickType", value: { vUint64: 4 } },
+                    { name: "error", value: { vUint64: "0" } },
+                    { name: "value", value: { vBool: 0 } }
                   ]
                 }
               ]
@@ -838,10 +821,10 @@ class DigitalstromVdc extends utils.Adapter {
                   {
                     name: updateName,
                     elements: [
-                      {name: "age", value: {vDouble: 1}},
-                      {name: "clickType", value: {vUint64: 6}},
-                      {name: "error", value: {vUint64: "0"}},
-                      {name: "value", value: {vBool: 0}}
+                      { name: "age", value: { vDouble: 1 } },
+                      { name: "clickType", value: { vUint64: 6 } },
+                      { name: "error", value: { vUint64: "0" } },
+                      { name: "value", value: { vBool: 0 } }
                     ]
                   }
                 ]
@@ -857,10 +840,10 @@ class DigitalstromVdc extends utils.Adapter {
                   {
                     name: updateName,
                     elements: [
-                      {name: "age", value: {vDouble: 1}},
-                      {name: "clickType", value: {vUint64: 0}},
-                      {name: "error", value: {vUint64: "0"}},
-                      {name: "value", value: {vBool: 0}}
+                      { name: "age", value: { vDouble: 1 } },
+                      { name: "clickType", value: { vUint64: 0 } },
+                      { name: "error", value: { vUint64: "0" } },
+                      { name: "value", value: { vBool: 0 } }
                     ]
                   }
                 ]
@@ -879,15 +862,15 @@ class DigitalstromVdc extends utils.Adapter {
         this.sendTo(obj.from, obj.command, response, obj.callback);
     };
     const responses = {
-      ACK: {error: null},
-      OK: {error: null, result: "ok"},
-      ERROR_UNKNOWN_COMMAND: {error: "Unknown command!"},
+      ACK: { error: null },
+      OK: { error: null, result: "ok" },
+      ERROR_UNKNOWN_COMMAND: { error: "Unknown command!" },
       MISSING_PARAMETER: (paramName) => {
-        return {error: 'missing parameter "' + paramName + '"!'};
+        return { error: 'missing parameter "' + paramName + '"!' };
       },
-      COMMAND_ACTIVE: {error: "command already active"},
-      RESULT: (result) => ({error: null, result}),
-      ERROR: (error) => ({error})
+      COMMAND_ACTIVE: { error: "command already active" },
+      RESULT: (result) => ({ error: null, result }),
+      ERROR: (error) => ({ error })
     };
     this.log.debug(`received onMessage ${JSON.stringify(obj)}`);
     if (typeof obj === "object") {
@@ -920,6 +903,7 @@ class DigitalstromVdc extends utils.Adapter {
         }
         case "VanishDevice": {
           this.log.info(`sendVanishDevice command receveid for device ${obj.message}`);
+          break;
         }
         case "ListDevices": {
           this.allDevices = await this.refreshDeviceList();
