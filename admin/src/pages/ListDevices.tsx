@@ -1,105 +1,12 @@
 import React, { useEffect } from 'react';
 import { Device, useAPI } from '../lib/useAPI';
-import { NotRunning, NoDevices } from '../components/Messages';
-import { useAdapter, useDialogs } from 'iobroker-react';
-import moment from 'moment';
-
-import {
-    Button,
-    Chip,
-    Collapse,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Typography,
-} from '@mui/material';
-import { dsDevice } from '../types/dsDevice';
-import IconButton from '@mui/material/IconButton';
-import Box from '@material-ui/core/Box';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import LightIcon from '@mui/icons-material/Light';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { NoDevices } from '../components/Messages';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { useI18n } from 'iobroker-react/hooks';
-// import { useSelect } from '../hooks/useSelect';
+import { Row } from '../components/RowCreate';
 
 export interface DevicesProps {
     devices: Record<number, Device> | undefined;
-}
-
-function Row(props: any) {
-    const { row } = props;
-    const { showModal } = useDialogs();
-    const api = useAPI();
-    const [devices, setDevices] = React.useState<string[]>([]);
-    const [open, setOpen] = React.useState(false);
-    const { translate: _ } = useI18n();
-
-    console.log('ROW', row);
-
-    const removeDevice = async (row) => {
-        await api.removeDevice(row);
-        const devs = await api.listDevices();
-        setDevices(devs);
-    };
-
-    return (
-        <React.Fragment>
-            <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-                <TableCell>
-                    <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                    </IconButton>
-                </TableCell>
-                <TableCell component="th" scope="row">
-                    <Chip icon={<LightIcon />} label={row.common.name} variant="outlined" />
-                </TableCell>
-                <TableCell align="right">{moment(row.ts).format('DD.MM.YYYY')}</TableCell>
-                <TableCell align="right">{row.native.deviceObj.dsConfig.dSUID}</TableCell>
-                <TableCell align="right">
-                    <Button
-                        onClick={async () => {
-                            {
-                                console.log('click to remove', row);
-                                const result = await showModal(
-                                    _('remove device?'),
-                                    `${_('are you sure you want to remove')} «${row.common.name}»?`,
-                                );
-                                if (!result) return;
-                                useEffect(() => {
-                                    if (!devices || devices.length === 0) {
-                                        console.log('refreshing devices');
-                                        removeDevice(row);
-                                    }
-                                }, []);
-                            }
-                        }}
-                        variant="outlined"
-                    >
-                        <DeleteOutlineIcon /> {_('listDevices-removeButton')}
-                    </Button>
-                </TableCell>
-            </TableRow>
-            <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                    <Collapse in={open} timeout="auto" unmountOnExit>
-                        <Box sx={{ margin: 1 }}>
-                            <Typography variant="h6" gutterBottom component="div">
-                                {_('listDevices-watchStateHeader')}
-                            </Typography>
-                            <pre>
-                                <code>{JSON.stringify(row.native.deviceObj.dsConfig, null, 2)}</code>
-                            </pre>
-                        </Box>
-                    </Collapse>
-                </TableCell>
-            </TableRow>
-        </React.Fragment>
-    );
 }
 
 export const ListDevices: React.FC = () => {
@@ -108,19 +15,18 @@ export const ListDevices: React.FC = () => {
     const api = useAPI();
     const { translate: _ } = useI18n();
 
-    // functions
-    const refreshDevices = async () => {
-        const devices = await api.listDevices();
-        console.log('effectHook', devices);
-        setDevices(devices);
-    };
+    const refreshDevices = React.useCallback(async () => {
+        const devs = await api.listDevices();
+        setDevices(devs);
+        console.log('all Devices', devices);
+    }, [api]);
 
     // load device array
     useEffect(() => {
-        // if (!devices || devices.length === 0) {
-        console.log('refreshing devices');
-        refreshDevices();
-        // }
+        (async () => {
+            console.log('refreshing devices');
+            await refreshDevices();
+        })();
     }, []);
 
     if (!devices || devices.length === 0) return <NoDevices />;
@@ -147,7 +53,7 @@ export const ListDevices: React.FC = () => {
                     </TableHead>
                     <TableBody>
                         {devices.map((row: any) => (
-                            <Row key={row.common.name} row={row} />
+                            <Row key={row.common.name} row={row} refreshDevices={() => refreshDevices()} />
                         ))}
                     </TableBody>
                 </Table>
