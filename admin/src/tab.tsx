@@ -9,8 +9,8 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from '@iobroker/adapter-react/Theme';
 // UI elements are imported from Material-UI
 import { useI18n, useIoBrokerTheme } from 'iobroker-react/hooks';
-import { Tab, Tabs, Chip, ButtonGroup } from '@mui/material';
-import { Done, HighlightOff, RestartAlt } from '@mui/icons-material';
+import { Button, Stack, Tab, Tabs } from '@mui/material';
+import { HighlightOff, RestartAlt, TaskAlt } from '@mui/icons-material';
 
 // Components are imported here
 import { TabPanel } from './components/TabPanel';
@@ -49,42 +49,57 @@ const connectionState = () => {
 
     if (!adapterRunning || !driverReady)
         return (
-            <ButtonGroup
-                style={{
-                    position: 'absolute',
-                    right: '30px',
-                }}
-                variant="text"
-                aria-label="outlined primary button group"
-            >
-                <Chip label={_('restart vdc')} color="primary" deleteIcon={<RestartAlt />} onDelete={() => {}} />
-                <Chip
-                    label={_('adapter not running')}
+            <Stack spacing={2} direction="row" justifyContent="center">
+                <Button
+                    variant="outlined"
+                    color="primary"
+                    endIcon={<RestartAlt />}
+                    sx={{
+                        borderRadius: '15px',
+                        // pointerEvents: 'none',
+                    }}
+                >
+                    {_('restart vdc')}
+                </Button>
+                <Button
+                    variant="contained"
                     color="warning"
-                    deleteIcon={<HighlightOff />}
-                    onDelete={() => {}}
-                />
-            </ButtonGroup>
+                    endIcon={<HighlightOff />}
+                    sx={{
+                        borderRadius: '15px',
+                        pointerEvents: 'none',
+                    }}
+                >
+                    {_('adapter running')}
+                </Button>
+            </Stack>
         );
 
     return (
-        <ButtonGroup
-            style={{
-                position: 'absolute',
-                right: '30px',
-            }}
-            variant="text"
-            aria-label="outlined primary button group"
-        >
-            <Chip label={_('restart vdc')} color="primary" deleteIcon={<RestartAlt />} onDelete={() => {}} />
-            <Chip
-                label={_('adapter running')}
-                deleteIcon={<Done />}
-                onDelete={() => {}}
-                color="success"
+        <Stack spacing={2} justifyContent="center" direction="row">
+            <Button
                 variant="outlined"
-            />
-        </ButtonGroup>
+                color="primary"
+                endIcon={<RestartAlt />}
+                sx={{
+                    borderRadius: '15px',
+                    // pointerEvents: 'none',
+                }}
+            >
+                {_('restart vdc')}
+            </Button>
+            <Button
+                variant="outlined"
+                color="success"
+                endIcon={<TaskAlt />}
+                sx={{
+                    borderRadius: '15px',
+                    pointerEvents: 'none',
+                }}
+            >
+                {_('adapter running')}
+            </Button>
+        </Stack>
     );
 };
 
@@ -104,13 +119,20 @@ const Root: React.FC = () => {
     return (
         <React.Fragment>
             <ThemeProvider theme={theme(themeName)}>
-                <Tabs value={value} onChange={handleTabChange}>
+                {connectionState()}
+                <Tabs
+                    value={value}
+                    onChange={handleTabChange}
+                    centered
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                    }}
+                >
                     <Tab label={_('tabListDevices')} />
                     <Tab label={_('tabAddNewDevices')} />
                     <Tab label={_('tabExperts')} />
-                    {connectionState()}
                 </Tabs>
-
                 <TabPanel value={value} index={0}>
                     <ErrorBoundary FallbackComponent={ErrorFallback}>
                         <ListDevices />
