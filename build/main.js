@@ -702,137 +702,85 @@ class DigitalstromVdc extends utils.Adapter {
     ]);
   }
   onStateChange(id, state) {
-    if (state) {
-      this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
-      const affectedDevice = this.allDevices.find((d) => d.watchStateID == id || Object.values(d.watchStateID).indexOf(id) > -1);
-      if (affectedDevice && typeof affectedDevice.watchStateID == "object") {
-        const updateName = Object.keys(affectedDevice.watchStateID).find((key) => affectedDevice.watchStateID[key] === id);
-        if (affectedDevice.deviceType == "multiSensor") {
-          if (affectedDevice.modifiers && typeof affectedDevice.modifiers == "object" && updateName && affectedDevice.modifiers[updateName]) {
-            state.val = state.val * parseFloat(affectedDevice.modifiers[updateName]);
-          }
-          this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
-            {
-              name: "sensorStates",
-              elements: [
-                {
-                  name: updateName,
-                  elements: [
-                    { name: "age", value: null },
-                    { name: "error", value: { vUint64: "0" } },
-                    { name: "value", value: { vDouble: state.val } }
-                  ]
-                }
-              ]
+    try {
+      if (state) {
+        this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+        const affectedDevice = this.allDevices.find((d) => d.watchStateID == id || Object.values(d.watchStateID).indexOf(id) > -1);
+        if (affectedDevice && typeof affectedDevice.watchStateID == "object") {
+          const updateName = Object.keys(affectedDevice.watchStateID).find((key) => affectedDevice.watchStateID[key] === id);
+          if (affectedDevice.deviceType == "multiSensor") {
+            if (affectedDevice.modifiers && typeof affectedDevice.modifiers == "object" && updateName && affectedDevice.modifiers[updateName]) {
+              state.val = state.val * parseFloat(affectedDevice.modifiers[updateName]);
             }
-          ]);
-        } else if (affectedDevice.deviceType == "sensor") {
-          if (affectedDevice.modifiers && typeof affectedDevice.modifiers == "object" && updateName && affectedDevice.modifiers[updateName]) {
-            state.val = state.val * parseFloat(affectedDevice.modifiers[updateName]);
-          }
-          this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
-            {
-              name: "sensorStates",
-              elements: [
-                {
-                  name: updateName,
-                  elements: [
-                    { name: "age", value: { vDouble: 0.1 } },
-                    { name: "error", value: { vUint64: "0" } },
-                    { name: "value", value: { vDouble: state.val } }
-                  ]
-                }
-              ]
-            }
-          ]);
-        } else if (affectedDevice.deviceType == "presenceSensor") {
-          const newState = state.val ? 1 : 0;
-          this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
-            {
-              name: "binaryInputStates",
-              elements: [
-                {
-                  name: updateName,
-                  elements: [
-                    { name: "age", value: { vDouble: 1 } },
-                    { name: "error", value: { vUint64: "0" } },
-                    { name: "value", value: { vBool: newState } }
-                  ]
-                }
-              ]
-            }
-          ]);
-        } else if (affectedDevice.deviceType == "smokeAlarm") {
-          const newState = state.val ? 1 : 0;
-          this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
-            {
-              name: "binaryInputStates",
-              elements: [
-                {
-                  name: updateName,
-                  elements: [
-                    { name: "age", value: { vDouble: 1 } },
-                    { name: "error", value: { vUint64: "0" } },
-                    { name: "value", value: { vBool: newState } }
-                  ]
-                }
-              ]
-            }
-          ]);
-        } else if (affectedDevice.deviceType == "button") {
-          this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
-            {
-              name: "buttonInputStates",
-              elements: [
-                {
-                  name: updateName,
-                  elements: [
-                    { name: "age", value: { vDouble: 1 } },
-                    { name: "clickType", value: { vUint64: 0 } },
-                    { name: "error", value: { vUint64: "0" } },
-                    { name: "value", value: { vBool: 0 } }
-                  ]
-                }
-              ]
-            }
-          ]);
-        } else if (affectedDevice.deviceType == "awayButton") {
-          this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
-            {
-              name: "buttonInputStates",
-              elements: [
-                {
-                  name: updateName,
-                  elements: [
-                    { name: "age", value: { vDouble: 1 } },
-                    { name: "clickType", value: { vUint64: 4 } },
-                    { name: "error", value: { vUint64: "0" } },
-                    { name: "value", value: { vBool: 0 } }
-                  ]
-                }
-              ]
-            }
-          ]);
-          setTimeout(() => {
             this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
               {
-                name: "buttonInputStates",
+                name: "sensorStates",
                 elements: [
                   {
                     name: updateName,
                     elements: [
-                      { name: "age", value: { vDouble: 1 } },
-                      { name: "clickType", value: { vUint64: 6 } },
+                      { name: "age", value: null },
                       { name: "error", value: { vUint64: "0" } },
-                      { name: "value", value: { vBool: 0 } }
+                      { name: "value", value: { vDouble: state.val } }
                     ]
                   }
                 ]
               }
             ]);
-          }, 3.5 * 1e3);
-        } else if (affectedDevice.deviceType == "doorbell") {
-          if (state.val) {
+          } else if (affectedDevice.deviceType == "sensor") {
+            if (affectedDevice.modifiers && typeof affectedDevice.modifiers == "object" && updateName && affectedDevice.modifiers[updateName]) {
+              state.val = state.val * parseFloat(affectedDevice.modifiers[updateName]);
+            }
+            this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
+              {
+                name: "sensorStates",
+                elements: [
+                  {
+                    name: updateName,
+                    elements: [
+                      { name: "age", value: { vDouble: 0.1 } },
+                      { name: "error", value: { vUint64: "0" } },
+                      { name: "value", value: { vDouble: state.val } }
+                    ]
+                  }
+                ]
+              }
+            ]);
+          } else if (affectedDevice.deviceType == "presenceSensor") {
+            const newState = state.val ? 1 : 0;
+            this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
+              {
+                name: "binaryInputStates",
+                elements: [
+                  {
+                    name: updateName,
+                    elements: [
+                      { name: "age", value: { vDouble: 1 } },
+                      { name: "error", value: { vUint64: "0" } },
+                      { name: "value", value: { vBool: newState } }
+                    ]
+                  }
+                ]
+              }
+            ]);
+          } else if (affectedDevice.deviceType == "smokeAlarm") {
+            const newState = state.val ? 1 : 0;
+            this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
+              {
+                name: "binaryInputStates",
+                elements: [
+                  {
+                    name: updateName,
+                    elements: [
+                      { name: "age", value: { vDouble: 1 } },
+                      { name: "error", value: { vUint64: "0" } },
+                      { name: "value", value: { vBool: newState } }
+                    ]
+                  }
+                ]
+              }
+            ]);
+          } else if (affectedDevice.deviceType == "button") {
             this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
               {
                 name: "buttonInputStates",
@@ -849,11 +797,70 @@ class DigitalstromVdc extends utils.Adapter {
                 ]
               }
             ]);
+          } else if (affectedDevice.deviceType == "awayButton") {
+            this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
+              {
+                name: "buttonInputStates",
+                elements: [
+                  {
+                    name: updateName,
+                    elements: [
+                      { name: "age", value: { vDouble: 1 } },
+                      { name: "clickType", value: { vUint64: 4 } },
+                      { name: "error", value: { vUint64: "0" } },
+                      { name: "value", value: { vBool: 0 } }
+                    ]
+                  }
+                ]
+              }
+            ]);
+            setTimeout(() => {
+              this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
+                {
+                  name: "buttonInputStates",
+                  elements: [
+                    {
+                      name: updateName,
+                      elements: [
+                        { name: "age", value: { vDouble: 1 } },
+                        { name: "clickType", value: { vUint64: 6 } },
+                        { name: "error", value: { vUint64: "0" } },
+                        { name: "value", value: { vBool: 0 } }
+                      ]
+                    }
+                  ]
+                }
+              ]);
+            }, 3.5 * 1e3);
+          } else if (affectedDevice.deviceType == "doorbell") {
+            if (state.val) {
+              this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
+                {
+                  name: "buttonInputStates",
+                  elements: [
+                    {
+                      name: updateName,
+                      elements: [
+                        { name: "age", value: { vDouble: 1 } },
+                        { name: "clickType", value: { vUint64: 0 } },
+                        { name: "error", value: { vUint64: "0" } },
+                        { name: "value", value: { vBool: 0 } }
+                      ]
+                    }
+                  ]
+                }
+              ]);
+            }
           }
         }
+      } else {
+        this.log.info(`state ${id} deleted`);
       }
-    } else {
-      this.log.info(`state ${id} deleted`);
+    } catch (error) {
+      let message = error;
+      if (error instanceof Error && error.stack != null)
+        message = error.stack;
+      this.log.error(`[onStateChange] ${message}`);
     }
   }
   async onMessage(obj) {

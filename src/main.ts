@@ -1052,159 +1052,104 @@ class DigitalstromVdc extends utils.Adapter {
      * Is called if a subscribed state changes
      */
     private onStateChange(id: string, state: ioBroker.State | null | undefined): void {
-        if (state) {
-            // The state was changed
-            this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
+        try {
+            if (state) {
+                // The state was changed
+                this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
 
-            // inform vdc
-            const affectedDevice = this.allDevices.find(
-                (d: any) => d.watchStateID == id || Object.values(d.watchStateID).indexOf(id) > -1,
-            );
-            if (affectedDevice && typeof affectedDevice.watchStateID == 'object') {
-                const updateName = Object.keys(affectedDevice.watchStateID).find(
-                    (key) => affectedDevice.watchStateID[key] === id,
+                // inform vdc
+                const affectedDevice = this.allDevices.find(
+                    (d: any) => d.watchStateID == id || Object.values(d.watchStateID).indexOf(id) > -1,
                 );
-                if (affectedDevice.deviceType == 'multiSensor') {
-                    // this.replyMultiSensor(affectedDevice);
-                    if (
-                        affectedDevice.modifiers &&
-                        typeof affectedDevice.modifiers == 'object' &&
-                        updateName &&
-                        affectedDevice.modifiers[updateName]
-                    ) {
-                        state.val = (state.val as number) * parseFloat(affectedDevice.modifiers[updateName]);
-                    }
-                    this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
-                        {
-                            name: 'sensorStates',
-                            elements: [
-                                {
-                                    name: updateName,
-                                    elements: [
-                                        { name: 'age', value: null },
-                                        { name: 'error', value: { vUint64: '0' } },
-                                        { name: 'value', value: { vDouble: state.val } },
-                                    ],
-                                },
-                            ],
-                        },
-                    ]);
-                } else if (affectedDevice.deviceType == 'sensor') {
-                    if (
-                        affectedDevice.modifiers &&
-                        typeof affectedDevice.modifiers == 'object' &&
-                        updateName &&
-                        affectedDevice.modifiers[updateName]
-                    ) {
-                        state.val = (state.val as number) * parseFloat(affectedDevice.modifiers[updateName]);
-                    }
-                    this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
-                        {
-                            name: 'sensorStates',
-                            elements: [
-                                {
-                                    name: updateName,
-                                    elements: [
-                                        { name: 'age', value: { vDouble: 0.1 } },
-                                        { name: 'error', value: { vUint64: '0' } },
-                                        { name: 'value', value: { vDouble: state.val } },
-                                    ],
-                                },
-                            ],
-                        },
-                    ]);
-                } else if (affectedDevice.deviceType == 'presenceSensor') {
-                    const newState = state.val ? 1 : 0;
-                    this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
-                        {
-                            name: 'binaryInputStates',
-                            elements: [
-                                {
-                                    name: updateName,
-                                    elements: [
-                                        { name: 'age', value: { vDouble: 1 } },
-                                        { name: 'error', value: { vUint64: '0' } },
-                                        { name: 'value', value: { vBool: newState } },
-                                    ],
-                                },
-                            ],
-                        },
-                    ]);
-                } else if (affectedDevice.deviceType == 'smokeAlarm') {
-                    const newState = state.val ? 1 : 0;
-                    this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
-                        {
-                            name: 'binaryInputStates',
-                            elements: [
-                                {
-                                    name: updateName,
-                                    elements: [
-                                        { name: 'age', value: { vDouble: 1 } },
-                                        { name: 'error', value: { vUint64: '0' } },
-                                        { name: 'value', value: { vBool: newState } },
-                                    ],
-                                },
-                            ],
-                        },
-                    ]);
-                } else if (affectedDevice.deviceType == 'button') {
-                    // const newState = state.val ? 1 : 0;
-                    this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
-                        {
-                            name: 'buttonInputStates',
-                            elements: [
-                                {
-                                    name: updateName,
-                                    elements: [
-                                        { name: 'age', value: { vDouble: 1 } },
-                                        { name: 'clickType', value: { vUint64: 0 } },
-                                        { name: 'error', value: { vUint64: '0' } },
-                                        { name: 'value', value: { vBool: 0 } },
-                                    ],
-                                },
-                            ],
-                        },
-                    ]);
-                } else if (affectedDevice.deviceType == 'awayButton') {
-                    // const newState = state.val ? 1 : 0;
-                    this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
-                        {
-                            name: 'buttonInputStates',
-                            elements: [
-                                {
-                                    name: updateName,
-                                    elements: [
-                                        { name: 'age', value: { vDouble: 1 } },
-                                        { name: 'clickType', value: { vUint64: 4 } },
-                                        { name: 'error', value: { vUint64: '0' } },
-                                        { name: 'value', value: { vBool: 0 } },
-                                    ],
-                                },
-                            ],
-                        },
-                    ]);
-                    setTimeout(() => {
+                if (affectedDevice && typeof affectedDevice.watchStateID == 'object') {
+                    const updateName = Object.keys(affectedDevice.watchStateID).find(
+                        (key) => affectedDevice.watchStateID[key] === id,
+                    );
+                    if (affectedDevice.deviceType == 'multiSensor') {
+                        // this.replyMultiSensor(affectedDevice);
+                        if (
+                            affectedDevice.modifiers &&
+                            typeof affectedDevice.modifiers == 'object' &&
+                            updateName &&
+                            affectedDevice.modifiers[updateName]
+                        ) {
+                            state.val = (state.val as number) * parseFloat(affectedDevice.modifiers[updateName]);
+                        }
                         this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
                             {
-                                name: 'buttonInputStates',
+                                name: 'sensorStates',
                                 elements: [
                                     {
                                         name: updateName,
                                         elements: [
-                                            { name: 'age', value: { vDouble: 1 } },
-                                            { name: 'clickType', value: { vUint64: 6 } },
+                                            { name: 'age', value: null },
                                             { name: 'error', value: { vUint64: '0' } },
-                                            { name: 'value', value: { vBool: 0 } },
+                                            { name: 'value', value: { vDouble: state.val } },
                                         ],
                                     },
                                 ],
                             },
                         ]);
-                    }, 3.5 * 1000);
-                } else if (affectedDevice.deviceType == 'doorbell') {
-                    // const newState = state.val ? 1 : 0;
-                    if (state.val) {
-                        // send event only if val is true
+                    } else if (affectedDevice.deviceType == 'sensor') {
+                        if (
+                            affectedDevice.modifiers &&
+                            typeof affectedDevice.modifiers == 'object' &&
+                            updateName &&
+                            affectedDevice.modifiers[updateName]
+                        ) {
+                            state.val = (state.val as number) * parseFloat(affectedDevice.modifiers[updateName]);
+                        }
+                        this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
+                            {
+                                name: 'sensorStates',
+                                elements: [
+                                    {
+                                        name: updateName,
+                                        elements: [
+                                            { name: 'age', value: { vDouble: 0.1 } },
+                                            { name: 'error', value: { vUint64: '0' } },
+                                            { name: 'value', value: { vDouble: state.val } },
+                                        ],
+                                    },
+                                ],
+                            },
+                        ]);
+                    } else if (affectedDevice.deviceType == 'presenceSensor') {
+                        const newState = state.val ? 1 : 0;
+                        this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
+                            {
+                                name: 'binaryInputStates',
+                                elements: [
+                                    {
+                                        name: updateName,
+                                        elements: [
+                                            { name: 'age', value: { vDouble: 1 } },
+                                            { name: 'error', value: { vUint64: '0' } },
+                                            { name: 'value', value: { vBool: newState } },
+                                        ],
+                                    },
+                                ],
+                            },
+                        ]);
+                    } else if (affectedDevice.deviceType == 'smokeAlarm') {
+                        const newState = state.val ? 1 : 0;
+                        this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
+                            {
+                                name: 'binaryInputStates',
+                                elements: [
+                                    {
+                                        name: updateName,
+                                        elements: [
+                                            { name: 'age', value: { vDouble: 1 } },
+                                            { name: 'error', value: { vUint64: '0' } },
+                                            { name: 'value', value: { vBool: newState } },
+                                        ],
+                                    },
+                                ],
+                            },
+                        ]);
+                    } else if (affectedDevice.deviceType == 'button') {
+                        // const newState = state.val ? 1 : 0;
                         this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
                             {
                                 name: 'buttonInputStates',
@@ -1221,12 +1166,73 @@ class DigitalstromVdc extends utils.Adapter {
                                 ],
                             },
                         ]);
+                    } else if (affectedDevice.deviceType == 'awayButton') {
+                        // const newState = state.val ? 1 : 0;
+                        this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
+                            {
+                                name: 'buttonInputStates',
+                                elements: [
+                                    {
+                                        name: updateName,
+                                        elements: [
+                                            { name: 'age', value: { vDouble: 1 } },
+                                            { name: 'clickType', value: { vUint64: 4 } },
+                                            { name: 'error', value: { vUint64: '0' } },
+                                            { name: 'value', value: { vBool: 0 } },
+                                        ],
+                                    },
+                                ],
+                            },
+                        ]);
+                        setTimeout(() => {
+                            this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
+                                {
+                                    name: 'buttonInputStates',
+                                    elements: [
+                                        {
+                                            name: updateName,
+                                            elements: [
+                                                { name: 'age', value: { vDouble: 1 } },
+                                                { name: 'clickType', value: { vUint64: 6 } },
+                                                { name: 'error', value: { vUint64: '0' } },
+                                                { name: 'value', value: { vBool: 0 } },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            ]);
+                        }, 3.5 * 1000);
+                    } else if (affectedDevice.deviceType == 'doorbell') {
+                        // const newState = state.val ? 1 : 0;
+                        if (state.val) {
+                            // send event only if val is true
+                            this.vdc.sendUpdate(affectedDevice.dsConfig.dSUID, [
+                                {
+                                    name: 'buttonInputStates',
+                                    elements: [
+                                        {
+                                            name: updateName,
+                                            elements: [
+                                                { name: 'age', value: { vDouble: 1 } },
+                                                { name: 'clickType', value: { vUint64: 0 } },
+                                                { name: 'error', value: { vUint64: '0' } },
+                                                { name: 'value', value: { vBool: 0 } },
+                                            ],
+                                        },
+                                    ],
+                                },
+                            ]);
+                        }
                     }
                 }
+            } else {
+                // The state was deleted
+                this.log.info(`state ${id} deleted`);
             }
-        } else {
-            // The state was deleted
-            this.log.info(`state ${id} deleted`);
+        } catch (error) {
+            let message = error;
+            if (error instanceof Error && error.stack != null) message = error.stack;
+            this.log.error(`[onStateChange] ${message}`)
         }
     }
 
