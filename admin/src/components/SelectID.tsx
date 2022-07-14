@@ -12,7 +12,7 @@ export interface SelectIDProps {
     title: string;
     type: SelectType;
     buttonTitle: string;
-    clear: boolean;
+    clear?: boolean;
     onSelect: (selectId: string | undefined, type: SelectType) => void;
 }
 
