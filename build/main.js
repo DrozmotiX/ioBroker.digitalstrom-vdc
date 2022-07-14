@@ -705,7 +705,7 @@ class DigitalstromVdc extends utils.Adapter {
     try {
       if (state) {
         this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
-        const affectedDevice = this.allDevices.find((d) => d.watchStateID == id || Object.values(d.watchStateID).indexOf(id) > -1);
+        const affectedDevice = this.allDevices.find((d) => d.native.deviceObj.watchStateID == id || Object.values(d.native.deviceObj.watchStateID).indexOf(id) > -1);
         if (affectedDevice && typeof affectedDevice.watchStateID == "object") {
           const updateName = Object.keys(affectedDevice.watchStateID).find((key) => affectedDevice.watchStateID[key] === id);
           if (affectedDevice.deviceType == "multiSensor") {

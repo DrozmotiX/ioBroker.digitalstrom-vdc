@@ -1059,7 +1059,9 @@ class DigitalstromVdc extends utils.Adapter {
 
                 // inform vdc
                 const affectedDevice = this.allDevices.find(
-                    (d: any) => d.watchStateID == id || Object.values(d.watchStateID).indexOf(id) > -1,
+                    (d: any) =>
+                        d.native.deviceObj.watchStateID == id ||
+                        Object.values(d.native.deviceObj.watchStateID).indexOf(id) > -1,
                 );
                 if (affectedDevice && typeof affectedDevice.watchStateID == 'object') {
                     const updateName = Object.keys(affectedDevice.watchStateID).find(
