@@ -5,7 +5,7 @@ import { Config } from '../lib/Config';
 
 export default function DefineConfigURL() {
     const [name, setName] = React.useState('');
-    const handleChange = (event) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
         console.log(event.target.value);
         Config.configUrl = event.target.value;

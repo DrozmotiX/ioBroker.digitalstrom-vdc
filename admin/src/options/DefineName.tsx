@@ -7,7 +7,7 @@ import { useI18n } from 'iobroker-react/hooks';
 export default function DefineName() {
     const [name, setName] = React.useState('');
     const { translate: _ } = useI18n();
-    const handleChange = (event) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
         console.log(event.target.value);
         Config.name = event.target.value;

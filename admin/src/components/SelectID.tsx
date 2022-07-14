@@ -6,18 +6,24 @@ import * as React from 'react';
 import { useDialogs } from 'iobroker-react';
 import { Box, Button, TextField } from '@mui/material';
 import { SelectType } from '../types/selectType';
+import { useEffect } from 'react';
 
 export interface SelectIDProps {
     title: string;
     type: SelectType;
     buttonTitle: string;
+    clear: boolean;
     onSelect: (selectId: string | undefined, type: SelectType) => void;
 }
 
-export const SelectID: React.FC<SelectIDProps> = ({ title, type, buttonTitle, onSelect }): JSX.Element => {
+export const SelectID: React.FC<SelectIDProps> = ({ title, type, buttonTitle, onSelect, clear }): JSX.Element => {
     const [selectIdValue, setSelectIdValue] = React.useState<string | undefined>();
     const { translate: _ } = useI18n();
     const { showSelectId } = useDialogs();
+
+    useEffect(() => {
+        setSelectIdValue('');
+    }, [clear]);
 
     const askUser = React.useCallback(async () => {
         const selected = await showSelectId({

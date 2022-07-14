@@ -8,7 +8,7 @@ export default function DimmerSelectID() {
     const [selectIdValue, setSelectIdValue] = React.useState<string | string[] | undefined>();
     const { translate: _ } = useI18n();
     const { showSelectId } = useDialogs();
-    const writeBackSelectId = (selectId) => {
+    const writeBackSelectId = (selectId: React.SetStateAction<string | string[] | undefined>) => {
         setSelectIdValue(selectId);
         Config.DimmerSelectID = selectId;
     };

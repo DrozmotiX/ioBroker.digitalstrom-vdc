@@ -35,14 +35,17 @@ export class API {
         return result ?? [];
     }
 
-    public async createDevice(device: dsDevice): Promise<string[]> {
-        const { error, result } = await this.connection.sendTo<SendToResult<string[]>>(
-            this.namespace,
-            'addNewDevice',
-            device,
-        );
-        if (error) throw error;
-        return result ?? [];
+    public async createDevice(device: dsDevice | null): Promise<string[]> {
+        if (device !== null) {
+            const { error, result } = await this.connection.sendTo<SendToResult<string[]>>(
+                this.namespace,
+                'addNewDevice',
+                device,
+            );
+            if (error) throw error;
+            return result ?? [];
+        }
+        return [];
     }
 
     public async removeDevice(deviceObj: any): Promise<string[]> {

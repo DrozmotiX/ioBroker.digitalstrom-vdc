@@ -1,5 +1,6 @@
 export type dsDevice = {
     name: string;
+    deviceType: string;
     watchStateID: watchStateID;
     id: string;
     dsConfig: dsConfig;
@@ -329,7 +330,7 @@ export type outputDescription = {
     objName: string;
     dsIndex: number;
     maxPower: number;
-    function: 1 | 2 | 3 | 4 | 5 | 6;
+    function: 0 | 1 | 2 | 3 | 4 | 5 | 6;
     outputUsage: 0 | 1 | 2;
     type: 'output';
     variableRamp: boolean;

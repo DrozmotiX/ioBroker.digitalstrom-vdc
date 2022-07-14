@@ -16,50 +16,40 @@ import { Lamp } from '../device/Lamp';
 const deviceTypeOptions = [
     {
         label: 'Select Device type',
-        title: 'selectDevice',
         disabled: true,
     },
     {
         label: 'lamp',
-        title: 'deviceTypeOptionsLamp',
     },
-    {
-        label: 'rgbLamp',
-        title: 'deviceTypeOptionsRGBLamp',
-    },
+    // {
+    //     label: 'rgbLamp',
+    // },
     {
         label: 'sensor',
-        title: 'deviceTypeOptionsSensor',
     },
     {
         label: 'presenceSensor',
-        title: 'deviceTypeOptionsMotionDetection',
     },
     {
         label: 'smokeAlarm',
-        title: 'deviceTypeOptionsSmokeAlarm',
     },
     {
         label: 'button',
-        title: 'deviceTypeOptionsButton',
     },
     {
         label: 'doorbell',
-        title: 'deviceTypeOptionsDoorbell',
     },
     {
         label: 'multiSensor',
-        title: 'deviceTypeOptionsMultiSensor',
     },
     {
         label: 'awayButton',
-        title: 'deviceTypeOptionsAwayButton',
     },
 ];
 
 export const SelectDeviceType = (): JSX.Element => {
     const { translate: _ } = useI18n();
-    const [devicetype, sethandleDeviceType] = useState('selectDevice');
+    const [deviceType, sethandleDeviceType] = useState('selectDevice');
 
     const handleDeviceType = (event: SelectChangeEvent) => {
         console.log(Config);
@@ -78,7 +68,7 @@ export const SelectDeviceType = (): JSX.Element => {
                 <MenuItem
                     disabled={deviceTypeOptions[key].disabled}
                     key={key + deviceTypeOptions[key].label}
-                    value={deviceTypeOptions[key].title}
+                    value={deviceTypeOptions[key].label}
                 >{`${_(deviceTypeOptions[key].label)}`}</MenuItem>,
             );
         }
@@ -107,7 +97,7 @@ export const SelectDeviceType = (): JSX.Element => {
                             <Select
                                 labelId="DeviceType-select-label"
                                 id="DeviceType"
-                                value={devicetype}
+                                value={deviceType}
                                 label="select device Type"
                                 onChange={handleDeviceType}
                                 sx={{ width: 250 }}
@@ -118,9 +108,9 @@ export const SelectDeviceType = (): JSX.Element => {
                     </Box>
                 </Grid>
             </React.Fragment>
-            {devicetype === 'deviceTypeOptionsLamp' ? <Lamp api={api} /> : null}
+            {deviceType === 'lamp' ? <Lamp api={api} /> : null}
 
-            {devicetype === 'deviceTypeOptionsRGBLamp' ? (
+            {deviceType === 'rgbLamp' ? (
                 <React.Fragment>
                     <Grid
                         container
@@ -244,6 +234,7 @@ export const SelectDeviceType = (): JSX.Element => {
                                     console.log(JSON.stringify(await api.listDevices()));
                                     const testDevice: dsDevice = {
                                         name: Config.name,
+                                        deviceType: Config.deviceType,
                                         watchStateID: { button_0: 'test2' },
                                         id: '1234567',
                                         dsConfig: {
@@ -271,7 +262,7 @@ export const SelectDeviceType = (): JSX.Element => {
                     </Grid>
                 </React.Fragment>
             ) : null}
-            {devicetype === 'deviceTypeOptionsSensor' ? (
+            {deviceType === 'sensor' ? (
                 <React.Fragment>
                     <Grid
                         container
@@ -310,7 +301,7 @@ export const SelectDeviceType = (): JSX.Element => {
                     </Grid>
                 </React.Fragment>
             ) : null}
-            {devicetype === 'deviceTypeOptionsMotionDetection' ? (
+            {deviceType === 'presenceSensor' ? (
                 <React.Fragment>
                     <Grid
                         container
@@ -347,7 +338,7 @@ export const SelectDeviceType = (): JSX.Element => {
                     </Grid>
                 </React.Fragment>
             ) : null}
-            {devicetype === 'deviceTypeOptionsSmokeAlarm' ? (
+            {deviceType === 'smokeAlarm' ? (
                 <React.Fragment>
                     <Grid
                         container
@@ -384,7 +375,7 @@ export const SelectDeviceType = (): JSX.Element => {
                     </Grid>
                 </React.Fragment>
             ) : null}
-            {devicetype === 'deviceTypeOptionsButton' ? (
+            {deviceType === 'button' ? (
                 <React.Fragment>
                     <Grid
                         container
@@ -421,7 +412,7 @@ export const SelectDeviceType = (): JSX.Element => {
                     </Grid>
                 </React.Fragment>
             ) : null}
-            {devicetype === 'deviceTypeOptionsDoorbell' ? (
+            {deviceType === 'doorbell' ? (
                 <React.Fragment>
                     <Grid
                         container
@@ -458,7 +449,7 @@ export const SelectDeviceType = (): JSX.Element => {
                     </Grid>
                 </React.Fragment>
             ) : null}
-            {devicetype === 'deviceTypeOptionsMultiSensor' ? (
+            {deviceType === 'multiSensor' ? (
                 <React.Fragment>
                     <Grid
                         container
@@ -494,7 +485,7 @@ export const SelectDeviceType = (): JSX.Element => {
                     </Grid>
                 </React.Fragment>
             ) : null}
-            {devicetype === 'deviceTypeOptionsAwayButton' ? (
+            {deviceType === 'awayButton' ? (
                 <React.Fragment>
                     <Grid
                         container

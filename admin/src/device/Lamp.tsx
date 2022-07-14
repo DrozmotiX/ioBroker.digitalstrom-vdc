@@ -2,13 +2,22 @@
  * Created by alex-issi on 13.07.22
  */
 import React from 'react';
-import { Box, Button, Grid, TextField } from '@mui/material';
+import {
+    Box,
+    Button,
+    FormControl,
+    FormControlLabel,
+    FormLabel,
+    Grid,
+    Radio,
+    RadioGroup,
+    TextField,
+} from '@mui/material';
 import { SelectID } from '../components/SelectID';
 import { handleSelectId } from '../lib/handleSelectID';
 import { API } from '../lib/useAPI';
 import { clearConfig, Config } from '../lib/Config';
-import { genDSUID } from '../lib/genDSUID';
-import { dsDevice } from '../types/dsDevice';
+import { createDevice } from '../lib/create_dsDevice';
 
 export interface LampProps {
     api: API;
@@ -16,13 +25,26 @@ export interface LampProps {
 
 export const Lamp: React.FC<LampProps> = ({ api }): JSX.Element => {
     const [name, setName] = React.useState('');
+    const [clear, setClear] = React.useState(false);
     const [configURL, setConfigURL] = React.useState('http://localhost:8081');
+    const [deviceType, setDeviceType] = React.useState({
+        type: 'lamp',
+        function: '0',
+    });
 
-    const handleNameChange = (event) => {
+    const handleChangeType = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setDeviceType({ ...deviceType, type: (event.target as HTMLInputElement).value });
+    };
+
+    const handleChangeFunctionType = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setDeviceType({ ...deviceType, function: (event.target as HTMLInputElement).value });
+    };
+
+    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
         Config.name = event.target.value;
     };
-    const handleConfigURLChange = (event) => {
+    const handleConfigURLChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setConfigURL(event.target.value);
         Config.configUrl = event.target.value;
     };
@@ -31,74 +53,7 @@ export const Lamp: React.FC<LampProps> = ({ api }): JSX.Element => {
         setName('');
         setConfigURL('http://localhost:8081');
         clearConfig();
-    };
-
-    const handleCreateDevice = (): dsDevice => {
-        return {
-            name: Config.name,
-            watchStateID: { light: Config.OnOffSelectID },
-            id: `${genDSUID(5)}_${genDSUID(5)}`,
-            dsConfig: {
-                dSUID: genDSUID(32),
-                primaryGroup: 1,
-                name: Config.name,
-                configURL: Config.configUrl,
-                modelFeatures: {
-                    blink: true,
-                    dontcare: true,
-                    identification: true,
-                    outmode: true,
-                    outvalue8: true,
-                    transt: true,
-                },
-                displayId: '',
-                model: 'ioBroker',
-                modelUID: genDSUID(32),
-                modelVersion: '0.0.1',
-                vendorName: 'KYUKA',
-                channelDescriptions: [
-                    {
-                        brightness: {
-                            channelType: 1,
-                            dsIndex: 0,
-                            max: 100,
-                            min: 0,
-                            name: 'brightness',
-                            resolution: 0.39215686274509803,
-                            siunit: 'percent',
-                            symbol: '%',
-                        },
-                    },
-                ],
-                outputDescription: [
-                    {
-                        objName: 'light',
-                        dsIndex: 0,
-                        maxPower: -1,
-                        function: 1,
-                        outputUsage: 0,
-                        type: 'output',
-                        variableRamp: false,
-                    },
-                ],
-                outputSettings: [
-                    {
-                        objName: 'light',
-                        dimTimeDown: 15,
-                        dimTimeDownAlt1: 162,
-                        dimTimeDownAlt2: 104,
-                        dimTimeUp: 15,
-                        dimTimeUpAlt1: 162,
-                        dimTimeUpAlt2: 104,
-                        minBrightness: 0.39215686274509803,
-                        onThreshold: 50,
-                        pushChanges: false,
-                        mode: 2,
-                        groups: [1],
-                    },
-                ],
-            },
-        };
+        setClear(!clear);
     };
 
     return (
@@ -120,7 +75,6 @@ export const Lamp: React.FC<LampProps> = ({ api }): JSX.Element => {
                     <Box
                         sx={{
                             marginTop: '10px',
-                            paddingBottom: '15px',
                             alignItems: 'center',
                             justifyContent: 'center',
                             display: 'flex',
@@ -150,7 +104,6 @@ export const Lamp: React.FC<LampProps> = ({ api }): JSX.Element => {
                 container
                 spacing={1}
                 sx={{
-                    marginTop: '10px',
                     paddingBottom: '15px',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -159,13 +112,232 @@ export const Lamp: React.FC<LampProps> = ({ api }): JSX.Element => {
                     flexDirection: 'row',
                 }}
             >
-                <SelectID
-                    title={'OnOffSelectID'}
-                    type={'lamp'}
-                    buttonTitle={'onOffSelectID'}
-                    onSelect={(selectId, type) => handleSelectId(selectId, type)}
-                />
+                <React.Fragment>
+                    <FormControl>
+                        <FormLabel id="device-type-label">Device Type</FormLabel>
+                        <RadioGroup
+                            row
+                            aria-labelledby="device-type-label"
+                            name="Device Type"
+                            value={deviceType.type}
+                            onChange={handleChangeType}
+                        >
+                            <FormControlLabel
+                                value="lamp"
+                                sx={{
+                                    fontSize: '1.2rem',
+                                }}
+                                control={<Radio />}
+                                label="Lamp"
+                            />
+                            <FormControlLabel
+                                value="rgbLamp"
+                                sx={{
+                                    fontSize: '1.2rem',
+                                }}
+                                control={<Radio />}
+                                label="rgb-Lamp"
+                            />
+                        </RadioGroup>
+                    </FormControl>
+                </React.Fragment>
             </Grid>
+            {deviceType.type === 'lamp' ? (
+                <React.Fragment>
+                    <Grid
+                        container
+                        spacing={1}
+                        sx={{
+                            paddingBottom: '15px',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            flexDirection: 'row',
+                        }}
+                    >
+                        <React.Fragment>
+                            <FormControl>
+                                <FormLabel id="device-type-label">Type</FormLabel>
+                                <RadioGroup
+                                    row
+                                    aria-labelledby="device-type-label"
+                                    name="Device Type"
+                                    value={deviceType.function}
+                                    onChange={handleChangeFunctionType}
+                                >
+                                    <FormControlLabel
+                                        value="0"
+                                        sx={{
+                                            fontSize: '1.2rem',
+                                        }}
+                                        control={<Radio />}
+                                        label="On/Off Lamp"
+                                    />
+                                    <FormControlLabel
+                                        value="1"
+                                        sx={{
+                                            fontSize: '1.2rem',
+                                        }}
+                                        control={<Radio />}
+                                        label="Dimmer Lamp"
+                                    />
+                                    <FormControlLabel
+                                        value="3"
+                                        sx={{
+                                            fontSize: '1.2rem',
+                                        }}
+                                        control={<Radio />}
+                                        label="Color temperature Lamp"
+                                    />
+                                </RadioGroup>
+                            </FormControl>
+                        </React.Fragment>
+                    </Grid>
+                    <Grid
+                        container
+                        spacing={1}
+                        sx={{
+                            marginTop: '10px',
+                            paddingBottom: '15px',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            flexDirection: 'row',
+                        }}
+                    >
+                        <SelectID
+                            title={'OnOffSelectID'}
+                            type={'lamp'}
+                            buttonTitle={'onOffSelectID'}
+                            clear={clear}
+                            onSelect={(selectId, type) => handleSelectId(selectId, type)}
+                        />
+                        {deviceType.function === '1' ? (
+                            <SelectID
+                                title={'DimmerSelectID'}
+                                type={'dimmer'}
+                                buttonTitle={'dimmerSelectID'}
+                                clear={clear}
+                                onSelect={(selectId, type) => handleSelectId(selectId, type)}
+                            />
+                        ) : null}
+                        {deviceType.function === '3' ? (
+                            <React.Fragment>
+                                <SelectID
+                                    title={'DimmerSelectID'}
+                                    type={'dimmer'}
+                                    buttonTitle={'dimmerSelectID'}
+                                    clear={clear}
+                                    onSelect={(selectId, type) => handleSelectId(selectId, type)}
+                                />
+                                <SelectID
+                                    title={'ColorTempSelectID'}
+                                    type={'colorTemp'}
+                                    buttonTitle={'colorTempSelectID'}
+                                    clear={clear}
+                                    onSelect={(selectId, type) => handleSelectId(selectId, type)}
+                                />
+                            </React.Fragment>
+                        ) : null}
+                    </Grid>
+                </React.Fragment>
+            ) : (
+                <React.Fragment>
+                    <Grid
+                        container
+                        spacing={1}
+                        sx={{
+                            marginTop: '10px',
+                            paddingBottom: '15px',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            flexDirection: 'row',
+                        }}
+                    >
+                        <SelectID
+                            title={'OnOffSelectID'}
+                            type={'lamp'}
+                            buttonTitle={'onOffSelectID'}
+                            clear={clear}
+                            onSelect={(selectId, type) => handleSelectId(selectId, type)}
+                        />
+                        <SelectID
+                            title={'DimmerSelectID'}
+                            type={'dimmer'}
+                            buttonTitle={'dimmerSelectID'}
+                            clear={clear}
+                            onSelect={(selectId, type) => handleSelectId(selectId, type)}
+                        />
+                    </Grid>
+                    <Grid
+                        container
+                        spacing={1}
+                        sx={{
+                            marginTop: '10px',
+                            paddingBottom: '15px',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            flexDirection: 'row',
+                        }}
+                    >
+                        <SelectID
+                            title={'ColorModeSelectID'}
+                            type={'colorMode'}
+                            buttonTitle={'colorModeSelectID'}
+                            clear={clear}
+                            onSelect={(selectId, type) => handleSelectId(selectId, type)}
+                        />
+                        <SelectID
+                            title={'ColorTempSelectID'}
+                            type={'colorTemp'}
+                            buttonTitle={'colorTempSelectID'}
+                            clear={clear}
+                            onSelect={(selectId, type) => handleSelectId(selectId, type)}
+                        />
+                    </Grid>
+                    <Grid
+                        container
+                        spacing={1}
+                        sx={{
+                            marginTop: '10px',
+                            paddingBottom: '15px',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            flexDirection: 'row',
+                        }}
+                    >
+                        <SelectID
+                            title={'HueSelectID'}
+                            type={'hue'}
+                            buttonTitle={'hueSelectID'}
+                            clear={clear}
+                            onSelect={(selectId, type) => handleSelectId(selectId, type)}
+                        />
+                        <SelectID
+                            title={'SaturationSelectID'}
+                            type={'saturation'}
+                            buttonTitle={'saturationSelectID'}
+                            clear={clear}
+                            onSelect={(selectId, type) => handleSelectId(selectId, type)}
+                        />
+                        <SelectID
+                            title={'RGBSelectID'}
+                            type={'rgbLamp'}
+                            buttonTitle={'rgbSelectID'}
+                            clear={clear}
+                            onSelect={(selectId, type) => handleSelectId(selectId, type)}
+                        />
+                    </Grid>
+                </React.Fragment>
+            )}
             <Grid
                 container
                 spacing={1}
@@ -181,9 +353,7 @@ export const Lamp: React.FC<LampProps> = ({ api }): JSX.Element => {
             >
                 <Button
                     onClick={async () => {
-                        // const dummyDevice: any = null;
-                        const dummyDevice = handleCreateDevice();
-                        await api.createDevice(dummyDevice);
+                        await api.createDevice(createDevice(deviceType));
                         console.log(Config);
                         handleClear();
                         console.log(Config);
