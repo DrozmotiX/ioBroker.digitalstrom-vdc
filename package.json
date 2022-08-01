@@ -27,7 +27,7 @@
         "@iobroker/adapter-core": "^2.6.0",
         "libdsvdcts": "git+https://bitbucket.com/dbreitenmoser/libdsvdcts.git#master",
         "rgbhelper": "git+https://bitbucket.com/dbreitenmoser/rgbhelper.git#master",
-        "moment": "^2.29.3"
+        "moment": "^2.29.4"
     },
     "devDependencies": {
         "@alcalzone/release-script": "^3.5.9",
